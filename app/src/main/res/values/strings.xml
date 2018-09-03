@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">mKKM</string>
+
+    <!-- Strings related to login -->
+    <string name="title_activity_login">Zaloguj się do mKKM</string>
+    <string name="prompt_email">Adres e-mail</string>
+    <string name="prompt_password">Hasło</string>
+    <string name="action_login">Zaloguj się</string>
+    <string name="action_register">Nie masz konta? Zarejestruj się.</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+
+    <!-- Strings related to main -->
+    <string name="title_activity_main">Strona główna</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Janusz Kowalski</string>
+    <string name="nav_header_subtitle">janusz.kowalski@gmail.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_backup">Kopie zapasowe</string>
+
+    <!-- Permission rationales -->
+    <string name="permission_contacts_rationale">Contacts permissions are needed for providing email completions.</string>
+</resources>
