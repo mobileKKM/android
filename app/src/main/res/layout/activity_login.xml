@@ -10,7 +10,9 @@
         android:layout_height="wrap_content"
         android:paddingTop="56dp"
         android:paddingLeft="24dp"
-        android:paddingRight="24dp">
+        android:paddingRight="24dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
 
         <!-- App logo -->
         <ImageView android:src="@drawable/kkm_logo"
