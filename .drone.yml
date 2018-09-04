@@ -24,8 +24,8 @@ pipeline:
   deploy:
     image: lawnchairlauncher/drone-telegram:latest
     secrets: [ bot_token, channel_id, dev_channel_id ]
-    apk_path: app/build/outputs/apk/debug/app-debug.apk
-    mapping_path: app/build/outputs/mapping/debug/mapping.txt
+    apk_path: app/build/outputs/apk/ci/optimized/app-ci-optimized.apk
+    mapping_path: app/build/outputs/mapping/ci/optimized/mapping.txt
     filename: "mKKM"
     channel_id: "-1001351740621"
     environment:
