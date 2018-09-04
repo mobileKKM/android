@@ -26,14 +26,37 @@ android {
             versionName "dev"
         }
     }
+
     buildTypes {
         debug {
             minifyEnabled false
+        }
+
+        optimized {
+            initWith debug
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
-            if (System.getenv("TRAVIS_EVENT_TYPE") != "pull_request") {
-                signingConfig signingConfigs.travis
+            if (System.getenv("TRAVIS") == "true") {
+                if (System.getenv("TRAVIS_EVENT_TYPE") != "pull_request") {
+                    signingConfig signingConfigs.travis
+                }
             }
+        }
+    }
+
+    flavorDimensions "build"
+    productFlavors {
+        dev {
+            dimension "build"
+            applicationIdSuffix ".dev"
+            versionNameSuffix "-dev"
+        }
+
+        ci {
+            dimension "build"
+            applicationIdSuffix ".ci"
+            versionNameSuffix "-ci-" + System.getenv("DRONE_BRANCH")
         }
     }
 }
