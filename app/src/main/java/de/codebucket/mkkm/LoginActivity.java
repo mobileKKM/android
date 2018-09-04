@@ -1,9 +1,8 @@
 package de.codebucket.mkkm;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 
@@ -18,6 +17,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -37,6 +37,8 @@ import static android.Manifest.permission.READ_CONTACTS;
 
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
+    public static final String TAG = "Login";
+
     // Login stuff
     private static final int REQUEST_READ_CONTACTS = 0;
     private UserLoginTask mAuthTask = null;
@@ -52,7 +54,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         setContentView(R.layout.activity_login);
 
         // Check if user is already signed in
-        // TODO: check fingerprint in local storage
+        SharedPreferences prefs = getPreferences(Context.MODE_PRIVATE);
+        if (!prefs.getString("token", "").isEmpty()) {
+            Intent intent = new Intent(this, MainActivity.class);
+
+            startActivity(intent);
+            return;
+        }
+
+        setTitle(R.string.title_activity_login);
 
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.input_email);
@@ -71,18 +81,31 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
-        Button mSignInButton = (Button) findViewById(R.id.btn_login);
-        mSignInButton.setOnClickListener(new OnClickListener() {
+        Button mLoginButton = (Button) findViewById(R.id.btn_login);
+        mLoginButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 attemptLogin();
             }
         });
 
+        TextView mRegisterLink = (TextView) findViewById(R.id.link_register);
+        mRegisterLink.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openWebsite("https://m.kkm.krakow.pl/#!/register");
+            }
+        });
+
         mLoginFormView = findViewById(R.id.login_form);
     }
 
+    /**
+     * Request permission to read contacts
+     */
+
     private void populateAutoComplete() {
+        // Don't init anything if no permission granted
         if (!mayRequestContacts()) {
             return;
         }
@@ -91,14 +114,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     private boolean mayRequestContacts() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+        // Lol no need on Lollipop or lower, or if permission granted
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M || checkSelfPermission(READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
             return true;
         }
 
-        if (checkSelfPermission(READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
-            return true;
-        }
-
+        // Request permission and return false for now
         if (!shouldShowRequestPermissionRationale(READ_CONTACTS)) {
             requestPermissions(new String[]{ READ_CONTACTS }, REQUEST_READ_CONTACTS);
         }
@@ -110,10 +131,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == REQUEST_READ_CONTACTS) {
             if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Repeat process if permission has been granted
                 populateAutoComplete();
             }
         }
     }
+
+    /**
+     * Login form validation and authorization
+     */
 
     private void attemptLogin() {
         if (mAuthTask != null) {
@@ -156,7 +182,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            showProgress(true);
+            // TODO: showProgress(true);
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
         }
@@ -170,31 +196,20 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         return password.length() > 6;
     }
 
-    /**
-     * Shows the progress UI and hides the login form.
-     */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    private void showProgress(final boolean show) {
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-        // for very easy animations. If available, use these APIs to fade-in
-        // the progress spinner.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+    private void openWebsite(String url) {
+        // Open link in Chrome Custom Tab
+        CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+        builder.setToolbarColor(getResources().getColor(R.color.colorPrimary));
+        builder.setShowTitle(true);
+        builder.enableUrlBarHiding();
+        CustomTabsIntent customTabsIntent = builder.build();
+        customTabsIntent.launchUrl(this, Uri.parse(url));
 
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            mLoginFormView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-                }
-            });
-        } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-        }
     }
+
+    /**
+     * Read e-mail addresses from contacts after contacts permission has been granted
+     */
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
@@ -231,7 +246,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(LoginActivity.this, android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
+        //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
+        ArrayAdapter<String> adapter =
+                new ArrayAdapter<>(LoginActivity.this,
+                        android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
+
         mEmailView.setAdapter(adapter);
     }
 
@@ -245,6 +264,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         int ADDRESS = 0;
         int IS_PRIMARY = 1;
     }
+
+    /**
+     * Execute user auth asynchronously in background
+     */
 
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
@@ -274,7 +297,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         @Override
         protected void onPostExecute(final Boolean success) {
             mAuthTask = null;
-            showProgress(false);
+            // TODO: showProgress(false);
 
             if (success) {
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
@@ -289,7 +312,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         @Override
         protected void onCancelled() {
             mAuthTask = null;
-            showProgress(false);
+            // TODO: showProgress(false);
         }
     }
 }
