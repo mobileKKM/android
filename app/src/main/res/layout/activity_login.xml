@@ -45,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/prompt_password"
                 android:imeActionId="6"
-                android:imeActionLabel="@string/action_login_short"
+                android:imeActionLabel="@string/action_login"
                 android:imeOptions="actionUnspecified"
                 android:inputType="textPassword"
                 android:maxLines="1"
