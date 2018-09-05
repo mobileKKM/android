@@ -20,4 +20,7 @@
     <string name="nav_header_subtitle">janusz.kowalski@gmail.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_backup">Kopie zapasowe</string>
+
+    <!-- Other strings -->
+    <string name="no_browser_activity">Nie znaleziono żadnej aktywności obsługującej adresy URL</string>
 </resources>

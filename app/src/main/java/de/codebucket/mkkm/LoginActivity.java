@@ -1,9 +1,11 @@
 package de.codebucket.mkkm;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 
 import android.app.LoaderManager.LoaderCallbacks;
@@ -20,6 +22,7 @@ import android.provider.ContactsContract;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,6 +32,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,7 +97,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mRegisterLink.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                openWebsite("https://m.kkm.krakow.pl/#!/register");
+                openWebsite(Uri.parse("https://m.kkm.krakow.pl/#!/register"));
             }
         });
 
@@ -196,15 +200,20 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         return password.length() > 6;
     }
 
-    private void openWebsite(String url) {
-        // Open link in Chrome Custom Tab
-        CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-        builder.setToolbarColor(getResources().getColor(R.color.colorPrimary));
-        builder.setShowTitle(true);
-        builder.enableUrlBarHiding();
-        CustomTabsIntent customTabsIntent = builder.build();
-        customTabsIntent.launchUrl(this, Uri.parse(url));
+    private void openWebsite(Uri uri) {
+        try {
+            // Open link in Chrome Custom Tab
+            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+            builder.setToolbarColor(getResources().getColor(R.color.colorPrimary));
+            builder.setSecondaryToolbarColor(Color.BLACK);
+            builder.setShowTitle(true);
 
+            CustomTabsIntent customTabsIntent = builder.build();
+            customTabsIntent.launchUrl(this, uri);
+        } catch (ActivityNotFoundException ex) {
+            Log.e(TAG, "No browser found!");
+            Toast.makeText(this, R.string.no_browser_activity, Toast.LENGTH_SHORT).show();
+        }
     }
 
     /**
