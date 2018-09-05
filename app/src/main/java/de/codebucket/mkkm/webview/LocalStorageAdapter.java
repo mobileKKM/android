@@ -1,4 +1,4 @@
-package de.codebucket.mkkm;
+package de.codebucket.mkkm.webview;
 
 public class LocalStorageAdapter {
 }

@@ -1,4 +1,4 @@
-package de.codebucket.mkkm;
+package de.codebucket.mkkm.ui;
 
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -36,6 +36,8 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import de.codebucket.mkkm.R;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
