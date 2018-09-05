@@ -52,10 +52,14 @@ android {
     buildTypes {
         debug {
             minifyEnabled false
+            applicationIdSuffix ".dev"
         }
 
         optimized {
             initWith debug
+            applicationIdSuffix ".ci"
+            versionNameSuffix "-ci-" + System.getenv("DRONE_BRANCH")
+
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
@@ -65,20 +69,14 @@ android {
                 }
             }
         }
-    }
 
-    flavorDimensions "build"
-    productFlavors {
-        dev {
-            dimension "build"
-            applicationIdSuffix ".dev"
-            versionNameSuffix "-dev"
-        }
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
-        ci {
-            dimension "build"
-            applicationIdSuffix ".ci"
-            versionNameSuffix "-ci-" + System.getenv("DRONE_BRANCH")
+            if (keystorePropertiesFile.exists()) {
+                signingConfig signingConfigs.release
+            }
         }
     }
 }
