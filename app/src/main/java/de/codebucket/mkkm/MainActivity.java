@@ -1,5 +1,6 @@
 package de.codebucket.mkkm;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -10,6 +11,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -17,6 +20,7 @@ public class MainActivity extends AppCompatActivity
     private WebView mWebview;
 
     @Override
+    @SuppressLint("SetJavaScriptEnabled")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -33,7 +37,20 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         mWebview = (WebView) findViewById(R.id.webview);
-        mWebview.setWebViewClient(new KKMWebviewClient());
+        mWebview.setWebViewClient(new WebViewClient(){
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+
+                String inject = "var fileref=document.createElement('script')\n" +
+                        "fileref.setAttribute('src', 'https://code.jquery.com/jquery-3.3.1.min.js')\n" +
+                        "document.getElementsByTagName('head')[0].appendChild(fileref)";
+
+                view.evaluateJavascript(inject, null);
+                view.evaluateJavascript("$('[ng-controller=NavbarCtrl]').remove()", null);
+                Toast.makeText(getApplicationContext(), "Done!", Toast.LENGTH_SHORT).show();
+            }
+        });
         mWebview.getSettings().setJavaScriptEnabled(true);
         mWebview.getSettings().setDomStorageEnabled(true);
         mWebview.loadUrl("https://m.kkm.krakow.pl");
