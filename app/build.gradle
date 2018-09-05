@@ -81,6 +81,11 @@ android {
     }
 }
 
+tasks.withType(JavaCompile) {
+    options.compilerArgs << '-Xlint:unchecked'
+    options.deprecation = true
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     def supportLibVersion = '28.0.0-rc01'
