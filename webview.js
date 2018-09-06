@@ -43,12 +43,12 @@ function waitForElement(selector, callback) {
 defer(function() {
     // Remove navbar from webapp
     $('[ng-controller=NavbarCtrl]').remove();
-});
 
-// Auto-login after page has finished loading
-//-------------------------------------------
-waitForElement('[type=email]', function() {
-    angular.element($0).scope().username = LoginHelper.getUsername();
-    angular.element($0).scope().password = LoginHelper.getPassword();
-    angular.element($0).scope().login();
+    // Auto-login after page has finished loading
+    waitForElement('[type=email]', function() {
+        var scope = angular.element($('div[class="ng-scope"]')).scope();
+        scope.username = LoginHelper.getUsername();
+        scope.password = LoginHelper.getPassword();
+        scope.login();
+    });
 });
