@@ -11,16 +11,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
-
-import java.io.File;
 
 import de.codebucket.mkkm.LoginHelper;
 import de.codebucket.mkkm.MobileKKM;
 import de.codebucket.mkkm.R;
 import de.codebucket.mkkm.webview.KKMWebviewClient;
-import de.codebucket.mkkm.webview.UserProfileStorage;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -54,7 +50,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         mWebview = (WebView) findViewById(R.id.webview);
         mWebview.setWebViewClient(new KKMWebviewClient(this));
-        mWebview.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         mWebview.getSettings().setJavaScriptEnabled(true);
         mWebview.getSettings().setDomStorageEnabled(true);
         mWebview.loadUrl("https://m.kkm.krakow.pl");
