@@ -37,13 +37,6 @@ public class MobileKKM extends Application {
         }
 
         userprofile = new UserProfileStorage(json);
-
-        // TODO: remove migration
-        if (!preferences.getString("fingerprint", "").isEmpty()) {
-            userprofile.setItem("fingerprint", preferences.getString("fingerprint", ""));
-            userprofile.setItem("token", preferences.getString("token", ""));
-            userprofile.setItem("user", preferences.getString("user", ""));
-        }
     }
 
     public static MobileKKM getInstance() {
@@ -56,6 +49,10 @@ public class MobileKKM extends Application {
 
     public static String getFingerprint() {
         return preferences.getString("fingerprint", null);
+    }
+
+    public static UserProfileStorage getUserProfile() {
+        return userprofile;
     }
 
     public static void restartApplication() {

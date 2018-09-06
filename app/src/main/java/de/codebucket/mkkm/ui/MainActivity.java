@@ -14,9 +14,12 @@ import android.view.MenuItem;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
+import java.io.File;
+
+import de.codebucket.mkkm.MobileKKM;
 import de.codebucket.mkkm.R;
 import de.codebucket.mkkm.webview.KKMWebviewClient;
-import de.codebucket.mkkm.webview.LocalStorageAdapter;
+import de.codebucket.mkkm.webview.UserProfileStorage;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -51,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mWebview.getSettings().setJavaScriptEnabled(true);
         mWebview.getSettings().setDomStorageEnabled(true);
         mWebview.loadUrl("https://m.kkm.krakow.pl");
-        mWebview.addJavascriptInterface(new LocalStorageAdapter(this), "AndroidLocalStorage");
+        mWebview.addJavascriptInterface(MobileKKM.getUserProfile(), "AndroidLocalStorage");
     }
 
     @Override
