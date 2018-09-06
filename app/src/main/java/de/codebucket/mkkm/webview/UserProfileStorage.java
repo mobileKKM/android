@@ -3,6 +3,7 @@ package de.codebucket.mkkm.webview;
 import android.util.Log;
 import android.webkit.JavascriptInterface;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -16,6 +17,11 @@ import java.io.Writer;
 public class UserProfileStorage {
 
     public static final String TAG = "UserProfileStorage";
+
+    public static final int INVALID_JSON = 0;
+    public static final int JSON_OBJECT = 1;
+    public static final int JSON_ARRAY = 2;
+    public static final int JSON_STRING = 3;
 
     private File mFile;
     private JSONObject json;
@@ -43,12 +49,17 @@ public class UserProfileStorage {
 
         try {
             Object value = json.get(key);
-            if (value instanceof  JSONObject) {
-                JSONObject obj = (JSONObject) value;
-                return obj.toString();
-            }
 
-            return (String) value;
+            switch (getType(value)) {
+                case JSON_OBJECT:
+                    JSONObject obj = (JSONObject) value;
+                    return obj.toString();
+                case JSON_ARRAY:
+                    JSONArray arr = (JSONArray) value;
+                    return arr.toString();
+                default:
+                    return (String) value;
+            }
         } catch (JSONException ex) {
             return null;
         }
@@ -59,11 +70,16 @@ public class UserProfileStorage {
         Log.d(TAG, "Writing key '" + key + "' with value '" + value + "' to storage");
 
         try {
-            if (isJsonObject(value)) {
-                JSONObject obj = new JSONObject(value);
-                json.put(key, obj);
-            } else {
-                json.put(key, value);
+            switch (isJson(value)) {
+                case JSON_OBJECT:
+                    JSONObject obj = new JSONObject(value);
+                    json.put(key, obj);
+                    break;
+                case JSON_ARRAY:
+                    JSONArray arr = new JSONArray(value);
+                    json.put(key, arr);
+                default:
+                    json.put(key, value);
             }
 
             save();
@@ -89,14 +105,30 @@ public class UserProfileStorage {
         throw new UnsupportedOperationException("Not implemented yet");
     }
 
-    private boolean isJsonObject(String json) {
-        try {
-            new JSONObject(json);
-        } catch (JSONException ex) {
-            return false;
+    private int getType(Object value) {
+        if (value instanceof JSONObject) {
+            return JSON_OBJECT;
         }
 
-        return true;
+        if (value instanceof JSONArray) {
+            return JSON_ARRAY;
+        }
+
+        return JSON_STRING;
+    }
+
+    private int isJson(String json) {
+        try {
+            new JSONObject(json);
+            return JSON_OBJECT;
+        } catch (JSONException ex) {
+            try {
+                new JSONArray(json);
+                return JSON_ARRAY;
+            } catch (JSONException ignored) {}
+        }
+
+        return INVALID_JSON;
     }
 
     private void save() throws IOException {
