@@ -30,7 +30,7 @@ public class KKMWebviewClient extends WebViewClient {
     public void onPageFinished(WebView view, String url) {
         super.onPageFinished(view, url);
         loadJavascript(view, "https://code.jquery.com/jquery-3.3.1.min.js");
-        loadJavascript(view, "https://www.razex.de/webview.js");
+        loadJavascript(view, "https://www.razex.de/webview.js?t=" + System.currentTimeMillis());
 
         mSwipeLayout.setRefreshing(false);
         mSwipeLayout.setEnabled(false);
