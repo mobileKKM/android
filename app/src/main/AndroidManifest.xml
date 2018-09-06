@@ -35,9 +35,8 @@
 
         <activity
             android:name=".ui.MainActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize|locale"
+            android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateHidden"
             android:theme="@style/AppTheme.NoActionBar" />
 
     </application>
