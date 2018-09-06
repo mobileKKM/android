@@ -90,7 +90,7 @@ public class UserProfileStorage {
 
     @JavascriptInterface
     public void removeItem(String key) {
-        Log.d(TAG, "Removing key '" + key + "' from preferences");
+        Log.d(TAG, "Removing key '" + key + "' from storage");
 
         try {
             json.remove(key);
@@ -102,7 +102,17 @@ public class UserProfileStorage {
 
     @JavascriptInterface
     public void clear() {
-        throw new UnsupportedOperationException("Not implemented yet");
+        Log.d(TAG, "Clearing all keys from storage");
+
+        try {
+            while (json.keys().hasNext()) {
+                json.keys().remove();
+            }
+
+            save();
+        } catch (IOException ex) {
+            Log.e(TAG, "Unable to save file: " + ex);
+        }
     }
 
     private int getType(Object value) {
@@ -147,7 +157,7 @@ public class UserProfileStorage {
             output.write("{}");
             output.close();
         } catch (IOException ex) {
-            Log.e(TAG, "Unable to init userprofile storage on device: " + ex);
+            Log.e(TAG, "Unable to init storage file on device: " + ex);
         }
     }
 }
