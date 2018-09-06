@@ -16,6 +16,7 @@ import android.webkit.WebView;
 
 import java.io.File;
 
+import de.codebucket.mkkm.LoginHelper;
 import de.codebucket.mkkm.MobileKKM;
 import de.codebucket.mkkm.R;
 import de.codebucket.mkkm.webview.KKMWebviewClient;
@@ -31,6 +32,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @SuppressLint("SetJavaScriptEnabled")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        String username = getIntent().getStringExtra("username");
+        String password = getIntent().getStringExtra("password");
 
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -55,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mWebview.getSettings().setDomStorageEnabled(true);
         mWebview.loadUrl("https://m.kkm.krakow.pl");
         mWebview.addJavascriptInterface(MobileKKM.getUserProfile(), "AndroidLocalStorage");
+        mWebview.addJavascriptInterface(new LoginHelper(username, password), "LoginHelper");
     }
 
     @Override
