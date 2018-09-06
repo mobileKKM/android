@@ -25,8 +25,11 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".ui.LoginActivity"
-            android:screenOrientation="portrait">
+            android:name=".ui.MainActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize|locale"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -34,11 +37,8 @@
         </activity>
 
         <activity
-            android:name=".ui.MainActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize|locale"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateHidden"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:name=".ui.LoginActivity"
+            android:screenOrientation="portrait" />
 
     </application>
 

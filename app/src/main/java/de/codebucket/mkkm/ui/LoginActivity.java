@@ -1,7 +1,6 @@
 package de.codebucket.mkkm.ui;
 
 import android.content.ActivityNotFoundException;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -37,6 +36,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.codebucket.mkkm.MobileKKM;
 import de.codebucket.mkkm.R;
 
 import static android.Manifest.permission.READ_CONTACTS;
@@ -58,15 +58,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-        // Check if user is already signed in
-        SharedPreferences prefs = getPreferences(Context.MODE_PRIVATE);
-        if (!prefs.getString("token", "").isEmpty()) {
-            Intent intent = new Intent(this, MainActivity.class);
-
-            startActivity(intent);
-            return;
-        }
 
         setTitle(R.string.title_activity_login);
 
