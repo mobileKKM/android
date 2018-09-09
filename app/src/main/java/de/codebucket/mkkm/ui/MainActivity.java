@@ -29,9 +29,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        String username = getIntent().getStringExtra("username");
-        String password = getIntent().getStringExtra("password");
-
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -52,9 +49,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mWebview.setWebViewClient(new KKMWebviewClient(this));
         mWebview.getSettings().setJavaScriptEnabled(true);
         mWebview.getSettings().setDomStorageEnabled(true);
-        mWebview.loadUrl("https://m.kkm.krakow.pl");
-        mWebview.addJavascriptInterface(MobileKKM.getUserProfile(), "AndroidLocalStorage");
-        mWebview.addJavascriptInterface(new LoginHelper(username, password), "LoginHelper");
+
+        // First inject session data into webview local storage, then load the webapp
+        // TODO: Read token from Intent
+        String inject = "<script type='text/javascript'>" +
+                            "localStorage.setItem('fingerprint', '" + MobileKKM.getUserProfile().getItem("fingerprint") + "');" +
+                            "localStorage.setItem('token', '" + MobileKKM.getUserProfile().getItem("token") + "');" +
+                            "window.location.replace('https://m.kkm.krakow.pl/#!/home');" +
+                        "</script>";
+        mWebview.loadDataWithBaseURL("https://m.kkm.krakow.pl/inject", inject, "text/html", "utf-8", null);
     }
 
     @Override
