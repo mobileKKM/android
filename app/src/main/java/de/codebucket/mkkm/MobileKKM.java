@@ -6,6 +6,7 @@ import android.preference.PreferenceManager;
 import android.provider.Settings.Secure;
 
 import java.io.File;
+import java.util.UUID;
 
 import de.codebucket.mkkm.webview.UserProfileStorage;
 
@@ -37,7 +38,8 @@ public class MobileKKM extends Application {
     }
 
     public String getFingerprint() {
-        return Secure.getString(getApplicationContext().getContentResolver(), Secure.ANDROID_ID);
+        String deviceId =  Secure.getString(getApplicationContext().getContentResolver(), Secure.ANDROID_ID);
+        return UUID.nameUUIDFromBytes(deviceId.getBytes()).toString().replaceAll("-", "");
     }
 
     public static MobileKKM getInstance() {
