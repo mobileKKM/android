@@ -2,6 +2,6 @@
     public *;
 }
 
--keepclassmembers class de.codebucket.mkkm.LoginHelper {
+-keepclassmembers class de.codebucket.mkkm.login.LoginHelper {
     public *;
 }

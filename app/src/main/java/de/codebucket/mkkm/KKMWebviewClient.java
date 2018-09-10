@@ -1,4 +1,4 @@
-package de.codebucket.mkkm.webview;
+package de.codebucket.mkkm;
 
 import android.content.Context;
 import android.graphics.Bitmap;

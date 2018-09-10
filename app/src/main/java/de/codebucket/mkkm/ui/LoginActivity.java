@@ -37,6 +37,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.codebucket.mkkm.MobileKKM;
 import de.codebucket.mkkm.R;
 
 import static android.Manifest.permission.READ_CONTACTS;
@@ -258,10 +259,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
         //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
-        ArrayAdapter<String> adapter =
-                new ArrayAdapter<>(LoginActivity.this,
-                        android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
-
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(LoginActivity.this, android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
         mEmailView.setAdapter(adapter);
     }
 
@@ -312,8 +310,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             if (success) {
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                intent.putExtra("username", mEmail);
-                intent.putExtra("password", mPassword);
+                intent.putExtra("fingerprint", MobileKKM.getPreferences().getString("fingerprint", ""));
+                intent.putExtra("token", MobileKKM.getPreferences().getString("token", ""));
                 startActivity(intent);
                 finish();
             } else {

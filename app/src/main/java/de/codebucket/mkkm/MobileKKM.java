@@ -5,10 +5,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.provider.Settings.Secure;
 
-import java.io.File;
 import java.util.UUID;
-
-import de.codebucket.mkkm.webview.UserProfileStorage;
 
 public class MobileKKM extends Application {
 
@@ -16,24 +13,17 @@ public class MobileKKM extends Application {
 
     private static MobileKKM instance;
     private static SharedPreferences preferences;
-    private static UserProfileStorage userprofile;
 
     @Override
     public void onCreate() {
         super.onCreate();
         instance = this;
 
-        // Check if userprofile.json exists
-        File json = new File(getApplicationContext().getFilesDir(), "userprofile.json");
-        if (!json.exists()) {
-            UserProfileStorage.init(json);
-        }
-
         // Use Android Device ID as fingerprint
         // mKKM webapp uses fingerprint2.js to generate a fingerprint based on user-agent
-        userprofile = new UserProfileStorage(json);
-        if (userprofile.getItem("fingerprint") == null) {
-            userprofile.setItem("fingerprint", getFingerprint());
+        preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        if (preferences.getString("fingerprint", null) == null) {
+            preferences.edit().putString("fingerprint", getFingerprint()).apply();
         }
     }
 
@@ -50,15 +40,7 @@ public class MobileKKM extends Application {
         return preferences;
     }
 
-    public static UserProfileStorage getUserProfile() {
-        return userprofile;
-    }
-
     public static void restartApplication() {
 
-    }
-
-    public static String login(String username, String password) {
-        return null;
     }
 }
