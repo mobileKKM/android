@@ -13,9 +13,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebView;
 
-import de.codebucket.mkkm.MobileKKM;
 import de.codebucket.mkkm.R;
 import de.codebucket.mkkm.KKMWebviewClient;
+import de.codebucket.mkkm.login.SessionProfile;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -28,8 +28,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        String fingerprint = getIntent().getStringExtra("fingerprint");
-        String token = getIntent().getStringExtra("token");
+        SessionProfile profile = (SessionProfile) getIntent().getSerializableExtra("profile");
 
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -56,8 +55,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // First inject session data into webview local storage, then load the webapp
         String inject = "<script type='text/javascript'>" +
-                            "localStorage.setItem('fingerprint', '" + fingerprint + "');" +
-                            "localStorage.setItem('token', '" + token + "');" +
+                            "localStorage.setItem('fingerprint', '" + profile.getFingerprint() + "');" +
+                            "localStorage.setItem('token', '" + profile.getToken() + "');" +
                             "window.location.replace('https://m.kkm.krakow.pl/#!/home');" +
                         "</script>";
         mWebview.loadDataWithBaseURL("https://m.kkm.krakow.pl/inject", inject, "text/html", "utf-8", null);

@@ -2,12 +2,9 @@ package de.codebucket.mkkm.ui;
 
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.se.omapi.Session;
 import android.support.annotation.NonNull;
 
 import android.app.LoaderManager.LoaderCallbacks;
@@ -193,7 +190,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // perform the user login attempt.
             showProgress(true);
             mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);
+            mAuthTask.execute();
         }
     }
 
@@ -323,9 +320,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
 
             if (profile != null) {
+                // TODO: Save account on device
+
+                // Open MainActivity with signed in user
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                intent.putExtra("fingerprint", profile.getFingerprint());
-                intent.putExtra("token", profile.getToken());
+                intent.putExtra("profile", profile);
                 startActivity(intent);
                 finish();
             } else if (error != null) {
@@ -333,14 +332,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             } else {
 
             }
-
-            showError("Error!");
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            showProgress(false);
         }
     }
 }
