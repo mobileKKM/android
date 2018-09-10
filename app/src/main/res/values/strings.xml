@@ -7,10 +7,11 @@
     <string name="prompt_password">Hasło</string>
     <string name="action_login">Zaloguj się</string>
     <string name="action_register">Nie masz konta? Zarejestruj się.</string>
-    <string name="error_invalid_email">Błędny adres e-mail</string>
-    <string name="error_invalid_password">Błędne hasło</string>
-    <string name="error_incorrect_password">Wprowadzone hasło jest nieprawidłowe</string>
     <string name="error_field_required">Pole wymagane</string>
+    <string name="error_invalid_email">Nieprawidłowy adres e-mail</string>
+    <string name="error_invalid_password">Nieprawidłowe hasło</string>
+    <string name="error_wrong_credentials">Nieprawidłowe dane logowania</string>
+    <string name="error_unknown">Nierozpoznany problem</string>
 
     <!-- Strings related to main -->
     <string name="title_activity_main">Strona główna</string>
@@ -22,5 +23,6 @@
     <string name="action_backup">Kopie zapasowe</string>
 
     <!-- Other strings -->
+    <string name="dialog_login_msg">Logowanie…</string>
     <string name="no_browser_activity">Nie znaleziono żadnej aktywności obsługującej adresy URL</string>
 </resources>

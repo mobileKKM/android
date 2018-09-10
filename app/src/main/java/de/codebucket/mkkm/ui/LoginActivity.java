@@ -1,11 +1,13 @@
 package de.codebucket.mkkm.ui;
 
+import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.se.omapi.Session;
 import android.support.annotation.NonNull;
 
 import android.app.LoaderManager.LoaderCallbacks;
@@ -39,6 +41,8 @@ import java.util.List;
 
 import de.codebucket.mkkm.MobileKKM;
 import de.codebucket.mkkm.R;
+import de.codebucket.mkkm.login.LoginHelper;
+import de.codebucket.mkkm.login.SessionProfile;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -51,9 +55,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private UserLoginTask mAuthTask = null;
 
     // UI references.
+    private ProgressDialog mProgressDialog;
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
-    private View mLoginFormView;
+    private Button mLoginButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +87,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
-        Button mLoginButton = (Button) findViewById(R.id.btn_login);
+        mLoginButton = (Button) findViewById(R.id.btn_login);
         mLoginButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -97,8 +102,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 openWebsite(Uri.parse("https://m.kkm.krakow.pl/#!/register"));
             }
         });
-
-        mLoginFormView = findViewById(R.id.login_form);
     }
 
     /**
@@ -183,7 +186,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            // TODO: showProgress(true);
+            showProgress(true);
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
         }
@@ -210,6 +213,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         } catch (ActivityNotFoundException ex) {
             Log.e(TAG, "No browser found!");
             Toast.makeText(this, R.string.no_browser_activity, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void showProgress(boolean show) {
+        if (show) {
+            mProgressDialog = ProgressDialog.show(this, null, getString(R.string.dialog_login_title), true, false);
+            mLoginButton.setEnabled(false);
+        } else {
+            mProgressDialog.dismiss();
+            mLoginButton.setEnabled(true);
         }
     }
 
@@ -272,10 +285,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Execute user auth asynchronously in background
      */
 
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+    public class UserLoginTask extends AsyncTask<Void, Void, SessionProfile> {
 
         private final String mEmail;
         private final String mPassword;
+
+        private LoginHelper.LoginError error;
 
         UserLoginTask(String email, String password) {
             mEmail = email;
@@ -283,41 +298,41 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
 
         @Override
-        protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
+        protected SessionProfile doInBackground(Void... params) {
+            String token = null;
 
             try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
+                token = MobileKKM.getLoginHelper().getToken(mEmail, mPassword);
+            } catch (LoginHelper.LoginFailedException ex) {
+                error = ex.getError();
+                return null;
             }
 
-            // TODO: register the new account here.
-            return true;
+            return MobileKKM.getLoginHelper().getSession(token);
         }
 
         @Override
-        protected void onPostExecute(final Boolean success) {
+        protected void onPostExecute(final SessionProfile profile) {
             mAuthTask = null;
-            // TODO: showProgress(false);
+            showProgress(false);
 
-            if (success) {
+            if (profile != null) {
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                intent.putExtra("fingerprint", MobileKKM.getPreferences().getString("fingerprint", ""));
-                intent.putExtra("token", MobileKKM.getPreferences().getString("token", ""));
+                intent.putExtra("fingerprint", profile.getFingerprint());
+                intent.putExtra("token", profile.getToken());
                 startActivity(intent);
                 finish();
+            } else if (error != null) {
+
             } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
+
             }
         }
 
         @Override
         protected void onCancelled() {
             mAuthTask = null;
-            // TODO: showProgress(false);
+            showProgress(false);
         }
     }
 }
