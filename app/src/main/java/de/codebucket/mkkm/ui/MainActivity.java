@@ -47,6 +47,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         swipe.setRefreshing(false);
         swipe.setEnabled(false);
 
+        WebView.setWebContentsDebuggingEnabled(true);
+
         mWebview = (WebView) findViewById(R.id.webview);
         mWebview.setWebViewClient(new KKMWebviewClient(this));
         mWebview.getSettings().setJavaScriptEnabled(true);
