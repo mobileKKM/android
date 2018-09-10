@@ -91,7 +91,7 @@ tasks.withType(JavaCompile) {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    def supportLibVersion = '28.0.0-rc01'
+    def supportLibVersion = '28.0.0-rc02'
     implementation "com.android.support:support-v4:${supportLibVersion}"
     implementation "com.android.support:design:${supportLibVersion}"
     implementation "com.android.support.constraint:constraint-layout:1.1.3"
