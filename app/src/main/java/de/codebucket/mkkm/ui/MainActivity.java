@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 
 import de.codebucket.mkkm.R;
@@ -52,6 +53,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mWebview.setWebViewClient(new KKMWebviewClient(this));
         mWebview.getSettings().setJavaScriptEnabled(true);
         mWebview.getSettings().setDomStorageEnabled(true);
+        mWebview.getSettings().setAppCacheEnabled(true);
+        mWebview.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
 
         // First inject session data into webview local storage, then load the webapp
         String inject = "<script type='text/javascript'>" +
