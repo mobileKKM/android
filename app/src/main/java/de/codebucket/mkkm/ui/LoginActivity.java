@@ -22,6 +22,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.customtabs.CustomTabsIntent;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -33,6 +34,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -59,6 +61,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
     private Button mLoginButton;
+    private View mScrollView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +105,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 openWebsite(Uri.parse("https://m.kkm.krakow.pl/#!/register"));
             }
         });
+
+        mScrollView = (ScrollView) findViewById(R.id.scroll_view);
     }
 
     /**
@@ -193,11 +198,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     private boolean isEmailValid(String email) {
-        return email.contains("@");
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
     private boolean isPasswordValid(String password) {
-        return password.length() > 6;
+        return !password.isEmpty() && password.length() >= 6;
     }
 
     private void openWebsite(Uri uri) {
@@ -226,6 +231,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 
+    private void showError(String error) {
+        Snackbar.make(mScrollView, error, Snackbar.LENGTH_LONG).show();
+    }
+
     /**
      * Read e-mail addresses from contacts after contacts permission has been granted
      */
@@ -234,13 +243,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         return new CursorLoader(this,
                 // Retrieve data rows for the device user's 'profile' contact.
-                Uri.withAppendedPath(ContactsContract.Profile.CONTENT_URI,
-                        ContactsContract.Contacts.Data.CONTENT_DIRECTORY), ProfileQuery.PROJECTION,
+                Uri.withAppendedPath(ContactsContract.Profile.CONTENT_URI, ContactsContract.Contacts.Data.CONTENT_DIRECTORY), ProfileQuery.PROJECTION,
 
                 // Select only email addresses.
-                ContactsContract.Contacts.Data.MIMETYPE +
-                        " = ?", new String[]{ContactsContract.CommonDataKinds.Email
-                .CONTENT_ITEM_TYPE},
+                ContactsContract.Contacts.Data.MIMETYPE + " = ?", new String[]{ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE},
 
                 // Show primary email addresses first. Note that there won't be
                 // a primary email address if the user hasn't specified one.
@@ -327,6 +333,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             } else {
 
             }
+
+            showError("Error!");
         }
 
         @Override

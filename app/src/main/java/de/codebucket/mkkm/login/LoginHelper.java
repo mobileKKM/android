@@ -82,14 +82,34 @@ public class LoginHelper {
     }
 
     public SessionProfile getSession(String token) {
-        // Check if device has a network connection to the Internet
-        if (!isNetworkConnectivity()) {
+        // Check if device has a network connection to the Internet or fingerprint is valid
+        if (!isNetworkConnectivity() || mFingerprint == null) {
             return null;
         }
 
-
+        OkHttpClient httpClient = new OkHttpClient();
         SessionProfile profile = null;
-        return new SessionProfile(mFingerprint, token);
+
+        try {
+            // Create GET request
+            Request request = new Request.Builder()
+                    .url(getEndpointUrl("account"))
+                    .addHeader("X-JWT-Assertion", token)
+                    .addHeader("Content-Type", "application/json; charset=UTF-8")
+                    .get()
+                    .build();
+
+            // Execute and load if successful
+            Response response = httpClient.newCall(request).execute();
+            if (response.isSuccessful()) {
+                JSONObject account = new JSONObject(response.body().string());
+                profile = new SessionProfile(mFingerprint, token).load(account);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return profile;
     }
 
     private boolean isNetworkConnectivity() {
