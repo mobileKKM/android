@@ -35,6 +35,7 @@ public class SessionProfile {
         lastName = account.getString("last_name");
         email = account.getString("email");
         photoId = account.getString("photo_id");
+        return this;
     }
 
     public String getPassengerId() {
