@@ -3,7 +3,9 @@ package de.codebucket.mkkm.login;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class SessionProfile {
+import java.io.Serializable;
+
+public class SessionProfile implements Serializable {
 
     // session related
     private final String mFingerprint;
