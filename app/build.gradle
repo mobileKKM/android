@@ -8,6 +8,9 @@ android {
     compileSdkVersion 28
     buildToolsVersion '28.0.2'
 
+    // sdk 23 has it removed
+    useLibrary 'org.apache.http.legacy'
+
     defaultConfig {
         minSdkVersion 19
         targetSdkVersion 28

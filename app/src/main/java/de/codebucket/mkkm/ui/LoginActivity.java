@@ -61,13 +61,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         setContentView(R.layout.activity_login);
 
         // Check if user is already signed in
-        SharedPreferences prefs = getPreferences(Context.MODE_PRIVATE);
-        if (!prefs.getString("token", "").isEmpty()) {
-            Intent intent = new Intent(this, MainActivity.class);
-
-            startActivity(intent);
-            return;
-        }
+        // TODO: Check if account is stored on device, read username and password to perform login
 
         setTitle(R.string.title_activity_login);
 
