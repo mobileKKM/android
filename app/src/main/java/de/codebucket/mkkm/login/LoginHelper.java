@@ -3,29 +3,24 @@ package de.codebucket.mkkm.login;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.util.Log;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.EntityUtils;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.List;
 
 import de.codebucket.mkkm.MobileKKM;
 
 public class LoginHelper {
 
     private static final String PROFILE_URL = "https://m.kkm.krakow.pl/profile/%s";
+    private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
     private Context mContext;
     private String mFingerprint;
@@ -35,7 +30,7 @@ public class LoginHelper {
         mFingerprint = MobileKKM.getPreferences().getString("fingerprint", null);
     }
 
-    public String getToken(String username, String password) throws LoginFailedException {
+    public String getToken(String login, String password) throws LoginFailedException {
         // Check if device has a network connection to the Internet
         if (!isNetworkConnectivity()) {
             throw new LoginFailedException(LoginError.NETWORK_NOT_AVAILABLE);
@@ -46,31 +41,35 @@ public class LoginHelper {
             throw new LoginFailedException(LoginError.INVALID_FINGERPRINT);
         }
 
-        HttpClient httpClient = new DefaultHttpClient();
-        HttpPost httpPost = new HttpPost(getEndpointUrl("login"));
-
+        OkHttpClient httpClient = new OkHttpClient();
         String token = null;
 
         try {
-            // Insert login credentials into POST
-            List<NameValuePair> params = new ArrayList<NameValuePair>();
-            params.add(new BasicNameValuePair("username", username));
-            params.add(new BasicNameValuePair("password", password));
-            httpPost.setEntity(new UrlEncodedFormEntity(params));
+            // Add values to JSON
+            JSONObject jsonBody = new JSONObject();
+            jsonBody.put("login", login);
+            jsonBody.put("password", password);
 
-            HttpResponse response = httpClient.execute(httpPost);
-            JSONObject json = new JSONObject(EntityUtils.toString(response.getEntity()));
+            // Create POST request
+            RequestBody body = RequestBody.create(JSON, jsonBody.toString());
+            Request request = new Request.Builder()
+                    .url(getEndpointUrl("login"))
+                    .post(body)
+                    .build();
+
+            Response response = httpClient.newCall(request).execute();
+            JSONObject jsonObject = new JSONObject(response.body().string());
 
             // Check if response has error code (no 200 OK)
-            if (response.getStatusLine().getStatusCode() != 200) {
-                if (json.has("message") && json.getString("message").equalsIgnoreCase("Problem logowania")) {
+            if (!response.isSuccessful()) {
+                if (jsonObject.has("message") && jsonObject.getString("message").equalsIgnoreCase("Problem logowania")) {
                     throw new LoginFailedException(LoginError.WRONG_CREDENTIALS);
                 } else {
                     throw new LoginFailedException(LoginError.UNKNOWN_ERROR);
                 }
             }
 
-            token = json.getString("token");
+            token = jsonObject.getString("token");
         } catch (IOException ex) {
             // An IOException occurs only when the low-level connection failed
             throw new LoginFailedException(LoginError.NETWORK_NOT_AVAILABLE);
@@ -82,18 +81,15 @@ public class LoginHelper {
         return token;
     }
 
-    public SessionProfile getSession(String token) throws SessionExpiredException {
+    public SessionProfile getSession(String token) {
         // Check if device has a network connection to the Internet
         if (!isNetworkConnectivity()) {
-            throw new SessionExpiredException(SessionError.NETWORK_NOT_AVAILABLE);
+            return null;
         }
 
-        HttpClient httpClient = new DefaultHttpClient();
-        HttpPost httpPost = new HttpPost(getEndpointUrl("account"));
 
         SessionProfile profile = null;
-
-        return profile;
+        return new SessionProfile(mFingerprint, token);
     }
 
     private boolean isNetworkConnectivity() {
@@ -127,6 +123,7 @@ public class LoginHelper {
     }
 
     public class LoginFailedException extends Exception {
+
         private LoginError mError;
 
         LoginFailedException(LoginError error) {
@@ -134,26 +131,6 @@ public class LoginHelper {
         }
 
         public LoginError getError() {
-            return mError;
-        }
-    }
-
-    public enum SessionError {
-        // No internet connection available
-        NETWORK_NOT_AVAILABLE,
-
-        // Session expired
-        SESSION_EXPIRED
-    }
-
-    public class SessionExpiredException extends Exception {
-        private SessionError mError;
-
-        SessionExpiredException(SessionError error) {
-            mError = error;
-        }
-
-        public SessionError getError() {
             return mError;
         }
     }

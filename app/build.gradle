@@ -8,9 +8,6 @@ android {
     compileSdkVersion 28
     buildToolsVersion '28.0.2'
 
-    // sdk 23 has it removed
-    useLibrary 'org.apache.http.legacy'
-
     defaultConfig {
         minSdkVersion 19
         targetSdkVersion 28
@@ -97,4 +94,5 @@ dependencies {
     implementation "com.android.support.constraint:constraint-layout:1.1.3"
     implementation "com.android.support:appcompat-v7:${supportLibVersion}"
     implementation "com.android.support:customtabs:${supportLibVersion}"
+    implementation "com.squareup.okhttp3:okhttp:3.11.0"
 }
