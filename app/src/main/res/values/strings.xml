@@ -22,7 +22,15 @@
     <string name="nav_header_title">Janusz Kowalski</string>
     <string name="nav_header_subtitle">janusz.kowalski@gmail.com</string>
     <string name="nav_header_desc">Navigation header</string>
-    <string name="action_backup">Kopie zapasowe</string>
+    <string name="action_refresh">Odśwież</string>
+
+    <!-- Navbar navigation drawer -->
+    <string name="nav_tickets">Aktywne bilety</string>
+    <string name="nav_purchase">Kup bilet</string>
+    <string name="nav_account">Moje konto</string>
+    <string name="nav_prices">Cennik</string>
+    <string name="nav_backup">Kopie zapasowe</string>
+    <string name="nav_logout">Wyloguj się</string>
 
     <!-- Other strings -->
     <string name="dialog_login_msg">Logowanie…</string>

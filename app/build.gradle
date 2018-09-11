@@ -95,4 +95,5 @@ dependencies {
     implementation "com.android.support:appcompat-v7:${supportLibVersion}"
     implementation "com.android.support:customtabs:${supportLibVersion}"
     implementation "com.squareup.okhttp3:okhttp:3.11.0"
+    implementation "de.hdodenhof:circleimageview:2.2.0"
 }
