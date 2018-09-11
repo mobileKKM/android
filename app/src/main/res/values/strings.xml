@@ -12,7 +12,7 @@
     <string name="error_invalid_password">Nieprawidłowe hasło</string>
     <string name="error_no_network">Brak połączenia z Internetem</string>
     <string name="error_fingerprint">Wystąpił błąd z rozpoznaniem urządzenia</string>
-    <string name="error_wrong_credentials">Nieprawidłowe dane logowania</string>
+    <string name="error_wrong_credentials">Niepoprawne dane logowania</string>
     <string name="error_unknown">Nierozpoznany problem</string>
 
     <!-- Strings related to main -->
