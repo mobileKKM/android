@@ -10,6 +10,8 @@
     <string name="error_field_required">Pole wymagane</string>
     <string name="error_invalid_email">Nieprawidłowy adres e-mail</string>
     <string name="error_invalid_password">Nieprawidłowe hasło</string>
+    <string name="error_no_network">Brak połączenia z Internetem</string>
+    <string name="error_fingerprint">Wystąpił błąd z rozpoznaniem urządzenia</string>
     <string name="error_wrong_credentials">Nieprawidłowe dane logowania</string>
     <string name="error_unknown">Nierozpoznany problem</string>
 

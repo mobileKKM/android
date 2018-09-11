@@ -328,9 +328,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 startActivity(intent);
                 finish();
             } else if (error != null) {
-
+                String message = getString(error.getMessage());
+                showError(message);
             } else {
-
+                Toast.makeText(LoginActivity.this, R.string.error_unknown, Toast.LENGTH_LONG).show();
             }
         }
     }

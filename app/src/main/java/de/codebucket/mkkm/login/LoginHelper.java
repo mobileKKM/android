@@ -16,6 +16,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 import de.codebucket.mkkm.MobileKKM;
+import de.codebucket.mkkm.R;
 
 public class LoginHelper {
 
@@ -129,17 +130,28 @@ public class LoginHelper {
     }
 
     public enum LoginError {
+
         // No internet connection available
-        NETWORK_NOT_AVAILABLE,
+        NETWORK_NOT_AVAILABLE(R.string.error_no_network),
 
         // Fingerprint invalid or missing,
-        INVALID_FINGERPRINT,
+        INVALID_FINGERPRINT(R.string.error_fingerprint),
 
         // User entered wrong user credentials
-        WRONG_CREDENTIALS,
+        WRONG_CREDENTIALS(R.string.error_wrong_credentials),
 
         // Anything else...
-        UNKNOWN_ERROR
+        UNKNOWN_ERROR(R.string.error_unknown);
+
+        private int messageId;
+
+        LoginError(int message) {
+            messageId = message;
+        }
+
+        public int getMessage() {
+            return messageId;
+        }
     }
 
     public class LoginFailedException extends Exception {
