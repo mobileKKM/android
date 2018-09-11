@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
+import de.codebucket.mkkm.BuildConfig;
 import de.codebucket.mkkm.R;
 import de.codebucket.mkkm.KKMWebviewClient;
 import de.codebucket.mkkm.login.SessionProfile;
@@ -47,7 +48,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         swipe.setRefreshing(false);
         swipe.setEnabled(false);
 
-        WebView.setWebContentsDebuggingEnabled(true);
+        if (BuildConfig.DEBUG) {
+            WebView.setWebContentsDebuggingEnabled(true);
+        }
 
         mWebview = (WebView) findViewById(R.id.webview);
         mWebview.setWebViewClient(new KKMWebviewClient(this));
