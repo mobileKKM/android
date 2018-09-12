@@ -18,10 +18,20 @@ import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.OkHttp3Downloader;
+import com.squareup.picasso.Picasso;
+
+import java.io.IOException;
+
 import de.codebucket.mkkm.BuildConfig;
 import de.codebucket.mkkm.R;
 import de.codebucket.mkkm.KKMWebviewClient;
 import de.codebucket.mkkm.login.SessionProfile;
+
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -34,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        SessionProfile profile = (SessionProfile) getIntent().getSerializableExtra("profile");
+        final SessionProfile profile = (SessionProfile) getIntent().getSerializableExtra("profile");
 
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -54,6 +64,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         TextView drawerEmail = (TextView) headerView.findViewById(R.id.drawer_email);
         drawerEmail.setText(profile.getEmailAddress());
+
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(new Interceptor() {
+                    @Override
+                    public Response intercept(Interceptor.Chain chain) throws IOException {
+                        Request newRequest = chain.request().newBuilder()
+                                .addHeader("X-JWT-Assertion", profile.getToken())
+                                .build();
+                        return chain.proceed(newRequest);
+                    }
+                })
+                .build();
+
+        Picasso picasso = new Picasso.Builder(this)
+                .downloader(new OkHttp3Downloader(client))
+                .build();
+
+        ImageView drawerImage = (ImageView) headerView.findViewById(R.id.drawer_background);
+        picasso.load("https://m.kkm.krakow.pl/photo/" + profile.getPhotoId()).into(drawerImage);
 
         SwipeRefreshLayout swipe = (SwipeRefreshLayout) findViewById(R.id.swipe);
         swipe.setRefreshing(false);
