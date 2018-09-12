@@ -43,13 +43,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @SuppressLint("SetJavaScriptEnabled")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        final SessionProfile profile = (SessionProfile) getIntent().getSerializableExtra("profile");
-
         setContentView(R.layout.activity_main);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        // Set up drawer menu
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -58,6 +57,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.getMenu().getItem(0).setChecked(true);
+        setTitle(navigationView.getMenu().getItem(0).getTitle());
+
+        // Get user session profile from login
+        final SessionProfile profile = (SessionProfile) getIntent().getSerializableExtra("profile");
 
         View headerView = navigationView.getHeaderView(0);
         TextView drawerUsername = (TextView) headerView.findViewById(R.id.drawer_username);
@@ -69,6 +72,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ImageView drawerBackground = (ImageView) headerView.findViewById(R.id.drawer_header_background);
         profile.loadPhoto(drawerBackground);
 
+        // Load webview layout and disable "refreshing"
         SwipeRefreshLayout swipe = (SwipeRefreshLayout) findViewById(R.id.swipe);
         swipe.setRefreshing(false);
         swipe.setEnabled(false);
@@ -146,6 +150,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         }
          **/
+
+        // Change title only on checkable items
+        if (item.isCheckable()) {
+            setTitle(item.getTitle());
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
