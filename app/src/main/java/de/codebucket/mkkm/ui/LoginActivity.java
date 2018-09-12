@@ -1,5 +1,7 @@
 package de.codebucket.mkkm.ui;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
@@ -40,6 +42,7 @@ import java.util.List;
 
 import de.codebucket.mkkm.MobileKKM;
 import de.codebucket.mkkm.R;
+import de.codebucket.mkkm.login.AuthenticatorService;
 import de.codebucket.mkkm.login.SessionProfile;
 import de.codebucket.mkkm.login.LoginFailedException;
 import de.codebucket.mkkm.login.LoginFailedException.ErrorType;
@@ -53,7 +56,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     // Login stuff
     private static final int REQUEST_READ_CONTACTS = 0;
-    private UserLoginTask mAuthTask = null;
+    private UserLoginTask mAuthTask;
+    private AccountManager mAccountManager;
+    private Account mAccount;
 
     // UI references.
     private ProgressDialog mProgressDialog;
@@ -66,9 +71,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-        // Check if user is already signed in
-        // TODO: Check if account is stored on device, read username and password to perform login
 
         setTitle(R.string.title_activity_login);
 
@@ -106,6 +108,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         });
 
         mScrollView = (ScrollView) findViewById(R.id.scroll_view);
+
+        // Check if user is already signed in
+        mAccountManager = AccountManager.get(this);
+        mAccount = AuthenticatorService.getUserAccount(this);
+
+        if (mAccount != null) {
+            mEmailView.setText(mAccount.name);
+            mPasswordView.setText(mAccountManager.getPassword(mAccount));
+            attemptLogin();
+        }
     }
 
     /**
@@ -339,7 +351,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
 
             if (profile != null) {
-                // TODO: Save account on device
+                // Save account on device if no account
+                if (mAccount == null) {
+                    Account account = new Account(mEmail, AuthenticatorService.ACCOUNT_TYPE);
+                    mAccountManager.addAccountExplicitly(account, mPassword, null);
+                    mAccountManager.setAuthToken(account, AuthenticatorService.TOKEN_TYPE, profile.getToken());
+                }
 
                 // Open MainActivity with signed in user
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
@@ -347,12 +364,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 startActivity(intent);
                 finish();
             } else if (exception != null) {
-                // Print error to log and show message to the user
-                // Show a Toast if unknown error
-                Log.e(TAG, String.format("%s: %s", exception.getErrorType(), exception.getErrorMessage()));
-                if (exception.getErrorType() != ErrorType.UNKNOWN) {
-                    showError(exception.getErrorMessage());
+                // Remove account if credentials are wrong
+                if (mAccount != null && exception.getErrorType() == ErrorType.BACKEND) {
+                    mAccountManager.removeAccount(mAccount, null, null);
                 }
+
+                // Print error to log and show message to the user
+                Log.e(TAG, String.format("%s: %s", exception.getErrorType(), exception.getErrorMessage()));
+                showError(exception.getErrorMessage());
             }
         }
 
