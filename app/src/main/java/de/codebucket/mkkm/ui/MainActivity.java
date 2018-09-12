@@ -1,6 +1,7 @@
 package de.codebucket.mkkm.ui;
 
 import android.annotation.SuppressLint;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,6 +14,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import de.codebucket.mkkm.BuildConfig;
 import de.codebucket.mkkm.R;
@@ -43,6 +46,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        TextView drawerUsername = (TextView) navigationView.findViewById(R.id.drawer_username);
+        drawerUsername.setText(profile.getFirstName() + " " + profile.getLastName());
+
+        TextView drawerEmail = (TextView) navigationView.findViewById(R.id.drawer_email);
+        drawerEmail.setText(profile.getEmailAddress());
 
         SwipeRefreshLayout swipe = (SwipeRefreshLayout) findViewById(R.id.swipe);
         swipe.setRefreshing(false);
