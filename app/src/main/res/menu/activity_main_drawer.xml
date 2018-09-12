@@ -18,7 +18,7 @@
             android:icon="@drawable/ic_menu_account"
             android:title="@string/nav_account" />
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/nav_pricing"
             android:icon="@drawable/ic_menu_coin"
             android:title="@string/nav_prices" />
     </group>

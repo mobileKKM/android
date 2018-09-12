@@ -129,27 +129,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        /**
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        switch (id) {
+            case R.id.nav_tickets:
+                mWebview.loadUrl("https://m.kkm.krakow.pl/#!/home");
+                break;
+            case R.id.nav_purchase:
+                mWebview.loadUrl("https://m.kkm.krakow.pl/#!/ticket/buy");
+                break;
+            case R.id.nav_account:
+                mWebview.loadUrl("https://m.kkm.krakow.pl/#!/account");
+                break;
+            case R.id.nav_pricing:
+                mWebview.loadUrl("https://m.kkm.krakow.pl/instructions/CENNIK.pdf");
+                break;
         }
-         **/
 
         // Change title only on checkable items
         if (item.isCheckable()) {
