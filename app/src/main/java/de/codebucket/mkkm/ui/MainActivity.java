@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         View headerView = navigationView.getHeaderView(0);
         TextView drawerUsername = (TextView) headerView.findViewById(R.id.drawer_username);
-        drawerUsername.setText(profile.getFirstName() + " " + profile.getLastName());
+        drawerUsername.setText(String.format("%s %s", profile.getFirstName(), profile.getLastName()));
 
         TextView drawerEmail = (TextView) headerView.findViewById(R.id.drawer_email);
         drawerEmail.setText(profile.getEmailAddress());

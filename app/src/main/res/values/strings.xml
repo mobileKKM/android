@@ -25,7 +25,7 @@
 
     <!-- Navbar navigation drawer -->
     <string name="nav_tickets">Aktywne bilety</string>
-    <string name="nav_purchase">Kup bilet</string>
+    <string name="nav_purchase">Zakup bilet</string>
     <string name="nav_account">Moje konto</string>
     <string name="nav_prices">Cennik</string>
     <string name="nav_backup">Kopie zapasowe</string>
