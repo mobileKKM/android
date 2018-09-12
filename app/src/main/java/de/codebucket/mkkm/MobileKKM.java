@@ -1,7 +1,10 @@
 package de.codebucket.mkkm;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 import android.provider.Settings.Secure;
 
@@ -38,6 +41,18 @@ public class MobileKKM extends Application {
         return UUID.nameUUIDFromBytes(deviceId.getBytes()).toString().replaceAll("-", "");
     }
 
+    public boolean isNetworkConnectivity() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (cm != null) {
+            NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+            if (networkInfo != null) {
+                return networkInfo.isConnected();
+            }
+        }
+
+        return false;
+    }
+
     public static MobileKKM getInstance() {
         return instance;
     }
@@ -48,9 +63,5 @@ public class MobileKKM extends Application {
 
     public static LoginHelper getLoginHelper() {
         return loginHelper;
-    }
-
-    public static void restartApplication() {
-
     }
 }

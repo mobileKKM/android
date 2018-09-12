@@ -1,8 +1,6 @@
 package de.codebucket.mkkm.login;
 
 import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -18,9 +16,11 @@ import java.io.IOException;
 import de.codebucket.mkkm.MobileKKM;
 import de.codebucket.mkkm.R;
 
+import static de.codebucket.mkkm.login.LoginFailedException.ErrorType;
+
 public class LoginHelper {
 
-    private static final String PROFILE_URL = "https://m.kkm.krakow.pl/profile/%s";
+    private static final String PROFILE_URL = "https://m.kkm.krakow.pl/profile/%s/%s";
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
     private Context mContext;
@@ -32,14 +32,9 @@ public class LoginHelper {
     }
 
     public String getToken(String login, String password) throws LoginFailedException {
-        // Check if device has a network connection to the Internet
-        if (!isNetworkConnectivity()) {
-            throw new LoginFailedException(LoginError.NETWORK_NOT_AVAILABLE);
-        }
-
         // Check if fingerprint exists, if not abort
         if (mFingerprint == null) {
-            throw new LoginFailedException(LoginError.INVALID_FINGERPRINT);
+            throw new LoginFailedException(ErrorType.USER, R.string.error_fingerprint);
         }
 
         OkHttpClient httpClient = new OkHttpClient();
@@ -63,28 +58,29 @@ public class LoginHelper {
 
             // Check if response has error code (no 200 OK)
             if (!response.isSuccessful()) {
-                if (jsonObject.has("message") && jsonObject.getString("message").equalsIgnoreCase("Problem logowania")) {
-                    throw new LoginFailedException(LoginError.WRONG_CREDENTIALS);
-                } else {
-                    throw new LoginFailedException(LoginError.UNKNOWN_ERROR);
+                String errorMessage = mContext.getString(R.string.error_unknown);
+                if (jsonObject.has("description")) {
+                    errorMessage = jsonObject.getString("description");
                 }
+
+                throw new LoginFailedException(ErrorType.BACKEND, errorMessage);
             }
 
             token = jsonObject.getString("token");
         } catch (IOException ex) {
             // An IOException occurs only when the low-level connection failed
-            throw new LoginFailedException(LoginError.NETWORK_NOT_AVAILABLE);
+            throw new LoginFailedException(ErrorType.SYSTEM, R.string.error_no_network);
         } catch (JSONException ex) {
             // This shouldn't happen at all, unless something went wrong on the server
-            throw new LoginFailedException(LoginError.UNKNOWN_ERROR);
+            throw new LoginFailedException(ErrorType.SYSTEM, R.string.error_unknown);
         }
 
         return token;
     }
 
     public SessionProfile getSession(String token) {
-        // Check if device has a network connection to the Internet or fingerprint is valid
-        if (!isNetworkConnectivity() || mFingerprint == null) {
+        // Check if fingerprint is valid
+        if (mFingerprint == null) {
             return null;
         }
 
@@ -113,57 +109,11 @@ public class LoginHelper {
         return profile;
     }
 
-    private boolean isNetworkConnectivity() {
-        ConnectivityManager cm = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (cm != null) {
-            NetworkInfo networkInfo = cm.getActiveNetworkInfo();
-            if (networkInfo != null) {
-                return networkInfo.isConnected();
-            }
-        }
-
-        return false;
+    public boolean isFingerprintValid() {
+        return mFingerprint != null && mFingerprint.length() == 32;
     }
 
     private String getEndpointUrl(String endpoint) {
-        return String.format(PROFILE_URL, mFingerprint) + "/" + endpoint;
-    }
-
-    public enum LoginError {
-
-        // No internet connection available
-        NETWORK_NOT_AVAILABLE(R.string.error_no_network),
-
-        // Fingerprint invalid or missing,
-        INVALID_FINGERPRINT(R.string.error_fingerprint),
-
-        // User entered wrong user credentials
-        WRONG_CREDENTIALS(R.string.error_wrong_credentials),
-
-        // Anything else...
-        UNKNOWN_ERROR(R.string.error_unknown);
-
-        private int messageId;
-
-        LoginError(int message) {
-            messageId = message;
-        }
-
-        public int getMessage() {
-            return messageId;
-        }
-    }
-
-    public class LoginFailedException extends Exception {
-
-        private LoginError mError;
-
-        LoginFailedException(LoginError error) {
-            mError = error;
-        }
-
-        public LoginError getError() {
-            return mError;
-        }
+        return String.format(PROFILE_URL, mFingerprint, endpoint);
     }
 }

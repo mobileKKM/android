@@ -40,10 +40,11 @@ import java.util.List;
 
 import de.codebucket.mkkm.MobileKKM;
 import de.codebucket.mkkm.R;
-import de.codebucket.mkkm.login.LoginHelper;
 import de.codebucket.mkkm.login.SessionProfile;
+import de.codebucket.mkkm.login.LoginFailedException;
 
 import static android.Manifest.permission.READ_CONTACTS;
+import static android.util.Patterns.EMAIL_ADDRESS;
 
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
@@ -195,7 +196,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     private boolean isEmailValid(String email) {
-        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
+        return EMAIL_ADDRESS.matcher(email).matches();
     }
 
     private boolean isPasswordValid(String password) {
@@ -206,7 +207,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         try {
             // Open link in Chrome Custom Tab
             CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-            builder.setToolbarColor(getResources().getColor(R.color.colorPrimary));
+            builder.setToolbarColor(getResources().getColor(R.color.primary));
             builder.setSecondaryToolbarColor(Color.BLACK);
             builder.setShowTitle(true);
 
@@ -228,8 +229,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 
-    private void showError(String error) {
-        Snackbar.make(mScrollView, error, Snackbar.LENGTH_LONG).show();
+    private void showError(String errorMessage) {
+        Snackbar.make(mScrollView, errorMessage, Snackbar.LENGTH_LONG).show();
     }
 
     /**
@@ -293,11 +294,28 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         private final String mEmail;
         private final String mPassword;
 
-        private LoginHelper.LoginError error;
+        private LoginFailedException exception;
 
         UserLoginTask(String email, String password) {
             mEmail = email;
             mPassword = password;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            // Check if device is connected to the Internet
+            if (!MobileKKM.getInstance().isNetworkConnectivity()) {
+                showError(getString(R.string.error_no_network));
+                cancel(true);
+                return;
+            }
+
+            // Don't continue if fingerprint is invalid
+            if (!MobileKKM.getLoginHelper().isFingerprintValid()) {
+                showError(getString(R.string.error_fingerprint));
+                cancel(true);
+                return;
+            }
         }
 
         @Override
@@ -306,8 +324,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             try {
                 token = MobileKKM.getLoginHelper().getToken(mEmail, mPassword);
-            } catch (LoginHelper.LoginFailedException ex) {
-                error = ex.getError();
+            } catch (LoginFailedException ex) {
+                exception = ex;
                 return null;
             }
 
@@ -327,12 +345,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 intent.putExtra("profile", profile);
                 startActivity(intent);
                 finish();
-            } else if (error != null) {
-                String message = getString(error.getMessage());
-                showError(message);
-            } else {
-                Toast.makeText(LoginActivity.this, R.string.error_unknown, Toast.LENGTH_LONG).show();
+            } else if (exception != null) {
+                Log.e(TAG, String.format("%s: %s", exception.getErrorType(), exception.getErrorMessage()));
+                showError(exception.getErrorMessage());
             }
+        }
+
+        @Override
+        protected void onCancelled() {
+            mAuthTask = null;
+            showProgress(false);
         }
     }
 }

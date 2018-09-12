@@ -5,16 +5,18 @@ import android.widget.ImageView;
 import com.squareup.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.Serializable;
 
-import okhttp3.Interceptor;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import de.codebucket.mkkm.R;
 
 public class SessionProfile implements Serializable {
 
@@ -93,6 +95,6 @@ public class SessionProfile implements Serializable {
 
         // load image into view
         String photoUrl = String.format(PHOTO_URL, photoId);
-        picasso.load(photoUrl).noPlaceholder().into(view);
+        picasso.load(photoUrl).error(R.drawable.kkm_avatar).into(view);
     }
 }
