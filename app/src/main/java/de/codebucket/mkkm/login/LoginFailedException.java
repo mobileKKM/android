@@ -29,6 +29,6 @@ public class LoginFailedException extends Exception {
     }
 
     public enum ErrorType {
-        SYSTEM, BACKEND, USER
+        SYSTEM, BACKEND, USER, UNKNOWN
     }
 }

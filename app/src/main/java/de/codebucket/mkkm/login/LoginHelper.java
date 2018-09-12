@@ -15,8 +15,7 @@ import java.io.IOException;
 
 import de.codebucket.mkkm.MobileKKM;
 import de.codebucket.mkkm.R;
-
-import static de.codebucket.mkkm.login.LoginFailedException.ErrorType;
+import de.codebucket.mkkm.login.LoginFailedException.ErrorType;
 
 public class LoginHelper {
 
@@ -72,7 +71,7 @@ public class LoginHelper {
             throw new LoginFailedException(ErrorType.SYSTEM, R.string.error_no_network);
         } catch (JSONException ex) {
             // This shouldn't happen at all, unless something went wrong on the server
-            throw new LoginFailedException(ErrorType.SYSTEM, R.string.error_unknown);
+            throw new LoginFailedException(ErrorType.UNKNOWN, R.string.error_unknown);
         }
 
         return token;

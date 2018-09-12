@@ -42,6 +42,7 @@ import de.codebucket.mkkm.MobileKKM;
 import de.codebucket.mkkm.R;
 import de.codebucket.mkkm.login.SessionProfile;
 import de.codebucket.mkkm.login.LoginFailedException;
+import de.codebucket.mkkm.login.LoginFailedException.ErrorType;
 
 import static android.Manifest.permission.READ_CONTACTS;
 import static android.util.Patterns.EMAIL_ADDRESS;
@@ -346,8 +347,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 startActivity(intent);
                 finish();
             } else if (exception != null) {
+                // Print error to log and show message to the user
+                // Show a Toast if unknown error
                 Log.e(TAG, String.format("%s: %s", exception.getErrorType(), exception.getErrorMessage()));
-                showError(exception.getErrorMessage());
+                if (exception.getErrorType() != ErrorType.UNKNOWN) {
+                    showError(exception.getErrorMessage());
+                }
             }
         }
 
