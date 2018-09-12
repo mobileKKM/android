@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.getMenu().getItem(0).setChecked(true);
 
         View headerView = navigationView.getHeaderView(0);
         TextView drawerUsername = (TextView) headerView.findViewById(R.id.drawer_username);
@@ -65,24 +66,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         TextView drawerEmail = (TextView) headerView.findViewById(R.id.drawer_email);
         drawerEmail.setText(profile.getEmailAddress());
 
-        OkHttpClient client = new OkHttpClient.Builder()
-                .addInterceptor(new Interceptor() {
-                    @Override
-                    public Response intercept(Interceptor.Chain chain) throws IOException {
-                        Request newRequest = chain.request().newBuilder()
-                                .addHeader("X-JWT-Assertion", profile.getToken())
-                                .build();
-                        return chain.proceed(newRequest);
-                    }
-                })
-                .build();
-
-        Picasso picasso = new Picasso.Builder(this)
-                .downloader(new OkHttp3Downloader(client))
-                .build();
-
-        ImageView drawerImage = (ImageView) headerView.findViewById(R.id.drawer_background);
-        picasso.load("https://m.kkm.krakow.pl/photo/" + profile.getPhotoId()).into(drawerImage);
+        ImageView drawerBackground = (ImageView) headerView.findViewById(R.id.drawer_header_background);
+        profile.loadPhoto(drawerBackground);
 
         SwipeRefreshLayout swipe = (SwipeRefreshLayout) findViewById(R.id.swipe);
         swipe.setRefreshing(false);

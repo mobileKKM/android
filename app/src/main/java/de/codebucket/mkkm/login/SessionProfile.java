@@ -1,11 +1,24 @@
 package de.codebucket.mkkm.login;
 
+import android.widget.ImageView;
+
+import com.squareup.picasso.OkHttp3Downloader;
+import com.squareup.picasso.Picasso;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.io.Serializable;
 
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
 public class SessionProfile implements Serializable {
+
+    private static final String PHOTO_URL = "https://m.kkm.krakow.pl/photo/%s";
 
     // session related
     private final String mFingerprint;
@@ -58,5 +71,28 @@ public class SessionProfile implements Serializable {
 
     public String getPhotoId() {
         return photoId;
+    }
+
+    public void loadPhoto(ImageView view) {
+        // we need to supply custom header with our session token
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(new Interceptor() {
+                    @Override
+                    public Response intercept(Interceptor.Chain chain) throws IOException {
+                        Request newRequest = chain.request().newBuilder()
+                                .addHeader("X-JWT-Assertion", mToken)
+                                .build();
+                        return chain.proceed(newRequest);
+                    }
+                })
+                .build();
+
+        Picasso picasso = new Picasso.Builder(view.getContext())
+                .downloader(new OkHttp3Downloader(client))
+                .build();
+
+        // load image into view
+        String photoUrl = String.format(PHOTO_URL, photoId);
+        picasso.load(photoUrl).noPlaceholder().into(view);
     }
 }
