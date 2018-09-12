@@ -35,7 +35,7 @@ import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    public static final String TAG = "Main";
+    private static final String TAG = "Main";
 
     private WebView mWebview;
 

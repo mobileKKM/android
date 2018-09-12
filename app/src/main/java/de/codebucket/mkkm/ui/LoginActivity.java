@@ -52,7 +52,7 @@ import static android.util.Patterns.EMAIL_ADDRESS;
 
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
-    public static final String TAG = "Login";
+    private static final String TAG = "Login";
 
     // Login stuff
     private static final int REQUEST_READ_CONTACTS = 0;

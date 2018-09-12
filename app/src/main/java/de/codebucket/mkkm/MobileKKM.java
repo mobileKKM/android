@@ -14,7 +14,7 @@ import de.codebucket.mkkm.login.LoginHelper;
 
 public class MobileKKM extends Application {
 
-    public static final String TAG = "MobileKKM";
+    private static final String TAG = "MobileKKM";
 
     private static MobileKKM instance;
     private static SharedPreferences preferences;
