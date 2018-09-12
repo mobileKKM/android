@@ -1,4 +1,5 @@
 # mKKM-Webview
-A webview wrapper for the mobile KKM ticketing webapp, with additional features.
+[![Build Status](https://build.codebucket.de/api/badges/divadsn/mKKM-Webview/status.svg)](https://build.codebucket.de/divadsn/mKKM-Webview)
+[![Releases](https://img.shields.io/badge/telegram-%40mkkmci-blue.svg)](https://t.me/mkkmci)
 
-### This is a temporary solution, a native version is planned!
+A webview wrapper for the mobile KKM ticketing webapp, with additional features.
