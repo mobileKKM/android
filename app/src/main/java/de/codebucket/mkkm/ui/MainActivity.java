@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
@@ -47,10 +48,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        TextView drawerUsername = (TextView) navigationView.findViewById(R.id.drawer_username);
+        View headerView = navigationView.getHeaderView(0);
+        TextView drawerUsername = (TextView) headerView.findViewById(R.id.drawer_username);
         drawerUsername.setText(profile.getFirstName() + " " + profile.getLastName());
 
-        TextView drawerEmail = (TextView) navigationView.findViewById(R.id.drawer_email);
+        TextView drawerEmail = (TextView) headerView.findViewById(R.id.drawer_email);
         drawerEmail.setText(profile.getEmailAddress());
 
         SwipeRefreshLayout swipe = (SwipeRefreshLayout) findViewById(R.id.swipe);
