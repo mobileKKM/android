@@ -130,14 +130,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             new AlertDialog.Builder(this)
                     .setTitle(R.string.disclaimer_title)
                     .setMessage(R.string.disclaimer_body)
-                    .setNegativeButton(R.string.dont_show_again, new DialogInterface.OnClickListener() {
+                    .setNegativeButton(R.string.dialog_dont_show_again, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             // Don't display disclaimer anymore
                             preferences.edit().putBoolean("disclaimer_shown", true).apply();
                         }
                     })
-                    .setPositiveButton(R.string.close, null)
+                    .setPositiveButton(R.string.dialog_close, null)
                     .show();
         }
     }

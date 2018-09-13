@@ -168,10 +168,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_logout:
                 new AlertDialog.Builder(this)
-                        .setTitle(R.string.dialog_logout)
-                        .setMessage(R.string.dialog_logout_msg)
-                        .setNegativeButton(R.string.no, null)
-                        .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                        .setTitle(R.string.dialog_logout_title)
+                        .setMessage(R.string.dialog_logout_warning)
+                        .setNegativeButton(R.string.dialog_no, null)
+                        .setPositiveButton(R.string.dialog_yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 AccountManager accountManager = AccountManager.get(MainActivity.this);
