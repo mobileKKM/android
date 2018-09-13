@@ -86,6 +86,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mWebview.getSettings().setJavaScriptEnabled(true);
         mWebview.getSettings().setDomStorageEnabled(true);
         mWebview.getSettings().setAppCacheEnabled(true);
+        mWebview.getSettings().setAllowFileAccessFromFileURLs(true);
+        mWebview.getSettings().setAllowUniversalAccessFromFileURLs(true);
         mWebview.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
 
         // First inject session data into webview local storage, then load the webapp
@@ -145,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 mWebview.loadUrl("https://m.kkm.krakow.pl/#!/account");
                 break;
             case R.id.nav_pricing:
-                mWebview.loadUrl("https://m.kkm.krakow.pl/instructions/CENNIK.pdf");
+                mWebview.loadUrl("file:///android_asset/pdfjs/web/viewer.html?file=https://m.kkm.krakow.pl/instructions/CENNIK.pdf");
                 break;
         }
 
