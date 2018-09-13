@@ -5,6 +5,7 @@ import android.accounts.AccountManager;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -124,16 +125,20 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
 
         // Show disclaimer if user hasn't seen yet
-        SharedPreferences preferences = MobileKKM.getPreferences();
+        final SharedPreferences preferences = MobileKKM.getPreferences();
         if (preferences.getBoolean("disclaimer_shown", false) || BuildConfig.DEBUG) {
             new AlertDialog.Builder(this)
                     .setTitle(R.string.disclaimer_title)
                     .setMessage(R.string.disclaimer_body)
-                    .setPositiveButton(R.string.ok, null)
+                    .setNegativeButton(R.string.dont_show_again, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Don't display disclaimer anymore
+                            preferences.edit().putBoolean("disclaimer_shown", true).apply();
+                        }
+                    })
+                    .setPositiveButton(R.string.close, null)
                     .show();
-
-            // Don't display disclaimer anymore
-            preferences.edit().putBoolean("disclaimer_shown", true).apply();
         }
     }
 
