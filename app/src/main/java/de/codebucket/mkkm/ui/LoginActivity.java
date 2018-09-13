@@ -2,9 +2,11 @@ package de.codebucket.mkkm.ui;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
@@ -40,6 +42,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.codebucket.mkkm.BuildConfig;
 import de.codebucket.mkkm.KKMWebviewClient;
 import de.codebucket.mkkm.MobileKKM;
 import de.codebucket.mkkm.R;
@@ -118,6 +121,19 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mEmailView.setText(mAccount.name);
             mPasswordView.setText(mAccountManager.getPassword(mAccount));
             attemptLogin();
+        }
+
+        // Show disclaimer if user hasn't seen yet
+        SharedPreferences preferences = MobileKKM.getPreferences();
+        if (preferences.getBoolean("disclaimer_shown", false) || BuildConfig.DEBUG) {
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.disclaimer_title)
+                    .setMessage(R.string.disclaimer_body)
+                    .setPositiveButton(R.string.ok, null)
+                    .show();
+
+            // Don't display disclaimer anymore
+            preferences.edit().putBoolean("disclaimer_shown", true).apply();
         }
     }
 
