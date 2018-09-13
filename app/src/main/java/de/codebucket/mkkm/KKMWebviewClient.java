@@ -16,6 +16,9 @@ import de.codebucket.mkkm.ui.MainActivity;
 
 public class KKMWebviewClient extends WebViewClient {
 
+    private static final String TAG = "WebviewClient";
+    private static final String WEBAPP_URL = "https://m.kkm.krakow.pl/#!/";
+
     private Context mContext;
     private SwipeRefreshLayout mSwipeLayout;
 
@@ -38,24 +41,34 @@ public class KKMWebviewClient extends WebViewClient {
         mSwipeLayout.setEnabled(false);
 
         // Remove navbar after page has finished loading
-        if (url.endsWith("/home")) {
+        if (url.startsWith(WEBAPP_URL)) {
             AssetManager assetManager = mContext.getAssets();
-            ByteArrayOutputStream outputStream = null;
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             InputStream inputStream = null;
+            String inject = null;
+
             try {
+                // Read webview.js from local assets
                 inputStream = assetManager.open("webview.js");
-                outputStream = new ByteArrayOutputStream();
                 byte buf[] = new byte[8192];
                 int len;
-                try {
-                    while ((len = inputStream.read(buf)) != -1) {
-                        outputStream.write(buf, 0, len);
-                    }
-                    outputStream.close();
-                    inputStream.close();
-                } catch (IOException e) {}
-            } catch (IOException e) {}
-            view.evaluateJavascript(outputStream.toString(), null);
+                while ((len = inputStream.read(buf)) != -1) {
+                    outputStream.write(buf, 0, len);
+                }
+
+                outputStream.close();
+                inputStream.close();
+                inject = outputStream.toString();
+            } catch (IOException ex) {
+                Log.e(TAG, "Error injecting script: " + ex);
+                ex.printStackTrace();
+            }
+
+            view.evaluateJavascript(inject, null);
         }
+    }
+
+    public static String getPageUrl(String page) {
+        return WEBAPP_URL + page;
     }
 }

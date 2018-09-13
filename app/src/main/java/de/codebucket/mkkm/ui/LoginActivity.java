@@ -40,6 +40,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.codebucket.mkkm.KKMWebviewClient;
 import de.codebucket.mkkm.MobileKKM;
 import de.codebucket.mkkm.R;
 import de.codebucket.mkkm.login.AuthenticatorService;
@@ -103,7 +104,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mRegisterLink.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                openWebsite(Uri.parse("https://m.kkm.krakow.pl/#!/register"));
+                openWebsite(Uri.parse(KKMWebviewClient.getPageUrl("register")));
             }
         });
 
