@@ -256,7 +256,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private void showProgress(boolean show) {
         if (show) {
-            mProgressDialog = ProgressDialog.show(this, null, getString(R.string.dialog_login_msg), true, false);
+            mProgressDialog = ProgressDialog.show(this, null, getString(R.string.progress_login), true, false);
             mLoginButton.setEnabled(false);
         } else {
             mProgressDialog.dismiss();

@@ -1,6 +1,11 @@
 package de.codebucket.mkkm.ui;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -27,6 +32,7 @@ import java.io.IOException;
 import de.codebucket.mkkm.BuildConfig;
 import de.codebucket.mkkm.R;
 import de.codebucket.mkkm.KKMWebviewClient;
+import de.codebucket.mkkm.login.AuthenticatorService;
 import de.codebucket.mkkm.login.SessionProfile;
 
 import okhttp3.Interceptor;
@@ -107,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             drawer.closeDrawer(GravityCompat.START);
             return;
         }
-        
+
         if (mBackPressed + TIME_INTERVAL < System.currentTimeMillis()) {
             Toast.makeText(this, R.string.press_back_again, Toast.LENGTH_SHORT).show();
             mBackPressed = System.currentTimeMillis();
@@ -156,6 +162,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_pricing:
                 mWebview.loadUrl("https://m.kkm.krakow.pl/instructions/CENNIK.pdf");
+                break;
+            case R.id.nav_backup:
+                Toast.makeText(this, R.string.not_implemented, Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.nav_logout:
+                new AlertDialog.Builder(this)
+                        .setTitle(R.string.dialog_logout)
+                        .setMessage(R.string.dialog_logout_msg)
+                        .setNegativeButton(R.string.no, null)
+                        .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                AccountManager accountManager = AccountManager.get(MainActivity.this);
+                                Account account = AuthenticatorService.getUserAccount(MainActivity.this);
+                                accountManager.removeAccount(account, null, null);
+
+                                // Return back to login screen
+                                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                                finish();
+                            }
+                        })
+                        .show();
                 break;
         }
 
