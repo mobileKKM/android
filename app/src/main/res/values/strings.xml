@@ -45,7 +45,7 @@
 
     <!-- Other strings -->
     <string name="progress_login">Logowanie…</string>
-    <string name="no_browser_activity">Nie znaleziono żadnej aktywności obsługującej adresy URL</string>
+    <string name="no_browser_activity">Nie znaleziono żadnej aplikacji obsługującej adresy URL</string>
     <string name="press_back_again">Naciśnij ponownie \"wstecz\", aby wyjść</string>
     <string name="not_implemented">Funkcja jeszcze niedostępna!</string>
 </resources>
