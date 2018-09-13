@@ -1,12 +1,17 @@
 package de.codebucket.mkkm;
 
 import android.content.Context;
+import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import de.codebucket.mkkm.R;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
 import de.codebucket.mkkm.ui.MainActivity;
 
 public class KKMWebviewClient extends WebViewClient {
@@ -34,13 +39,23 @@ public class KKMWebviewClient extends WebViewClient {
 
         // Remove navbar after page has finished loading
         if (url.endsWith("/home")) {
-            String inject = "var allElements = document.getElementsByTagName('*');\n" +
-                            "for (var i = 0, n = allElements.length; i < n; i++) {\n" +
-                                "if (allElements[i].getAttribute('ng-controller') === 'NavbarCtrl') {\n" +
-                                    "allElements[i].parentNode.removeChild(allElements[i]); break;\n" +
-                                "}\n" +
-                            "}";
-            view.evaluateJavascript(inject, null);
+            AssetManager assetManager = mContext.getAssets();
+            ByteArrayOutputStream outputStream = null;
+            InputStream inputStream = null;
+            try {
+                inputStream = assetManager.open("webview.js");
+                outputStream = new ByteArrayOutputStream();
+                byte buf[] = new byte[8192];
+                int len;
+                try {
+                    while ((len = inputStream.read(buf)) != -1) {
+                        outputStream.write(buf, 0, len);
+                    }
+                    outputStream.close();
+                    inputStream.close();
+                } catch (IOException e) {}
+            } catch (IOException e) {}
+            view.evaluateJavascript(outputStream.toString(), null);
         }
     }
 }
