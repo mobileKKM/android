@@ -10,7 +10,7 @@ function waitForElement(name, callback) {
 
 // Remove navbar after page has finished loading
 waitForElement('md-toolbar-tools', function() {
-    var allElements = document.getElementsByTagName('*');\n" +
+    var allElements = document.getElementsByTagName('*');
     for (var i = 0, n = allElements.length; i < n; i++) {
         if (allElements[i].getAttribute('ng-controller') === 'NavbarCtrl') {
             allElements[i].parentNode.removeChild(allElements[i]); break;
