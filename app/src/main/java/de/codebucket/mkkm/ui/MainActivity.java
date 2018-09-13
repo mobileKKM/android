@@ -17,6 +17,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
@@ -36,8 +37,10 @@ import okhttp3.Response;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final String TAG = "Main";
+    private static final int TIME_INTERVAL = 2000;
 
     private WebView mWebview;
+    private long mBackPressed;
 
     @Override
     @SuppressLint("SetJavaScriptEnabled")
@@ -102,9 +105,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
+            return;
         }
+        
+        if (mBackPressed + TIME_INTERVAL < System.currentTimeMillis()) {
+            Toast.makeText(this, R.string.press_back_again, Toast.LENGTH_SHORT).show();
+            mBackPressed = System.currentTimeMillis();
+            return;
+        }
+
+        super.onBackPressed();
     }
 
     @Override
