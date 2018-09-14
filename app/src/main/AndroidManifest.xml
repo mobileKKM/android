@@ -2,12 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="de.codebucket.mkkm">
 
-    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <!-- To store user credentials as account on device -->
     <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
-    <uses-permission android:name="android.permission.READ_PROFILE" />
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <!-- To connect the webview to mKKM -->
     <uses-permission android:name="android.permission.INTERNET" />

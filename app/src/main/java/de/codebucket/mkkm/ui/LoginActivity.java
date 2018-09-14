@@ -8,21 +8,12 @@ import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.support.annotation.NonNull;
 
-import android.app.LoaderManager.LoaderCallbacks;
-
-import android.content.CursorLoader;
-import android.content.Loader;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -32,16 +23,11 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import de.codebucket.mkkm.KKMWebviewClient;
 import de.codebucket.mkkm.MobileKKM;
@@ -51,23 +37,20 @@ import de.codebucket.mkkm.login.SessionProfile;
 import de.codebucket.mkkm.login.LoginFailedException;
 import de.codebucket.mkkm.login.LoginFailedException.ErrorType;
 
-import static android.Manifest.permission.READ_CONTACTS;
 import static android.util.Patterns.EMAIL_ADDRESS;
 
-public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
+public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = "Login";
 
     // Login stuff
-    private static final int REQUEST_READ_CONTACTS = 0;
     private UserLoginTask mAuthTask;
     private AccountManager mAccountManager;
     private Account mAccount;
 
-    // UI references.
+    // UI references
     private ProgressDialog mProgressDialog;
-    private AutoCompleteTextView mEmailView;
-    private EditText mPasswordView;
+    private EditText mEmailView, mPasswordView;
     private Button mLoginButton;
     private View mScrollView;
 
@@ -79,9 +62,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         setTitle(R.string.title_activity_login);
 
         // Set up the login form.
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.input_email);
-        populateAutoComplete();
-
+        mEmailView = (EditText) findViewById(R.id.input_email);
         mPasswordView = (EditText) findViewById(R.id.input_password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -138,43 +119,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     })
                     .setPositiveButton(R.string.dialog_close, null)
                     .show();
-        }
-    }
-
-    /**
-     * Request permission to read contacts
-     */
-
-    private void populateAutoComplete() {
-        // Don't init anything if no permission granted
-        if (!mayRequestContacts()) {
-            return;
-        }
-
-        getLoaderManager().initLoader(0, null, this);
-    }
-
-    private boolean mayRequestContacts() {
-        // Lol no need on Lollipop or lower, or if permission granted
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M || checkSelfPermission(READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
-            return true;
-        }
-
-        // Request permission and return false for now
-        if (!shouldShowRequestPermissionRationale(READ_CONTACTS)) {
-            requestPermissions(new String[]{ READ_CONTACTS }, REQUEST_READ_CONTACTS);
-        }
-
-        return false;
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == REQUEST_READ_CONTACTS) {
-            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Repeat process if permission has been granted
-                populateAutoComplete();
-            }
         }
     }
 
@@ -259,58 +203,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private void showError(String errorMessage) {
         Snackbar.make(mScrollView, errorMessage, Snackbar.LENGTH_LONG).show();
-    }
-
-    /**
-     * Read e-mail addresses from contacts after contacts permission has been granted
-     */
-
-    @Override
-    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        return new CursorLoader(this,
-                // Retrieve data rows for the device user's 'profile' contact.
-                Uri.withAppendedPath(ContactsContract.Profile.CONTENT_URI, ContactsContract.Contacts.Data.CONTENT_DIRECTORY), ProfileQuery.PROJECTION,
-
-                // Select only email addresses.
-                ContactsContract.Contacts.Data.MIMETYPE + " = ?", new String[]{ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE},
-
-                // Show primary email addresses first. Note that there won't be
-                // a primary email address if the user hasn't specified one.
-                ContactsContract.Contacts.Data.IS_PRIMARY + " DESC");
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
-        List<String> emails = new ArrayList<>();
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            emails.add(cursor.getString(ProfileQuery.ADDRESS));
-            cursor.moveToNext();
-        }
-
-        addEmailsToAutoComplete(emails);
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> cursorLoader) {
-
-    }
-
-    private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
-        //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(LoginActivity.this, android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
-        mEmailView.setAdapter(adapter);
-    }
-
-
-    private interface ProfileQuery {
-        String[] PROJECTION = {
-                ContactsContract.CommonDataKinds.Email.ADDRESS,
-                ContactsContract.CommonDataKinds.Email.IS_PRIMARY,
-        };
-
-        int ADDRESS = 0;
-        int IS_PRIMARY = 1;
     }
 
     /**
