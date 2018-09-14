@@ -125,7 +125,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         // Show disclaimer if user hasn't seen yet
         final SharedPreferences preferences = MobileKKM.getPreferences();
-        if (preferences.getBoolean("disclaimer_shown", false) || MobileKKM.isDebug()) {
+        if (!preferences.getBoolean("disclaimer_shown", false) || MobileKKM.isDebug()) {
             new AlertDialog.Builder(this)
                     .setTitle(R.string.disclaimer_title)
                     .setMessage(R.string.disclaimer_body)
