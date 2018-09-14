@@ -43,7 +43,6 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.codebucket.mkkm.BuildConfig;
 import de.codebucket.mkkm.KKMWebviewClient;
 import de.codebucket.mkkm.MobileKKM;
 import de.codebucket.mkkm.R;
@@ -126,7 +125,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         // Show disclaimer if user hasn't seen yet
         final SharedPreferences preferences = MobileKKM.getPreferences();
-        if (preferences.getBoolean("disclaimer_shown", false) || BuildConfig.DEBUG) {
+        if (preferences.getBoolean("disclaimer_shown", false) || MobileKKM.isDebug()) {
             new AlertDialog.Builder(this)
                     .setTitle(R.string.disclaimer_title)
                     .setMessage(R.string.disclaimer_body)

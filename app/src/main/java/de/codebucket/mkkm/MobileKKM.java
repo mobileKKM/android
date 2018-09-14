@@ -64,4 +64,8 @@ public class MobileKKM extends Application {
     public static LoginHelper getLoginHelper() {
         return loginHelper;
     }
+
+    public static boolean isDebug() {
+        return BuildConfig.DEBUG && BuildConfig.BUILD_TYPE.equalsIgnoreCase("debug");
+    }
 }
