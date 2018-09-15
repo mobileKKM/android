@@ -4,8 +4,11 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.util.Log;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+import com.google.android.material.navigation.NavigationView;
 
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -22,10 +25,14 @@ public class KKMWebviewClient extends WebViewClient {
 
     private Context mContext;
     private SwipeRefreshLayout mSwipeLayout;
+    private NavigationView mNavigationView;
+
+    private boolean hasInjected = false;
 
     public KKMWebviewClient(MainActivity context) {
         mContext = context;
         mSwipeLayout = (SwipeRefreshLayout) context.findViewById(R.id.swipe);
+        mNavigationView = (NavigationView) context.findViewById(R.id.nav_view);
     }
 
     @Override
@@ -42,7 +49,7 @@ public class KKMWebviewClient extends WebViewClient {
         mSwipeLayout.setEnabled(false);
 
         // Remove navbar after page has finished loading
-        if (url.startsWith(WEBAPP_URL)) {
+        if (url.startsWith(WEBAPP_URL) && !hasInjected) {
             AssetManager assetManager = mContext.getAssets();
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             InputStream inputStream = null;
@@ -65,11 +72,20 @@ public class KKMWebviewClient extends WebViewClient {
                 ex.printStackTrace();
             }
 
+            view.addJavascriptInterface(new ScriptInjectorCallback(), "ScriptInjector");
             view.evaluateJavascript(inject, null);
         }
     }
 
     public static String getPageUrl(String page) {
         return String.format("%s/#!/%s", WEBAPP_URL, page);
+    }
+
+    public class ScriptInjectorCallback {
+        @JavascriptInterface
+        public void callback() {
+            Log.d(TAG, "Script injected!");
+            hasInjected = true;
+        }
     }
 }
