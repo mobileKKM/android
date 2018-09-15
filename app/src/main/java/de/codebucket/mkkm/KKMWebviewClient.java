@@ -4,17 +4,20 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.util.Log;
+import android.view.MenuItem;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.google.android.material.navigation.NavigationView;
-
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import com.google.android.material.navigation.NavigationView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 import de.codebucket.mkkm.ui.MainActivity;
 
@@ -28,6 +31,17 @@ public class KKMWebviewClient extends WebViewClient {
     private NavigationView mNavigationView;
 
     private boolean hasInjected = false;
+    private Map<String, Integer> navIds = new HashMap<String, Integer>(){{
+        // R.id.nav_tickets
+        put("home", R.id.nav_tickets);
+        put("control", R.id.nav_tickets);
+
+        // R.id.nav_purchase
+        put("ticket", R.id.nav_purchase);
+
+        // R.id.nav_account
+        put("account", R.id.nav_account);
+    }};
 
     public KKMWebviewClient(MainActivity context) {
         mContext = context;
@@ -40,6 +54,11 @@ public class KKMWebviewClient extends WebViewClient {
         super.onPageStarted(view, url, favicon);
         mSwipeLayout.setEnabled(true);
         mSwipeLayout.setRefreshing(true);
+
+        // Reset injection if url is webapp
+        if (url.startsWith(WEBAPP_URL)) {
+            hasInjected = false;
+        }
     }
 
     @Override
@@ -74,6 +93,16 @@ public class KKMWebviewClient extends WebViewClient {
 
             view.addJavascriptInterface(new ScriptInjectorCallback(), "ScriptInjector");
             view.evaluateJavascript(inject, null);
+        }
+
+        // Set navigation item if page has changed
+        String key = url.substring(WEBAPP_URL.length() + 4).split("/")[0];
+        if (navIds.containsKey(key)) {
+            MenuItem item = mNavigationView.getMenu().findItem(navIds.get(key));
+            if (item != null && !item.isChecked()) {
+                ((MainActivity) mContext).setTitle(item.getTitle());
+                mNavigationView.setCheckedItem(item);
+            }
         }
     }
 

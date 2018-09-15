@@ -123,6 +123,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             return;
         }
 
+        if (mWebview.canGoBack()) {
+            mWebview.goBack();
+            return;
+        }
+
         if (mBackPressed + TIME_INTERVAL < System.currentTimeMillis()) {
             Toast.makeText(this, R.string.press_back_again, Toast.LENGTH_SHORT).show();
             mBackPressed = System.currentTimeMillis();
