@@ -10,15 +10,12 @@ import android.provider.Settings.Secure;
 
 import java.util.UUID;
 
-import de.codebucket.mkkm.login.LoginHelper;
-
 public class MobileKKM extends Application {
 
     private static final String TAG = "MobileKKM";
 
     private static MobileKKM instance;
     private static SharedPreferences preferences;
-    private static LoginHelper loginHelper;
 
     @Override
     public void onCreate() {
@@ -31,9 +28,6 @@ public class MobileKKM extends Application {
         if (preferences.getString("fingerprint", null) == null) {
             preferences.edit().putString("fingerprint", getFingerprint()).apply();
         }
-
-        // Init login helper
-        loginHelper = new LoginHelper(getApplicationContext());
     }
 
     public String getFingerprint() {
@@ -59,10 +53,6 @@ public class MobileKKM extends Application {
 
     public static SharedPreferences getPreferences() {
         return preferences;
-    }
-
-    public static LoginHelper getLoginHelper() {
-        return loginHelper;
     }
 
     public static boolean isDebug() {

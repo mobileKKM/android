@@ -33,6 +33,7 @@ import de.codebucket.mkkm.KKMWebviewClient;
 import de.codebucket.mkkm.MobileKKM;
 import de.codebucket.mkkm.R;
 import de.codebucket.mkkm.login.AuthenticatorService;
+import de.codebucket.mkkm.login.LoginHelper;
 import de.codebucket.mkkm.login.SessionProfile;
 import de.codebucket.mkkm.login.LoginFailedException;
 import de.codebucket.mkkm.login.LoginFailedException.ErrorType;
@@ -44,6 +45,7 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "Login";
 
     // Login stuff
+    private LoginHelper mLoginHelper;
     private UserLoginTask mAuthTask;
     private AccountManager mAccountManager;
     private Account mAccount;
@@ -60,6 +62,9 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         setTitle(R.string.title_activity_login);
+
+        // Init login helper
+        mLoginHelper = new LoginHelper(this);
 
         // Set up the login form.
         mEmailView = (EditText) findViewById(R.id.input_email);
@@ -231,7 +236,7 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             // Don't continue if fingerprint is invalid
-            if (!MobileKKM.getLoginHelper().isFingerprintValid()) {
+            if (!mLoginHelper.isFingerprintValid()) {
                 showError(getString(R.string.error_fingerprint));
                 cancel(true);
                 return;
@@ -243,13 +248,13 @@ public class LoginActivity extends AppCompatActivity {
             String token = null;
 
             try {
-                token = MobileKKM.getLoginHelper().getToken(mEmail, mPassword);
+                token = mLoginHelper.getToken(mEmail, mPassword);
             } catch (LoginFailedException ex) {
                 exception = ex;
                 return null;
             }
 
-            return MobileKKM.getLoginHelper().getSession(token);
+            return mLoginHelper.getSession(token);
         }
 
         @Override
