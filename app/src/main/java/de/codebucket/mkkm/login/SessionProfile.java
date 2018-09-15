@@ -1,5 +1,7 @@
 package de.codebucket.mkkm.login;
 
+import android.util.Base64;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.squareup.picasso.OkHttp3Downloader;
@@ -96,5 +98,22 @@ public class SessionProfile implements Serializable {
         // load image into view
         String photoUrl = String.format(PHOTO_URL, photoId);
         picasso.load(photoUrl).error(R.drawable.kkm_avatar).into(view);
+    }
+
+    public boolean isTokenExpired() {
+        try {
+            String[] parts = mToken.split("\\."); // Splitting header, payload and signature
+            String decode = new String(Base64.decode(parts[1], Base64.URL_SAFE)); // Payload
+
+            // Check if payload contains expiration timestamp
+            JSONObject payload = new JSONObject(decode);
+            if (!payload.has("exp")) {
+                return true;
+            }
+
+            // Return true if token expiration timestamp is lower than current timestamp
+            return payload.getLong("exp") < System.currentTimeMillis() / 1000;
+        } catch (JSONException ignored) {}
+        return true;
     }
 }

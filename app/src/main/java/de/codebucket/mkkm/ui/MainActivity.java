@@ -15,6 +15,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,6 +29,7 @@ import com.squareup.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
+import java.util.Base64;
 
 import de.codebucket.mkkm.BuildConfig;
 import de.codebucket.mkkm.R;
@@ -45,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static final String TAG = "Main";
     private static final int TIME_INTERVAL = 2000;
 
+    private SessionProfile mProfile;
     private WebView mWebview;
     private long mBackPressed;
 
@@ -69,17 +72,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setTitle(navigationView.getMenu().getItem(0).getTitle());
 
         // Get user session profile from login
-        final SessionProfile profile = (SessionProfile) getIntent().getSerializableExtra("profile");
+        mProfile = (SessionProfile) getIntent().getSerializableExtra("profile");
 
         View headerView = navigationView.getHeaderView(0);
+        ImageView drawerBackground = (ImageView) headerView.findViewById(R.id.drawer_header_background);
+        mProfile.loadPhoto(drawerBackground);
+
         TextView drawerUsername = (TextView) headerView.findViewById(R.id.drawer_username);
-        drawerUsername.setText(String.format("%s %s", profile.getFirstName(), profile.getLastName()));
+        drawerUsername.setText(String.format("%s %s", mProfile.getFirstName(), mProfile.getLastName()));
 
         TextView drawerEmail = (TextView) headerView.findViewById(R.id.drawer_email);
-        drawerEmail.setText(profile.getEmailAddress());
-
-        ImageView drawerBackground = (ImageView) headerView.findViewById(R.id.drawer_header_background);
-        profile.loadPhoto(drawerBackground);
+        drawerEmail.setText(mProfile.getEmailAddress());
 
         // Load webview layout and disable "refreshing"
         SwipeRefreshLayout swipe = (SwipeRefreshLayout) findViewById(R.id.swipe);
@@ -97,13 +100,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mWebview.getSettings().setAppCacheEnabled(true);
         mWebview.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
 
+        // Start webapp with values injected
+        injectWebapp(mProfile.getFingerprint(), mProfile.getToken());
+    }
+
+    public void injectWebapp(String fingerprint, String token) {
         // First inject session data into webview local storage, then load the webapp
         String inject = "<script type='text/javascript'>" +
-                            "localStorage.setItem('fingerprint', '" + profile.getFingerprint() + "');" +
-                            "localStorage.setItem('token', '" + profile.getToken() + "');" +
-                            "window.location.replace('https://m.kkm.krakow.pl/#!/home');" +
-                        "</script>";
+                "localStorage.setItem('fingerprint', '" + fingerprint + "');" +
+                "localStorage.setItem('token', '" + token + "');" +
+                "window.location.replace('https://m.kkm.krakow.pl/#!/home');" +
+                "</script>";
         mWebview.loadDataWithBaseURL("https://m.kkm.krakow.pl/inject", inject, "text/html", "utf-8", null);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // Check if token has expired and logout
+        if (mProfile.isTokenExpired()) {
+            Toast.makeText(this, R.string.session_expired, Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+            finish();
+        }
     }
 
     @Override
