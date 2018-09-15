@@ -172,7 +172,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_backup:
                 Toast.makeText(this, R.string.not_implemented, Toast.LENGTH_SHORT).show();
-                return false;
+                break;
             case R.id.nav_logout:
                 new AlertDialog.Builder(this)
                         .setTitle(R.string.dialog_logout_title)
@@ -191,7 +191,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             }
                         })
                         .show();
-                return false;
+                break;
         }
 
         // Change title only on checkable items
