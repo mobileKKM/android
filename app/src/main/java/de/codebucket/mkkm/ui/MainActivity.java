@@ -6,7 +6,6 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,7 +14,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,22 +23,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.squareup.picasso.OkHttp3Downloader;
-import com.squareup.picasso.Picasso;
-
-import java.io.IOException;
-import java.util.Base64;
-
 import de.codebucket.mkkm.BuildConfig;
 import de.codebucket.mkkm.R;
 import de.codebucket.mkkm.KKMWebviewClient;
 import de.codebucket.mkkm.login.AuthenticatorService;
 import de.codebucket.mkkm.login.SessionProfile;
-
-import okhttp3.Interceptor;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 

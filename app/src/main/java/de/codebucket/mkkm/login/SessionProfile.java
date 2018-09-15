@@ -1,7 +1,6 @@
 package de.codebucket.mkkm.login;
 
 import android.util.Base64;
-import android.util.Log;
 import android.widget.ImageView;
 
 import com.squareup.picasso.OkHttp3Downloader;
