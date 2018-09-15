@@ -18,7 +18,7 @@ import de.codebucket.mkkm.ui.MainActivity;
 public class KKMWebviewClient extends WebViewClient {
 
     private static final String TAG = "WebviewClient";
-    private static final String WEBAPP_URL = "https://m.kkm.krakow.pl/#!/";
+    private static final String WEBAPP_URL = "https://m.kkm.krakow.pl";
 
     private Context mContext;
     private SwipeRefreshLayout mSwipeLayout;
@@ -70,6 +70,6 @@ public class KKMWebviewClient extends WebViewClient {
     }
 
     public static String getPageUrl(String page) {
-        return WEBAPP_URL + page;
+        return String.format("%s/#!/%s", WEBAPP_URL, page);
     }
 }

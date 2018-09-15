@@ -1,19 +1,8 @@
-function waitForElement(name, callback) {
-    if (document.getElementsByClassName(name)[0]) {
-        callback();
-    } else {
-        setTimeout(function() {
-            waitForElement(selector, callback);
-        }, 100);
-    }
-};
+console.log("init webview injection");
+if (!document.querySelector('meta[name="theme-color"]')) {
+    console.log("page is not a webapp!");
+    return;
+}
 
-// Remove navbar after page has finished loading
-waitForElement('md-toolbar-tools', function() {
-    var allElements = document.getElementsByTagName('*');
-    for (var i = 0, n = allElements.length; i < n; i++) {
-        if (allElements[i].getAttribute('ng-controller') === 'NavbarCtrl') {
-            allElements[i].parentNode.removeChild(allElements[i]); break;
-        }
-    }
-});
+var navbar = document.querySelector('div[ng-controller="NavbarCtrl"]');
+navbar.remove(navbar);
