@@ -3,10 +3,11 @@ package de.codebucket.mkkm;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
