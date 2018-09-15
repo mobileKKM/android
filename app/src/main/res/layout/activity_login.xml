@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/scroll_view"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -20,7 +21,8 @@
             android:layout_width="wrap_content"
             android:layout_height="128dp"
             android:layout_marginBottom="24dp"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            tools:ignore="contentDescription" />
 
         <!-- Email input -->
         <com.google.android.material.textfield.TextInputLayout
