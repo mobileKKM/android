@@ -43,6 +43,22 @@
     <string name="pref_version_title">Aplikacja mKKM</string>
     <string name="pref_version_description">wersja %s-%s</string>
 
+    <!-- Attribouter screen -->
+    <string name="about_twitter">Twitter</string>
+    <string name="title_attribouter_licenses">Licencje open-source</string>
+    <string name="title_attribouter_email">Adres e-mail</string>
+    <string name="title_attribouter_website">Strona internetowa</string>
+    <string name="title_attribouter_rate">Oceń</string>
+    <string name="title_attribouter_version">Wersja %1$s</string>
+    <string name="title_attribouter_license">Licencja</string>
+    <string name="title_attribouter_license_permissions">Uprawnienia</string>
+    <string name="title_attribouter_license_conditions">Warunki</string>
+    <string name="title_attribouter_license_limitations">Ograniczenia</string>
+    <string name="title_attribouter_more_info">Więcej informacji</string>
+    <string name="about_our_team">Nasz zespół</string>
+    <string name="about_role_lead">Główny programista</string>
+    <string name="about_bio_divadsn">Osiemnastolatek, zamienia kofeinę i pizzę w kod. Znany poprzednio jako Codebucket.</string>
+
     <!-- Strings related to dialogs -->
     <string name="dialog_logout_title">Wylogowanie</string>
     <string name="dialog_logout_warning">Czy chcesz się wylogować? Nie utracisz biletów powiązanych z tym urządzeniem.</string>

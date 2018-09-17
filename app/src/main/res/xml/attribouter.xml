@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<about>
+    <appInfo
+        icon="@mipmap/ic_launcher"
+        playStoreUrl="https://play.google.com/store/apps/details?id=de.codebucket.mkkm"
+        repo="divadsn/mKKM-Webview"
+        websiteUrl="https://www.codebucket.de">
+    </appInfo>
+    <contributors
+        repo=""
+        showDefaults="false"
+        title="@string/about_our_team">
+        <contributor
+            name="David Sn"
+            avatar="https://avatars.githubusercontent.com/u/28547847"
+            bio="@string/about_bio_divadsn"
+            blog="https://www.codebucket.de"
+            login="divadsn"
+            position="1"
+            task="@string/about_role_lead">
+            <link
+                name="@string/about_twitter"
+                icon="@drawable/ic_twitter"
+                url="https://twitter.com/divadsn" />
+        </contributor>
+    </contributors>
+    <licenses>
+        <project
+            repo="fangyidong/json-simple"
+            title="JSON.simple" />
+    </licenses>
+</about>
