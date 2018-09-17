@@ -9,3 +9,8 @@
 
 # OkHttp platform used only on JVM and when Conscrypt dependency is available.
 -dontwarn okhttp3.internal.platform.ConscryptPlatform
+
+# Attribouter containts required layouts for about page.
+-keep,allowshrinking,allowoptimization class me.jfenn.attribouter.** {
+    *;
+}
