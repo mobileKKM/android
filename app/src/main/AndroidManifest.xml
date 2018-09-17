@@ -37,7 +37,13 @@
             android:name=".ui.MainActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
+            android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".ui.SettingsActivity"
+            android:parentActivityName=".ui.MainActivity"
+            android:screenOrientation="portrait" />
 
         <service android:name=".login.AuthenticatorService">
             <intent-filter>
@@ -48,7 +54,6 @@
                 android:name="android.accounts.AccountAuthenticator"
                 android:resource="@xml/authenticator" />
         </service>
-
     </application>
 
 </manifest>

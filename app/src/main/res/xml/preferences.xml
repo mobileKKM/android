@@ -1,0 +1,34 @@
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.takisoft.preferencex.PreferenceCategory
+        android:title="@string/pref_group_general"
+        app:iconSpaceReserved="false">
+
+        <androidx.preference.CheckBoxPreference
+            app:iconSpaceReserved="false"
+            android:defaultValue="false"
+            android:key="disclaimer_shown"
+            android:summary="@string/pref_disclaimer_description"
+            android:title="@string/pref_disclaimer_title" />
+
+    </com.takisoft.preferencex.PreferenceCategory>
+
+    <com.takisoft.preferencex.PreferenceCategory
+        android:title="@string/pref_group_about"
+        app:iconSpaceReserved="false">
+
+        <androidx.preference.Preference
+            android:key="about"
+            android:summary="@string/pref_about_description"
+            android:title="@string/pref_about_title"
+            app:iconSpaceReserved="false" />
+        <androidx.preference.Preference
+            android:key="version"
+            android:summary="@string/pref_version_description"
+            android:title="@string/pref_version_title"
+            app:iconSpaceReserved="false" />
+
+    </com.takisoft.preferencex.PreferenceCategory>
+
+</androidx.preference.PreferenceScreen>

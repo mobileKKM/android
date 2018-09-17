@@ -67,10 +67,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ImageView drawerBackground = (ImageView) headerView.findViewById(R.id.drawer_header_background);
         mProfile.loadPhoto(drawerBackground);
 
-        TextView drawerUsername = (TextView) headerView.findViewById(R.id.drawer_username);
+        TextView drawerUsername = (TextView) headerView.findViewById(R.id.drawer_header_username);
         drawerUsername.setText(String.format("%s %s", mProfile.getFirstName(), mProfile.getLastName()));
 
-        TextView drawerEmail = (TextView) headerView.findViewById(R.id.drawer_email);
+        TextView drawerEmail = (TextView) headerView.findViewById(R.id.drawer_header_email);
         drawerEmail.setText(mProfile.getEmailAddress());
 
         // Load webview layout and disable "refreshing"
@@ -198,6 +198,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             }
                         })
                         .show();
+                break;
+            case R.id.nav_settings:
+                startActivity(new Intent(MainActivity.this, SettingsActivity.class));
                 break;
         }
 

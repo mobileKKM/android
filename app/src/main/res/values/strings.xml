@@ -30,6 +30,18 @@
     <string name="nav_prices">Cennik</string>
     <string name="nav_backup">Kopie zapasowe</string>
     <string name="nav_logout">Wyloguj się</string>
+    <string name="nav_settings">Ustawienia</string>
+
+    <!-- Strings related to settings -->
+    <string name="title_activity_settings">Ustawienia</string>
+    <string name="pref_group_general">Ogólne</string>
+    <string name="pref_group_about">O aplikacji</string>
+    <string name="pref_disclaimer_title">Nie pokazuj komunikatu ponownie</string>
+    <string name="pref_disclaimer_description">Wyłącz, aby wyświetlić ponownie komunikat pojawiający się po pierwszym starcie aplikacji</string>
+    <string name="pref_about_title">Licencje open-source</string>
+    <string name="pref_about_description">Poznaj współtwórców oraz użyte biblioteki</string>
+    <string name="pref_version_title">Aplikacja mKKM</string>
+    <string name="pref_version_description">wersja %s-%s</string>
 
     <!-- Strings related to dialogs -->
     <string name="dialog_logout_title">Wylogowanie</string>
