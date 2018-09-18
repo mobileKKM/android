@@ -36,8 +36,8 @@ public class SettingsActivity extends AppCompatActivity {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     Attribouter.from(getActivity())
+                            .withFile(R.xml.about)
                             .withGitHubToken(BuildConfig.GITHUB_TOKEN)
-                            .withFile(R.xml.attribouter)
                             .show();
                     return true;
                 }

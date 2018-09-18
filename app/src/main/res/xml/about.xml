@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <about>
-
     <me.jfenn.attribouter.wedges.AppWedge
         icon="@mipmap/ic_launcher"
         description="^@string/app_desc"
         playStoreUrl="https://play.google.com/store/apps/details?id=de.codebucket.mkkm"
         repo="divadsn/mKKM-Webview"
         websiteUrl="https://mkkm.codebucket.de">
+        <me.jfenn.attribouter.wedges.link.LinkWedge
+            id="github"
+            url="https://github.com/divadsn/mKKM-Webview" />
     </me.jfenn.attribouter.wedges.AppWedge>
 ^
     <me.jfenn.attribouter.wedges.ContributorsWedge
@@ -15,7 +17,7 @@
         <!-- Lead developer: divadsn -->
         <me.jfenn.attribouter.wedges.ContributorWedge
             name="David Sn"
-            avatar="https://avatars.githubusercontent.com/u/13785669"
+            avatar="https://avatars.githubusercontent.com/u/28547847"
             bio="^@string/about_bio_divadsn"
             blog="https://www.codebucket.de"
             login="divadsn"
@@ -82,5 +84,4 @@
             license="unlicense" />
 
     </me.jfenn.attribouter.wedges.LicensesWedge>
-
 </about>
