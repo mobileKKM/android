@@ -184,7 +184,7 @@ public class LoginActivity extends AppCompatActivity {
         try {
             // Open link in Chrome Custom Tab
             CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-            builder.setToolbarColor(getResources().getColor(R.color.primary));
+            builder.setToolbarColor(getResources().getColor(R.color.colorPrimary));
             builder.setSecondaryToolbarColor(Color.BLACK);
             builder.setShowTitle(true);
 
