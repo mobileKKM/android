@@ -3,8 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:id="@+id/drawer_menu_main"
-        android:checkableBehavior="single">
+    <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_tickets"
             android:icon="@drawable/ic_menu_ticket"
@@ -23,8 +22,7 @@
             android:title="@string/nav_prices" />
     </group>
 
-    <group android:id="@+id/drawer_menu_others"
-        android:checkableBehavior="none">
+    <group android:checkableBehavior="none">
         <item
             android:id="@+id/nav_backup"
             android:icon="@drawable/ic_menu_backup"
@@ -35,8 +33,7 @@
             android:title="@string/nav_logout" />
     </group>
 
-    <group android:id="@+id/drawer_menu_bottom"
-        android:checkableBehavior="none">
+    <group android:checkableBehavior="none">
         <item
             android:id="@+id/nav_settings"
             android:icon="@drawable/ic_menu_settings"
