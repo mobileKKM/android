@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">mKKM</string>
+    <string name="app_repo_name">(@string/app_name)-Webview</string>
 
     <!-- Strings related to login -->
     <string name="title_activity_login">Zaloguj się do mKKM</string>
@@ -45,22 +46,27 @@
 
     <!-- Attribouter screen -->
     <string name="about_twitter">Twitter</string>
+    <string name="app_description">Nieoficjalna aplikacja do obsługi mobilnej wersji KKM na urządzeniach mobilnych.</string>
+    <string name="title_attribouter_about">O aplikacji</string>
     <string name="title_attribouter_licenses">Licencje open-source</string>
     <string name="title_attribouter_email">Adres e-mail</string>
     <string name="title_attribouter_website">Strona internetowa</string>
+    <string name="title_attribouter_github">GitHub</string>
     <string name="title_attribouter_rate">Oceń</string>
     <string name="title_attribouter_version">Wersja %1$s</string>
+    <string name="title_attribouter_contributors">Współtwórcy</string>
     <string name="title_attribouter_license">Licencja</string>
     <string name="title_attribouter_license_permissions">Uprawnienia</string>
     <string name="title_attribouter_license_conditions">Warunki</string>
     <string name="title_attribouter_license_limitations">Ograniczenia</string>
     <string name="title_attribouter_more_info">Więcej informacji</string>
-    <string name="about_our_team">Nasz zespół</string>
     <string name="about_role_lead">Główny programista</string>
     <string name="about_role_proofreader">Korektor tłumaczeń</string>
     <string name="about_role_designer">Projektant</string>
+    <string name="about_role_contributor">Współtwórca</string>
     <string name="about_bio_divadsn">Osiemnastolatek, zamienia kofeinę i pizzę w kod. Znany poprzednio jako Codebucket.</string>
     <string name="about_bio_imintie">Druga połówka Davida Sn.</string>
+    <string name="about_bio_deletescape">Entuzjasta Androida oraz twórca aplikacji na niego, uwielbia memy (nawet za bardzo). Założyciel projektu Lawnchair.</string>
 
     <!-- Strings related to dialogs -->
     <string name="dialog_logout_title">Wylogowanie</string>
