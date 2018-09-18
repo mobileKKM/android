@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">mKKM</string>
-    <string name="app_repo_name">(@string/app_name)-Webview</string>
+    <string name="app_name">mobileKKM</string>
+    <string name="app_desc">Nieoficjalna aplikacja do obsługi mobilnej wersji KKM na urządzeniach mobilnych.</string>
 
     <!-- Strings related to login -->
     <string name="title_activity_login">Zaloguj się do mKKM</string>
@@ -41,12 +41,11 @@
     <string name="pref_disclaimer_description">Wyłącz, aby wyświetlić ponownie komunikat pojawiający się po pierwszym starcie aplikacji</string>
     <string name="pref_about_title">Licencje open-source</string>
     <string name="pref_about_description">Poznaj współtwórców oraz użyte biblioteki</string>
-    <string name="pref_version_title">Aplikacja mKKM</string>
+    <string name="pref_version_title">Aplikacja mobileKKM</string>
     <string name="pref_version_description">wersja %s-%s</string>
 
     <!-- Attribouter screen -->
     <string name="about_twitter">Twitter</string>
-    <string name="app_description">Nieoficjalna aplikacja do obsługi mobilnej wersji KKM na urządzeniach mobilnych.</string>
     <string name="title_attribouter_about">O aplikacji</string>
     <string name="title_attribouter_licenses">Licencje open-source</string>
     <string name="title_attribouter_email">Adres e-mail</string>
@@ -78,7 +77,7 @@
 
     <!-- Disclaimer popup -->
     <string name="disclaimer_title">Przeczytaj uważnie!</string>
-    <string name="disclaimer_body">mKKM jest <b>niezależnie od KKM i MPK Kraków opracowaną</b> aplikacją \"open-source\" z kodem zródłowym dostępnym na serwisie GitHub. Jej celem jest ułatwienie obsługi mobilnej wersji Krakowskiej Karty Miejskiej na urządzeniach mobilnych z systemem Android 5.0 lub wyżej.\n\nAplikacja <b>nie udostępnia</b> żadnych danych osobowych osobom trzecim, wszystkie dane są <b>bezpiecznie przesyłane</b> bezpośrednio do strony mobilnej KKM.\n\nKontakt do twórcy:\n<b>David Sn (@divadsn)\n<a href="mailto:projects@codebucket.de">projects@codebucket.de</a></b></string>
+    <string name="disclaimer_body">mobileKKM jest <b>niezależnie od KKM i MPK Kraków opracowaną</b> aplikacją \"open-source\" z kodem zródłowym dostępnym na serwisie GitHub. Jej celem jest ułatwienie obsługi mobilnej wersji Krakowskiej Karty Miejskiej na urządzeniach mobilnych z systemem Android 5.0 lub wyżej.\n\nAplikacja <b>nie udostępnia</b> żadnych danych osobowych osobom trzecim, wszystkie dane są <b>bezpiecznie przesyłane</b> bezpośrednio do strony mobilnej KKM.\n\nKontakt do twórcy:\n<b>David Sn (@divadsn)\n<a href="mailto:projects@codebucket.de">projects@codebucket.de</a></b></string>
 
     <!-- Other strings -->
     <string name="progress_login">Logowanie…</string>

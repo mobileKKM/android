@@ -3,7 +3,7 @@
 
     <me.jfenn.attribouter.wedges.AppWedge
         icon="@mipmap/ic_launcher"
-        description="^@string/app_description"
+        description="^@string/app_desc"
         playStoreUrl="https://play.google.com/store/apps/details?id=de.codebucket.mkkm"
         repo="divadsn/mKKM-Webview"
         websiteUrl="https://mkkm.codebucket.de">

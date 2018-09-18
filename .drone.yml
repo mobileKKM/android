@@ -26,7 +26,7 @@ pipeline:
     secrets: [ bot_token, channel_id, dev_channel_id ]
     apk_path: app/build/outputs/apk/debug/app-debug.apk
     mapping_path: app/build/outputs/mapping/debug/mapping.txt
-    filename: "mKKM"
+    filename: "mKKM-Webview"
     channel_id: "-1001351740621"
     environment:
       - MAJOR_MINOR=${DRONE_BRANCH}
