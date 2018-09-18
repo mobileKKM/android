@@ -10,6 +10,15 @@ if (localPropsFile.exists()) {
     localProps.load(localPropsFile.newDataInputStream())
 }
 
+def getGitVersion = { ->
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'describe', '--always'
+        standardOutput = stdout
+    }
+    return stdout.toString().trim()
+}
+
 android {
     compileSdkVersion 28
     buildToolsVersion '28.0.2'
@@ -21,6 +30,7 @@ android {
 
         ext.githubToken = localProps.getProperty('githubToken') ?: '"' + System.getenv("GITHUB_TOKEN") + '"'
         buildConfigField "String", "GITHUB_TOKEN", ext.githubToken
+        buildConfigField "String", "GIT_VERSION", "\"${getGitVersion()}\""
 
         if (System.getenv("TRAVIS") == "true") {
             versionCode = Integer.valueOf(System.getenv("TRAVIS_BUILD_NUMBER"))

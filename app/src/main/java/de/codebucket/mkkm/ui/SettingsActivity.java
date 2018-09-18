@@ -44,7 +44,7 @@ public class SettingsActivity extends AppCompatActivity {
             });
 
             Preference version = findPreference("version");
-            version.setSummary(getString(R.string.pref_version_description, BuildConfig.VERSION_NAME, BuildConfig.BUILD_TYPE));
+            version.setSummary(getString(R.string.pref_version_description, BuildConfig.VERSION_NAME, BuildConfig.BUILD_TYPE, BuildConfig.GIT_VERSION));
         }
 
         @Override
