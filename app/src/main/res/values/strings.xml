@@ -57,7 +57,10 @@
     <string name="title_attribouter_more_info">Więcej informacji</string>
     <string name="about_our_team">Nasz zespół</string>
     <string name="about_role_lead">Główny programista</string>
+    <string name="about_role_proofreader">Korektor tłumaczeń</string>
+    <string name="about_role_designer">Projektant</string>
     <string name="about_bio_divadsn">Osiemnastolatek, zamienia kofeinę i pizzę w kod. Znany poprzednio jako Codebucket.</string>
+    <string name="about_bio_imintie">Druga połówka Davida Sn.</string>
 
     <!-- Strings related to dialogs -->
     <string name="dialog_logout_title">Wylogowanie</string>
