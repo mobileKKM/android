@@ -51,27 +51,26 @@ android {
 
     buildTypes {
         debug {
-            minifyEnabled false
-            applicationIdSuffix ".dev"
-        }
-
-        optimized {
-            initWith debug
-            applicationIdSuffix ".ci"
-            versionNameSuffix "-ci-" + System.getenv("DRONE_BRANCH")
-
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-
             if (System.getenv("TRAVIS") == "true") {
+                applicationIdSuffix ".ci"
+                versionNameSuffix "-ci-" + System.getenv("DRONE_BRANCH")
+
+                minifyEnabled true
+                shrinkResources true
+                proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
                 if (System.getenv("TRAVIS_EVENT_TYPE") != "pull_request") {
                     signingConfig signingConfigs.travis
                 }
+            } else {
+                minifyEnabled false
+                applicationIdSuffix ".dev"
             }
         }
 
         release {
             minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
             if (keystorePropertiesFile.exists()) {
