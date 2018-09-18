@@ -20,7 +20,7 @@ android {
         applicationId "de.codebucket.mkkm"
 
         ext.githubToken = localProps.getProperty('githubToken') ?: System.getenv("GITHUB_TOKEN")
-        buildConfigField "String", "GITHUB_TOKEN", ext.githubToken
+        buildConfigField "String", "GITHUB_TOKEN", "\"" + ext.githubToken + "\""
 
         if (System.getenv("TRAVIS") == "true") {
             versionCode = Integer.valueOf(System.getenv("TRAVIS_BUILD_NUMBER"))

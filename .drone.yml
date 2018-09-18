@@ -11,7 +11,7 @@ pipeline:
   # Step 2: The actual point of all of this
   build:
     image: runmymind/docker-android-sdk:ubuntu-standalone
-    secrets: [ store_password, key_password ]
+    secrets: [ store_password, key_password, github_token ]
     environment:
       - MAJOR_MINOR=0.1
       - TRAVIS=true
@@ -24,8 +24,8 @@ pipeline:
   deploy:
     image: lawnchairlauncher/drone-telegram:latest
     secrets: [ bot_token, channel_id, dev_channel_id ]
-    apk_path: app/build/outputs/apk/optimized/app-optimized.apk
-    mapping_path: app/build/outputs/mapping/optimized/mapping.txt
+    apk_path: app/build/outputs/apk/debug/app-debug.apk
+    mapping_path: app/build/outputs/mapping/debug/mapping.txt
     filename: "mKKM"
     channel_id: "-1001351740621"
     environment:
