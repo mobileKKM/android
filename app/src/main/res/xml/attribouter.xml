@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<about>
+    <me.jfenn.attribouter.wedges.AppWedge
+        icon="@mipmap/ic_launcher"
+        playStoreUrl="https://play.google.com/store/apps/details?id=de.codebucket.mkkm"
+        repo="divadsn/mKKM-Webview"
+        websiteUrl="https://mkkm.codebucket.de">
+    </me.jfenn.attribouter.wedges.AppWedge>
+
+    <me.jfenn.attribouter.wedges.ContributorsWedge
+        showDefaults="false"
+        title="@string/about_our_team">
+
+        <!-- Lead developer: divadsn -->
+        <me.jfenn.attribouter.wedges.ContributorWedge
+            name="David Sn"
+            avatar="https://avatars.githubusercontent.com/u/13785669"
+            bio="@string/about_bio_divadsn"
+            blog="https://www.codebucket.de"
+            login="divadsn"
+            position="1"
+            task="@string/about_role_lead">
+            <me.jfenn.attribouter.wedges.link.LinkWedge
+                name="@string/about_twitter"
+                icon="@drawable/ic_twitter"
+                url="https://twitter.com/divadsn" />
+        </me.jfenn.attribouter.wedges.ContributorWedge>
+
+        <!-- Proofreader: imintie -->
+        <me.jfenn.attribouter.wedges.ContributorWedge
+            name="Aga Jaszowska"
+            avatar="https://avatars1.githubusercontent.com/u/43252015"
+            bio="@string/about_bio_imintie"
+            blog="https://imintie.github.io"
+            login="imintie"
+            position="2"
+            task="@string/about_role_proofreader">
+        </me.jfenn.attribouter.wedges.ContributorWedge>
+
+        <!-- Designer: lumiqcreative -->
+        <me.jfenn.attribouter.wedges.ContributorWedge
+            name="Lumiq Creative"
+            avatar="https://avatars.githubusercontent.com/u/30959743"
+            login="lumiqcreative"
+            position="3"
+            task="@string/about_role_designer">
+        </me.jfenn.attribouter.wedges.ContributorWedge>
+    </me.jfenn.attribouter.wedges.ContributorsWedge>
+
+    <me.jfenn.attribouter.wedges.LicensesWedge
+        showDefaults="false">
+        <me.jfenn.attribouter.wedges.LicenseWedge repo="material-components/material-components-android" />
+        <me.jfenn.attribouter.wedges.LicenseWedge repo="square/okhttp" />
+        <me.jfenn.attribouter.wedges.LicenseWedge repo="square/picasso" />
+        <me.jfenn.attribouter.wedges.LicenseWedge repo="Gericop/Android-Support-Preference-V7-Fix" />
+    </me.jfenn.attribouter.wedges.LicensesWedge>
+</about>

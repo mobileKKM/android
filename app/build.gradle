@@ -4,6 +4,12 @@ apply plugin: 'com.android.application'
 // keystore.properties file, in the rootProject folder.
 final def keystorePropertiesFile = rootProject.file("keystore.properties")
 
+Properties localProps = new Properties()
+File localPropsFile = project.rootProject.file('local.properties')
+if (localPropsFile.exists()) {
+    localProps.load(localPropsFile.newDataInputStream())
+}
+
 android {
     compileSdkVersion 28
     buildToolsVersion '28.0.2'
@@ -12,6 +18,9 @@ android {
         minSdkVersion 21
         targetSdkVersion 28
         applicationId "de.codebucket.mkkm"
+
+        ext.githubToken = localProps.getProperty('githubToken') ?: System.getenv("GITHUB_TOKEN")
+        buildConfigField "String", "GITHUB_TOKEN", "\"" + ext.githubToken + "\""
 
         if (System.getenv("TRAVIS") == "true") {
             versionCode = Integer.valueOf(System.getenv("TRAVIS_BUILD_NUMBER"))
@@ -51,27 +60,26 @@ android {
 
     buildTypes {
         debug {
-            minifyEnabled false
-            applicationIdSuffix ".dev"
-        }
-
-        optimized {
-            initWith debug
-            applicationIdSuffix ".ci"
-            versionNameSuffix "-ci-" + System.getenv("DRONE_BRANCH")
-
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-
             if (System.getenv("TRAVIS") == "true") {
+                applicationIdSuffix ".ci"
+                versionNameSuffix "-ci-" + System.getenv("DRONE_BRANCH")
+
+                minifyEnabled true
+                shrinkResources true
+                proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
                 if (System.getenv("TRAVIS_EVENT_TYPE") != "pull_request") {
                     signingConfig signingConfigs.travis
                 }
+            } else {
+                minifyEnabled false
+                applicationIdSuffix ".dev"
             }
         }
 
         release {
             minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
             if (keystorePropertiesFile.exists()) {
@@ -97,4 +105,7 @@ dependencies {
     implementation "com.squareup.okhttp3:okhttp:3.11.0"
     implementation "com.squareup.picasso:picasso:2.71828"
     implementation "com.takisoft.preferencex:preferencex:1.0.0-alpha2"
+
+    // to be replaced with bintray version soon
+    implementation project(":attribouter:attribouter")
 }

@@ -1,0 +1,4 @@
+[submodule "attribouter"]
+	path = attribouter
+	url = https://github.com/divadsn/Attribouter.git
+	branch = androidx
