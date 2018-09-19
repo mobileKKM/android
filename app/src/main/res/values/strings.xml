@@ -14,6 +14,7 @@
     <string name="error_no_network">Brak połączenia z Internetem</string>
     <string name="error_fingerprint">Wystąpił problem z rozpoznaniem urządzenia</string>
     <string name="error_unknown">Nierozpoznany problem</string>
+    <string name="action_help">Pomoc</string>
 
     <!-- Strings related to main -->
     <string name="title_activity_main">Strona główna</string>
