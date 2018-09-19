@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -24,6 +25,10 @@ public class SettingsActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        setTitle(R.string.title_activity_settings);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportFragmentManager().addOnBackStackChangedListener(this);
 

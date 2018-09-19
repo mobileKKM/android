@@ -42,7 +42,8 @@
 
         <activity
             android:name=".ui.SettingsActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Settings" />
 
         <service android:name=".login.AuthenticatorService">
             <intent-filter>
