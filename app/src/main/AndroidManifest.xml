@@ -42,7 +42,6 @@
 
         <activity
             android:name=".ui.SettingsActivity"
-            android:parentActivityName=".ui.MainActivity"
             android:screenOrientation="portrait" />
 
         <service android:name=".login.AuthenticatorService">
