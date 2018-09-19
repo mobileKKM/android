@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.browser.customtabs.CustomTabsIntent;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -54,12 +55,15 @@ public class LoginActivity extends AppCompatActivity {
     private ProgressDialog mProgressDialog;
     private EditText mEmailView, mPasswordView;
     private Button mLoginButton;
-    private View mScrollView;
+    private View mLoginForm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         setTitle(R.string.title_activity_login);
 
@@ -97,7 +101,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        mScrollView = (ScrollView) findViewById(R.id.scroll_view);
+        mLoginForm = (ScrollView) findViewById(R.id.login_form);
 
         // Check if user is already signed in
         mAccountManager = AccountManager.get(this);
@@ -207,7 +211,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void showError(String errorMessage) {
-        Snackbar.make(mScrollView, errorMessage, Snackbar.LENGTH_LONG).show();
+        Snackbar.make(mLoginForm, errorMessage, Snackbar.LENGTH_LONG).show();
     }
 
     /**

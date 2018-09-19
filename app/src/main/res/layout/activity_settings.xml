@@ -3,12 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="?attr/windowBackground"
+    android:fitsSystemWindows="true" >
 
-    <include layout="@layout/toolbar_main" />
+    <include layout="@layout/toolbar" />
 
-    <FrameLayout
-        android:id="@+id/container"
+    <ViewStub
+        android:id="@+id/container_stub"
+        android:inflatedId="@+id/container_content"
+        android:layout="@layout/component_frame"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />

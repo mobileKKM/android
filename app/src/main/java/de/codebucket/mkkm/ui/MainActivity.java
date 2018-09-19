@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -75,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // Load webview layout and disable "refreshing"
         SwipeRefreshLayout swipe = (SwipeRefreshLayout) findViewById(R.id.swipe);
+        swipe.setColorSchemeColors(getResources().getColor(R.color.colorAccentFallback));
         swipe.setRefreshing(false);
         swipe.setEnabled(false);
 

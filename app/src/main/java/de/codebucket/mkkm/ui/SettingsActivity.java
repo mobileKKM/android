@@ -2,6 +2,7 @@ package de.codebucket.mkkm.ui;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.ViewStub;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -32,10 +33,13 @@ public class SettingsActivity extends AppCompatActivity implements
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportFragmentManager().addOnBackStackChangedListener(this);
 
+        ViewStub stub = findViewById(R.id.container_stub);
+        stub.inflate();
+
         if (savedInstanceState == null) {
             // Display the fragment as the main content.
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container, new SettingsFragment())
+                    .replace(R.id.container_content, new SettingsFragment())
                     .commit();
         }
     }
@@ -72,7 +76,7 @@ public class SettingsActivity extends AppCompatActivity implements
         if (fragment != null) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.setCustomAnimations(R.animator.fly_in, R.animator.fade_out, R.animator.fade_in, R.animator.fly_out);
-            transaction.replace(R.id.container, fragment);
+            transaction.replace(R.id.container_content, fragment);
             transaction.addToBackStack("PreferenceFragment");
             transaction.commit();
             return true;
