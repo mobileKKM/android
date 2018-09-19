@@ -10,7 +10,7 @@
             id="github"
             url="https://github.com/divadsn/mKKM-Webview" />
     </me.jfenn.attribouter.wedges.AppWedge>
-^
+
     <me.jfenn.attribouter.wedges.ContributorsWedge
         showDefaults="false">
 
