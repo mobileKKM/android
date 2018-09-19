@@ -30,8 +30,6 @@ public class SettingsActivity extends AppCompatActivity implements
         setSupportActionBar(toolbar);
 
         setTitle(R.string.title_activity_settings);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportFragmentManager().addOnBackStackChangedListener(this);
 
         ViewStub stub = findViewById(R.id.container_stub);
         stub.inflate();
@@ -42,6 +40,10 @@ public class SettingsActivity extends AppCompatActivity implements
                     .replace(R.id.container_content, new SettingsFragment())
                     .commit();
         }
+
+        // Enable back arrow button to return
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportFragmentManager().addOnBackStackChangedListener(this);
     }
 
     @Override
