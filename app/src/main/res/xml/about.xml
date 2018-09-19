@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <about>
     <me.jfenn.attribouter.wedges.AppWedge
+        repo="divadsn/mKKM-Webview"
         icon="@mipmap/ic_launcher"
         description="^@string/app_desc"
-        playStoreUrl="https://play.google.com/store/apps/details?id=de.codebucket.mkkm"
-        repo="divadsn/mKKM-Webview"
         websiteUrl="https://mkkm.codebucket.de">
         <me.jfenn.attribouter.wedges.link.LinkWedge
             id="github"
@@ -16,7 +15,7 @@
 
         <!-- Lead developer: divadsn -->
         <me.jfenn.attribouter.wedges.ContributorWedge
-            name="David Sn"
+            name="^David Sn"
             avatar="https://avatars.githubusercontent.com/u/28547847"
             bio="^@string/about_bio_divadsn"
             blog="https://www.codebucket.de"
@@ -30,7 +29,7 @@
 
         <!-- Proofreader: imintie -->
         <me.jfenn.attribouter.wedges.ContributorWedge
-            name="Aga Jaszowska"
+            name="^Aga Jaszowska"
             avatar="https://avatars1.githubusercontent.com/u/43252015"
             bio="^@string/about_bio_imintie"
             blog="https://imintie.github.io"
@@ -44,7 +43,7 @@
 
         <!-- Designer: lumiqcreative -->
         <me.jfenn.attribouter.wedges.ContributorWedge
-            name="Lumiq Creative"
+            name="^Lumiq Creative"
             avatar="https://avatars.githubusercontent.com/u/30959743"
             blog="https://lumiqcreative.com"
             login="lumiqcreative"
@@ -57,7 +56,7 @@
 
         <!-- Contributor: deletescape -->
         <me.jfenn.attribouter.wedges.ContributorWedge
-            name="Till Kottmann"
+            name="^Till Kottmann"
             avatar="https://avatars.githubusercontent.com/u/13785669"
             bio="^@string/about_bio_deletescape"
             blog="https://deletescape.ch"
@@ -73,15 +72,33 @@
 
     <me.jfenn.attribouter.wedges.LicensesWedge>
 
-        <me.jfenn.attribouter.wedges.LicenseWedge repo="android/android-ktx" />
-        <me.jfenn.attribouter.wedges.LicenseWedge repo="square/okhttp" />
-        <me.jfenn.attribouter.wedges.LicenseWedge repo="square/picasso" />
-        <me.jfenn.attribouter.wedges.LicenseWedge repo="material-components/material-components-android" />
+        <!-- ATTENTION: This repository is no longer being used for development, tracking issues, or accepting pull requests. -->
+        <me.jfenn.attribouter.wedges.LicenseWedge
+            title="^AndroidX"
+            repo="android/android-ktx"
+            license="apache-2.0" />
+
+        <!-- OkHttp + Picasso -->
+        <me.jfenn.attribouter.wedges.LicenseWedge
+            title="^OkHttp"
+            repo="square/okhttp"
+            license="apache-2.0" />
+        <me.jfenn.attribouter.wedges.LicenseWedge
+            title="^Picasso"
+            repo="square/picasso"
+            license="apache-2.0" />
+
+        <!-- Part of AndroidX refactor -->
+        <me.jfenn.attribouter.wedges.LicenseWedge
+            title="^Material Components for Android"
+            repo="material-components/material-components-android"
+            license="apache-2.0" />
 
         <!-- Some files are released under the Apache License 2.0, see README.md for details! -->
         <me.jfenn.attribouter.wedges.LicenseWedge
+            title="^Android Support Preference v7 Fix"
             repo="Gericop/Android-Support-Preference-V7-Fix"
-            license="unlicense" />
+            license="apache-2.0" />
 
     </me.jfenn.attribouter.wedges.LicensesWedge>
 </about>
