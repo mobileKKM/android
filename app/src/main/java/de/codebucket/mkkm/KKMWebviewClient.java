@@ -1,52 +1,44 @@
 package de.codebucket.mkkm;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.util.Log;
-import android.view.MenuItem;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.google.android.material.navigation.NavigationView;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
-
-import de.codebucket.mkkm.ui.MainActivity;
 
 public class KKMWebviewClient extends WebViewClient {
 
     private static final String TAG = "WebviewClient";
     private static final String WEBAPP_URL = "https://m.kkm.krakow.pl";
 
+    public static final String PAGE_OVERVIEW = "home";
+    public static final String PAGE_CONTROL = "control";
+    public static final String PAGE_PURCHASE = "ticket";
+    public static final String PAGE_ACCOUNT = "account";
+
     private Context mContext;
     private SwipeRefreshLayout mSwipeLayout;
-    private NavigationView mNavigationView;
+    private OnPageChangedListener mPageListener;
 
     private boolean hasInjected = false;
-    private Map<String, Integer> navIds = new HashMap<String, Integer>(){{
-        // R.id.nav_tickets
-        put("home", R.id.nav_tickets);
-        put("control", R.id.nav_tickets);
 
-        // R.id.nav_purchase
-        put("ticket", R.id.nav_purchase);
-
-        // R.id.nav_account
-        put("account", R.id.nav_account);
-    }};
-
-    public KKMWebviewClient(MainActivity context) {
+    public KKMWebviewClient(Activity context, OnPageChangedListener listener) {
         mContext = context;
         mSwipeLayout = (SwipeRefreshLayout) context.findViewById(R.id.swipe);
-        mNavigationView = (NavigationView) context.findViewById(R.id.nav_view);
+        mPageListener = listener;
+
+        // Disable swipe down gesture
+        mSwipeLayout.setRefreshing(false);
+        mSwipeLayout.setEnabled(false);
     }
 
     @Override
@@ -95,15 +87,8 @@ public class KKMWebviewClient extends WebViewClient {
             view.evaluateJavascript(inject, null);
         }
 
-        // Set navigation item if page has changed
-        String key = url.substring(WEBAPP_URL.length() + 4).split("/")[0];
-        if (navIds.containsKey(key)) {
-            MenuItem item = mNavigationView.getMenu().findItem(navIds.get(key));
-            if (item != null && !item.isChecked()) {
-                ((MainActivity) mContext).setTitle(item.getTitle());
-                mNavigationView.setCheckedItem(item);
-            }
-        }
+        String page = url.substring(WEBAPP_URL.length() + 4).split("/")[0];
+        mPageListener.onPageChanged(view, page);
     }
 
     public static String getPageUrl(String page) {
@@ -116,5 +101,9 @@ public class KKMWebviewClient extends WebViewClient {
             Log.d(TAG, "Script injected!");
             hasInjected = true;
         }
+    }
+
+    public interface OnPageChangedListener {
+        void onPageChanged(WebView view, String page);
     }
 }

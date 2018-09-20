@@ -32,7 +32,6 @@ import androidx.browser.customtabs.CustomTabsIntent;
 
 import com.google.android.material.snackbar.Snackbar;
 
-import de.codebucket.mkkm.KKMWebviewClient;
 import de.codebucket.mkkm.MobileKKM;
 import de.codebucket.mkkm.R;
 import de.codebucket.mkkm.login.AuthenticatorService;
@@ -99,7 +98,7 @@ public class LoginActivity extends AppCompatActivity {
         mRegisterLink.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                openWebsite(Uri.parse(KKMWebviewClient.getPageUrl("register")));
+                startActivity(new Intent(LoginActivity.this, RegistrationActivity.class));
             }
         });
 
