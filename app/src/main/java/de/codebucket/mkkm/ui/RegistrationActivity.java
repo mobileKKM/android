@@ -1,7 +1,6 @@
 package de.codebucket.mkkm.ui;
 
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebView;
 
@@ -46,23 +45,9 @@ public class RegistrationActivity extends AppCompatActivity implements KKMWebvie
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        switch (id) {
-            case R.id.action_refresh:
-                mWebview.reload();
-                return true;
-            case android.R.id.home:
-                finish();
-        }
+        if (item.getItemId() == android.R.id.home)
+            finish();
 
         return super.onOptionsItemSelected(item);
     }
