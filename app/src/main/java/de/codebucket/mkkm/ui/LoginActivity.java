@@ -154,6 +154,7 @@ public class LoginActivity extends AppCompatActivity {
                             try {
                                 Intent intent = new Intent(Intent.ACTION_MAIN);
                                 intent.addCategory(Intent.CATEGORY_APP_EMAIL);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_NEW_TASK);
                                 LoginActivity.this.startActivity(intent);
                             } catch (ActivityNotFoundException ex) {
                                 Log.e(TAG, "No email client found!");
