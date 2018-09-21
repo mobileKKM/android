@@ -21,6 +21,8 @@ import de.codebucket.mkkm.R;
 
 public class RegistrationActivity extends AppCompatActivity implements KKMWebviewClient.OnPageChangedListener {
 
+    public static final String EXTRA_REGISTRATION_COMPLETE = "registrationComplete";
+
     // for file uploading
     private static final int FILE_CHOOSER_RESULT_CODE = 100;
     private ValueCallback<Uri[]> mFilePathCallback;
@@ -89,7 +91,10 @@ public class RegistrationActivity extends AppCompatActivity implements KKMWebvie
     @Override
     public void onPageChanged(WebView view, String page) {
         if (page.equalsIgnoreCase("login")) {
-            // show warning here
+            Intent result = new Intent();
+            result.putExtra(EXTRA_REGISTRATION_COMPLETE, true);
+            setResult(Activity.RESULT_OK, result);
+            finish();
         }
     }
 

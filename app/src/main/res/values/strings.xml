@@ -16,6 +16,7 @@
     <string name="error_unknown">Nierozpoznany problem</string>
     <string name="action_help">Pomoc</string>
     <string name="title_activity_registration">Rejestracja konta</string>
+    <string name="registration_complete">Aby ukończyć rejestrację należy kliknąć w link aktywacyjny wysłany mailem</string>
 
     <!-- Strings related to main -->
     <string name="title_activity_main">Strona główna</string>
