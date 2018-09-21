@@ -4,10 +4,16 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.util.Log;
+import android.view.View;
 import android.webkit.JavascriptInterface;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -51,6 +57,23 @@ public class KKMWebviewClient extends WebViewClient {
         if (url.startsWith(WEBAPP_URL)) {
             hasInjected = false;
         }
+    }
+
+    @Override
+    public void onReceivedError(final WebView view, WebResourceRequest request, WebResourceError error) {
+        super.onReceivedError(view, request, error);
+        mSwipeLayout.setRefreshing(false);
+        mSwipeLayout.setEnabled(false);
+
+        Snackbar.make(mSwipeLayout, R.string.error_page_loading, Snackbar.LENGTH_INDEFINITE)
+                .setAction(R.string.snackbar_retry, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        view.reload();
+                    }
+                })
+                .setActionTextColor(Color.YELLOW)
+                .show();
     }
 
     @Override

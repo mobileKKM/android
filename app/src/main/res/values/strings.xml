@@ -24,6 +24,8 @@
     <string name="nav_header_title">Janusz Kowalski</string>
     <string name="nav_header_subtitle">janusz.kowalski@gmail.com</string>
     <string name="nav_header_desc">Navigation header</string>
+    <string name="error_page_loading">Nie można załadować strony aplikacji</string>
+    <string name="snackbar_retry">Spróbuj ponownie</string>
     <string name="action_refresh">Odśwież</string>
 
     <!-- Navbar navigation drawer -->

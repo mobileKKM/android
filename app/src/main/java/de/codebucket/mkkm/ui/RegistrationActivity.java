@@ -1,5 +1,6 @@
 package de.codebucket.mkkm.ui;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.webkit.WebView;
@@ -18,6 +19,7 @@ public class RegistrationActivity extends AppCompatActivity implements KKMWebvie
     private WebView mWebview;
 
     @Override
+    @SuppressLint("SetJavaScriptEnabled")
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
