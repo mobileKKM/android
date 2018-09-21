@@ -39,12 +39,12 @@ public class KKMWebviewClient extends WebViewClient {
 
     public KKMWebviewClient(Activity context, OnPageChangedListener listener) {
         mContext = context;
-        mSwipeLayout = (SwipeRefreshLayout) context.findViewById(R.id.swipe);
+        mSwipeLayout = context.findViewById(R.id.swipe);
         mPageListener = listener;
 
-        // Disable swipe down gesture
-        mSwipeLayout.setRefreshing(false);
-        mSwipeLayout.setEnabled(false);
+        // Enable spinner and disable swipe gesture
+        mSwipeLayout.setRefreshing(true);
+        mSwipeLayout.setEnabled(true);
     }
 
     @Override
@@ -65,7 +65,7 @@ public class KKMWebviewClient extends WebViewClient {
         mSwipeLayout.setRefreshing(false);
         mSwipeLayout.setEnabled(false);
 
-        Snackbar.make(mSwipeLayout, R.string.error_page_loading, Snackbar.LENGTH_INDEFINITE)
+        Snackbar.make(mSwipeLayout, R.string.error_no_internet, Snackbar.LENGTH_INDEFINITE)
                 .setAction(R.string.snackbar_retry, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
