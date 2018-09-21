@@ -55,6 +55,7 @@ public class KKMWebviewClient extends WebViewClient {
 
         // Reset injection if url is webapp
         if (url.startsWith(WEBAPP_URL)) {
+            view.addJavascriptInterface(new ScriptInjectorCallback(), "ScriptInjector");
             hasInjected = false;
         }
     }
@@ -106,7 +107,6 @@ public class KKMWebviewClient extends WebViewClient {
                 ex.printStackTrace();
             }
 
-            view.addJavascriptInterface(new ScriptInjectorCallback(), "ScriptInjector");
             view.evaluateJavascript(inject, null);
         }
 
