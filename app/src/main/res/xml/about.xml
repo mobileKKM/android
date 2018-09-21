@@ -72,12 +72,6 @@
 
     <me.jfenn.attribouter.wedges.LicensesWedge>
 
-        <!-- ATTENTION: This repository is no longer being used for development, tracking issues, or accepting pull requests. -->
-        <me.jfenn.attribouter.wedges.LicenseWedge
-            title="^AndroidX"
-            repo="android/android-ktx"
-            license="apache-2.0" />
-
         <!-- OkHttp + Picasso -->
         <me.jfenn.attribouter.wedges.LicenseWedge
             title="^OkHttp"
@@ -86,6 +80,12 @@
         <me.jfenn.attribouter.wedges.LicenseWedge
             title="^Picasso"
             repo="square/picasso"
+            license="apache-2.0" />
+
+        <!-- ATTENTION: This repository is no longer being used for development, tracking issues, or accepting pull requests. -->
+        <me.jfenn.attribouter.wedges.LicenseWedge
+            title="^AndroidX"
+            repo="android/android-ktx"
             license="apache-2.0" />
 
         <!-- Part of AndroidX refactor -->
@@ -98,7 +98,7 @@
         <me.jfenn.attribouter.wedges.LicenseWedge
             title="^Android Support Preference v7 Fix"
             repo="Gericop/Android-Support-Preference-V7-Fix"
-            license="apache-2.0" />
+            license="other" />
 
     </me.jfenn.attribouter.wedges.LicensesWedge>
 </about>
