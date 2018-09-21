@@ -109,6 +109,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
+        mWebview.onResume();
 
         // Check if token has expired and logout
         if (mProfile.isTokenExpired()) {
@@ -116,6 +117,12 @@ public class MainActivity extends AppCompatActivity
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
             finish();
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mWebview.onPause();
     }
 
     @Override

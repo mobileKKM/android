@@ -80,6 +80,18 @@ public class RegistrationActivity extends AppCompatActivity implements KKMWebvie
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        mWebview.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mWebview.onPause();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             finish();
