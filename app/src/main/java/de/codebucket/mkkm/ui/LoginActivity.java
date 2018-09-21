@@ -2,6 +2,7 @@ package de.codebucket.mkkm.ui;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
@@ -26,13 +27,13 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.browser.customtabs.CustomTabsIntent;
 
 import com.google.android.material.snackbar.Snackbar;
 
-import de.codebucket.mkkm.KKMWebviewClient;
 import de.codebucket.mkkm.MobileKKM;
 import de.codebucket.mkkm.R;
 import de.codebucket.mkkm.login.AuthenticatorService;
@@ -46,6 +47,7 @@ import static android.util.Patterns.EMAIL_ADDRESS;
 public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = "Login";
+    private static final int REGISTRATION_RESULT_CODE = 99;
 
     // Login stuff
     private LoginHelper mLoginHelper;
@@ -99,7 +101,7 @@ public class LoginActivity extends AppCompatActivity {
         mRegisterLink.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                openWebsite(Uri.parse(KKMWebviewClient.getPageUrl("register")));
+                startActivityForResult(new Intent(LoginActivity.this, RegistrationActivity.class), REGISTRATION_RESULT_CODE);
             }
         });
 
@@ -129,6 +131,38 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     })
                     .setPositiveButton(R.string.dialog_close, null)
+                    .show();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode != REGISTRATION_RESULT_CODE) {
+            super.onActivityResult(requestCode, resultCode, data);
+            return;
+        }
+
+        if (resultCode == Activity.RESULT_OK && data != null) {
+            if (!data.getBooleanExtra(RegistrationActivity.EXTRA_REGISTRATION_COMPLETE, false)) {
+                return;
+            }
+
+            Snackbar.make(mLoginForm, R.string.registration_complete, Snackbar.LENGTH_INDEFINITE)
+                    .setAction(R.string.snackbar_open, new OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            try {
+                                Intent intent = new Intent(Intent.ACTION_MAIN);
+                                intent.addCategory(Intent.CATEGORY_APP_EMAIL);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                LoginActivity.this.startActivity(intent);
+                            } catch (ActivityNotFoundException ex) {
+                                Log.e(TAG, "No email client found!");
+                                Toast.makeText(LoginActivity.this, R.string.no_email_activity, Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    })
+                    .setActionTextColor(Color.YELLOW)
                     .show();
         }
     }
@@ -320,4 +354,3 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 }
-

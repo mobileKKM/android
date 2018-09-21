@@ -32,3 +32,6 @@
 
 # Attribouter containts required layouts for about page.
 -keep,allowshrinking,allowoptimization class me.jfenn.attribouter.** { *; }
+
+# Custom WebView JavaScript interfaces
+-keep class de.codebucket.mkkm.KKMWebviewClient.ScriptInjectorCallback { *; }

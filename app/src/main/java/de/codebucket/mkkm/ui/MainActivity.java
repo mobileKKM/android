@@ -31,12 +31,14 @@ import de.codebucket.mkkm.KKMWebviewClient;
 import de.codebucket.mkkm.login.AuthenticatorService;
 import de.codebucket.mkkm.login.SessionProfile;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener, KKMWebviewClient.OnPageChangedListener {
 
     private static final String TAG = "Main";
     private static final int TIME_INTERVAL = 2000;
 
     private SessionProfile mProfile;
+    private NavigationView mNavigationView;
     private WebView mWebview;
     private long mBackPressed;
 
@@ -57,15 +59,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-        navigationView.getMenu().getItem(0).setChecked(true);
-        setTitle(navigationView.getMenu().getItem(0).getTitle());
+        mNavigationView = (NavigationView) findViewById(R.id.nav_view);
+        mNavigationView.setNavigationItemSelectedListener(this);
+        mNavigationView.getMenu().getItem(0).setChecked(true);
+        setTitle(mNavigationView.getMenu().getItem(0).getTitle());
 
         // Get user session profile from login
         mProfile = (SessionProfile) getIntent().getSerializableExtra("profile");
 
-        View headerView = navigationView.getHeaderView(0);
+        View headerView = mNavigationView.getHeaderView(0);
         ImageView drawerBackground = (ImageView) headerView.findViewById(R.id.drawer_header_background);
         mProfile.loadPhoto(drawerBackground);
 
@@ -75,18 +77,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         TextView drawerEmail = (TextView) headerView.findViewById(R.id.drawer_header_email);
         drawerEmail.setText(mProfile.getEmailAddress());
 
-        // Load webview layout and disable "refreshing"
+        // Load webview layout
         SwipeRefreshLayout swipe = (SwipeRefreshLayout) findViewById(R.id.swipe);
         swipe.setColorSchemeColors(getResources().getColor(R.color.colorAccentFallback));
-        swipe.setRefreshing(false);
-        swipe.setEnabled(false);
 
         if (BuildConfig.DEBUG) {
             WebView.setWebContentsDebuggingEnabled(true);
         }
 
         mWebview = (WebView) findViewById(R.id.webview);
-        mWebview.setWebViewClient(new KKMWebviewClient(this));
+        mWebview.setWebViewClient(new KKMWebviewClient(this, this));
         mWebview.getSettings().setJavaScriptEnabled(true);
         mWebview.getSettings().setDomStorageEnabled(true);
         mWebview.getSettings().setAppCacheEnabled(true);
@@ -216,5 +216,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onPageChanged(WebView view, String page) {
+        MenuItem item = null;
+
+        switch (page) {
+            case KKMWebviewClient.PAGE_OVERVIEW:
+            case KKMWebviewClient.PAGE_CONTROL:
+                item = mNavigationView.getMenu().findItem(R.id.nav_tickets);
+                break;
+            case KKMWebviewClient.PAGE_PURCHASE:
+                item = mNavigationView.getMenu().findItem(R.id.nav_purchase);
+                break;
+            case KKMWebviewClient.PAGE_ACCOUNT:
+                item = mNavigationView.getMenu().findItem(R.id.nav_account);
+                break;
+        }
+
+        if (item != null && !item.isChecked()) {
+            mNavigationView.setCheckedItem(item);
+            setTitle(item.getTitle());
+        }
     }
 }
