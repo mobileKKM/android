@@ -16,7 +16,8 @@
     <string name="error_unknown">Nierozpoznany problem</string>
     <string name="action_help">Pomoc</string>
     <string name="title_activity_registration">Rejestracja konta</string>
-    <string name="registration_complete">Aby ukończyć rejestrację należy kliknąć w link aktywacyjny wysłany mailem</string>
+    <string name="registration_complete">Sprawdź swoją skrzynkę pocztową, aby zakończyć rejestrację konta</string>
+    <string name="snackbar_open">Otwórz</string>
 
     <!-- Strings related to main -->
     <string name="title_activity_main">Strona główna</string>
@@ -25,7 +26,6 @@
     <string name="nav_header_title">Janusz Kowalski</string>
     <string name="nav_header_subtitle">janusz.kowalski@gmail.com</string>
     <string name="nav_header_desc">Navigation header</string>
-    <string name="error_no_internet">Brak internetu</string>
     <string name="snackbar_retry">Spróbuj ponownie</string>
     <string name="action_refresh">Odśwież</string>
 
@@ -87,6 +87,7 @@
     <!-- Other strings -->
     <string name="progress_login">Logowanie…</string>
     <string name="no_browser_activity">Nie znaleziono żadnej aplikacji obsługującej adresy URL</string>
+    <string name="no_email_activity">Nie znaleziono żadnej aplikacji obsługującej skrzynki pocztowe</string>
     <string name="press_back_again">Naciśnij ponownie \"wstecz\", aby wyjść</string>
     <string name="not_implemented">Funkcja jeszcze niedostępna!</string>
     <string name="session_expired">Twoja sesja wygasła, zaloguj się ponownie</string>

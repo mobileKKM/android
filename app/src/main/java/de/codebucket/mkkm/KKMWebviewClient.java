@@ -66,7 +66,7 @@ public class KKMWebviewClient extends WebViewClient {
         mSwipeLayout.setRefreshing(false);
         mSwipeLayout.setEnabled(false);
 
-        Snackbar.make(mSwipeLayout, R.string.error_no_internet, Snackbar.LENGTH_INDEFINITE)
+        Snackbar.make(mSwipeLayout, R.string.error_no_network, Snackbar.LENGTH_INDEFINITE)
                 .setAction(R.string.snackbar_retry, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

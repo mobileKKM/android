@@ -147,7 +147,22 @@ public class LoginActivity extends AppCompatActivity {
                 return;
             }
 
-            showError(getString(R.string.registration_complete));
+            Snackbar.make(mLoginForm, R.string.registration_complete, Snackbar.LENGTH_INDEFINITE)
+                    .setAction(R.string.snackbar_open, new OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            try {
+                                Intent intent = new Intent(Intent.ACTION_MAIN);
+                                intent.addCategory(Intent.CATEGORY_APP_EMAIL);
+                                LoginActivity.this.startActivity(intent);
+                            } catch (ActivityNotFoundException ex) {
+                                Log.e(TAG, "No email client found!");
+                                Toast.makeText(LoginActivity.this, R.string.no_email_activity, Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    })
+                    .setActionTextColor(Color.YELLOW)
+                    .show();
         }
     }
 
@@ -338,4 +353,3 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 }
-
