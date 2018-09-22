@@ -34,12 +34,12 @@
 
         <activity
             android:name=".ui.RegistrationActivity"
-            android:configChanges="orientation|screenSize"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait" />
 
         <activity
             android:name=".ui.MainActivity"
-            android:configChanges="orientation|screenSize"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"
             android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar" />
