@@ -324,15 +324,18 @@ public class LoginActivity extends AppCompatActivity {
 
             if (profile != null) {
                 // Save account on device if no account
+                boolean firstSetup = false;
                 if (mAccount == null) {
                     Account account = new Account(mEmail, AuthenticatorService.ACCOUNT_TYPE);
                     mAccountManager.addAccountExplicitly(account, mPassword, null);
                     mAccountManager.setAuthToken(account, AuthenticatorService.TOKEN_TYPE, profile.getToken());
+                    firstSetup = true;
                 }
 
                 // Open MainActivity with signed in user
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 intent.putExtra("profile", profile);
+                intent.putExtra("firstSetup", firstSetup);
                 startActivity(intent);
                 finish();
             } else if (exception != null) {
