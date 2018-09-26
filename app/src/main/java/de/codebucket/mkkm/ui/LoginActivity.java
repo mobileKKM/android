@@ -41,6 +41,7 @@ import de.codebucket.mkkm.login.LoginFailedException;
 import de.codebucket.mkkm.login.LoginFailedException.ErrorType;
 import de.codebucket.mkkm.login.LoginHelper;
 import de.codebucket.mkkm.login.SessionProfile;
+import de.codebucket.mkkm.util.EncryptUtils;
 
 import static android.util.Patterns.EMAIL_ADDRESS;
 
@@ -112,8 +113,21 @@ public class LoginActivity extends AppCompatActivity {
         mAccount = AuthenticatorService.getUserAccount(this);
 
         if (mAccount != null) {
+            // Migrate plain password to encrypted credentials
+            String password = mAccountManager.getPassword(mAccount);
+            if (!EncryptUtils.isBase64(password)) {
+                try {
+                    String encryptedPassword = EncryptUtils.encrpytString(password);
+                    mAccountManager.setPassword(mAccount, encryptedPassword);
+                } catch (Exception ex) {
+                    Log.e(TAG, "Failed to encrypt existing password: " + ex);
+                }
+            } else {
+                password = EncryptUtils.decryptString(password);
+            }
+
             mEmailView.setText(mAccount.name);
-            mPasswordView.setText(mAccountManager.getPassword(mAccount));
+            mPasswordView.setText(password);
             attemptLogin();
         }
 
@@ -326,8 +340,11 @@ public class LoginActivity extends AppCompatActivity {
                 // Save account on device if no account
                 boolean firstSetup = false;
                 if (mAccount == null) {
+                    String encryptedPassword = EncryptUtils.encrpytString(mPassword);
                     Account account = new Account(mEmail, AuthenticatorService.ACCOUNT_TYPE);
-                    mAccountManager.addAccountExplicitly(account, mPassword, null);
+
+                    // Add new account and save encrypted credentials
+                    mAccountManager.addAccountExplicitly(account, encryptedPassword, null);
                     mAccountManager.setAuthToken(account, AuthenticatorService.TOKEN_TYPE, profile.getToken());
                     firstSetup = true;
                 }

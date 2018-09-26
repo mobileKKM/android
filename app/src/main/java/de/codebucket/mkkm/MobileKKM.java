@@ -31,7 +31,7 @@ public class MobileKKM extends Application {
     }
 
     public String getFingerprint() {
-        String deviceId =  Secure.getString(getApplicationContext().getContentResolver(), Secure.ANDROID_ID);
+        String deviceId = Secure.getString(getApplicationContext().getContentResolver(), Secure.ANDROID_ID);
         return UUID.nameUUIDFromBytes(deviceId.getBytes()).toString().replaceAll("-", "");
     }
 
