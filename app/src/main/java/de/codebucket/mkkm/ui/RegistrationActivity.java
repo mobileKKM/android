@@ -135,7 +135,7 @@ public class RegistrationActivity extends AppCompatActivity implements KKMWebvie
             intent.addCategory(Intent.CATEGORY_OPENABLE);
             intent.setType("image/*");
 
-            startActivityForResult(Intent.createChooser(intent, "Image Browser"), FILE_CHOOSER_RESULT_CODE);
+            startActivityForResult(Intent.createChooser(intent, null), FILE_CHOOSER_RESULT_CODE);
             return true;
         }
     }
