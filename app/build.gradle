@@ -32,6 +32,9 @@ android {
         buildConfigField "String", "GITHUB_TOKEN", ext.githubToken
         buildConfigField "String", "GIT_VERSION", "\"${getGitVersion()}\""
 
+        ext.encryptionKey = localProps.getProperty('encryptionKey') ?: '"' + System.getenv("ENCRYPTION_KEY") + '"'
+        buildConfigField "String", "ENCRYPTION_KEY", ext.encryptionKey
+
         if (System.getenv("TRAVIS") == "true") {
             versionCode = Integer.valueOf(System.getenv("TRAVIS_BUILD_NUMBER"))
             versionName = System.getenv("MAJOR_MINOR") + "." + System.getenv("TRAVIS_BUILD_NUMBER")

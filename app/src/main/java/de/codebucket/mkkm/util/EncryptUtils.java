@@ -1,19 +1,19 @@
 package de.codebucket.mkkm.util;
 
 import android.util.Base64;
-import android.util.Log;
 
 import java.security.Key;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
+import de.codebucket.mkkm.BuildConfig;
 import de.codebucket.mkkm.MobileKKM;
 
 public class EncryptUtils {
 
     private static final String ALGORITHM = "AES";
-    private static final String KEY = "_crpyt";
+    private static final String KEY = BuildConfig.ENCRYPTION_KEY;
 
     public static String encrpytString(String decrypted) {
         try {
@@ -46,8 +46,8 @@ public class EncryptUtils {
     }
 
     private static Key generateKey() {
-        String id = MobileKKM.getInstance().getFingerprint();
-        return new SecretKeySpec((id + EncryptUtils.KEY).getBytes(), EncryptUtils.ALGORITHM);
+        byte[] key = EncryptUtils.KEY.getBytes();
+        return new SecretKeySpec(key, EncryptUtils.ALGORITHM);
     }
 
     public static boolean isBase64(String base64) {
