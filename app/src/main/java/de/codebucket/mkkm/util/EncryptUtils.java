@@ -8,12 +8,11 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
 import de.codebucket.mkkm.BuildConfig;
-import de.codebucket.mkkm.MobileKKM;
 
 public class EncryptUtils {
 
     private static final String ALGORITHM = "AES";
-    private static final String KEY = BuildConfig.ENCRYPTION_KEY;
+    private static final String KEY = "38782f413f442847";
 
     public static String encrpytString(String decrypted) {
         try {
@@ -21,8 +20,7 @@ public class EncryptUtils {
             Cipher cipher = Cipher.getInstance(EncryptUtils.ALGORITHM);
             cipher.init(Cipher.ENCRYPT_MODE, key);
             byte[] data = cipher.doFinal(decrypted.getBytes("utf-8"));
-            String encrypted = Base64.encodeToString(data, Base64.DEFAULT);
-            return encrypted;
+            return Base64.encodeToString(data, Base64.DEFAULT);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -36,8 +34,7 @@ public class EncryptUtils {
             Cipher cipher = Cipher.getInstance(EncryptUtils.ALGORITHM);
             cipher.init(Cipher.DECRYPT_MODE, key);
             byte[] data = cipher.doFinal(Base64.decode(encrypted, Base64.DEFAULT));
-            String decrypted = new String(data, "utf-8");
-            return decrypted;
+            return new String(data, "utf-8");
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -46,8 +43,12 @@ public class EncryptUtils {
     }
 
     private static Key generateKey() {
-        byte[] key = EncryptUtils.KEY.getBytes();
-        return new SecretKeySpec(key, EncryptUtils.ALGORITHM);
+        String key = BuildConfig.ENCRYPTION_KEY;
+        if (key == null || key.isEmpty()) {
+            key = EncryptUtils.KEY;
+        }
+
+        return new SecretKeySpec(key.getBytes(), EncryptUtils.ALGORITHM);
     }
 
     public static boolean isBase64(String base64) {
