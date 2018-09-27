@@ -98,7 +98,7 @@
         <me.jfenn.attribouter.wedges.LicenseWedge
             title="^Android Support Preference v7 Fix"
             repo="Gericop/Android-Support-Preference-V7-Fix"
-            license="other" />
+            license="unlicense" />
 
     </me.jfenn.attribouter.wedges.LicensesWedge>
 </about>
