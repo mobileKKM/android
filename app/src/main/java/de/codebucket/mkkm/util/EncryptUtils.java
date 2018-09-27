@@ -1,8 +1,10 @@
 package de.codebucket.mkkm.util;
 
 import android.util.Base64;
+import android.util.Log;
 
 import java.security.Key;
+import java.util.regex.Pattern;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
@@ -13,6 +15,9 @@ public class EncryptUtils {
 
     private static final String ALGORITHM = "AES";
     private static final String KEY = "38782f413f442847";
+
+    // Base64 validation regular expression
+    private static final Pattern BASE64_PATTERN = Pattern.compile("^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{4}|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)?$");
 
     public static String encrpytString(String decrypted) {
         try {
@@ -44,7 +49,7 @@ public class EncryptUtils {
 
     private static Key generateKey() {
         String key = BuildConfig.ENCRYPTION_KEY;
-        if (key == null || key.isEmpty()) {
+        if (key.isEmpty() || key.equals("null")) {
             key = EncryptUtils.KEY;
         }
 
@@ -52,6 +57,7 @@ public class EncryptUtils {
     }
 
     public static boolean isBase64(String base64) {
-        return org.apache.commons.codec.binary.Base64.isBase64(base64);
+        final String sanitized = base64.replaceAll("\\s", "");
+        return BASE64_PATTERN.matcher(sanitized).matches();
     }
 }
