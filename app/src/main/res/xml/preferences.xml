@@ -20,6 +20,18 @@
     </com.takisoft.preferencex.PreferenceCategory>
 
     <com.takisoft.preferencex.PreferenceCategory
+        android:title="@string/pref_group_notifications"
+        app:iconSpaceReserved="false">
+
+        <androidx.preference.CheckBoxPreference
+            android:key="enable_notifications"
+            android:defaultValue="false"
+            android:title="@string/pref_enable_notifications"
+            app:iconSpaceReserved="false" />
+
+    </com.takisoft.preferencex.PreferenceCategory>
+
+    <com.takisoft.preferencex.PreferenceCategory
         android:title="@string/pref_group_about"
         app:iconSpaceReserved="false">
 
