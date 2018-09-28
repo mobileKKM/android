@@ -37,7 +37,7 @@ public class RuntimeHelper extends Activity {
             return defaultIntent;
         }
 
-        throw new IllegalStateException("Unable to determine default activity for " + packageName + ". Does an activity specify the DEFAULT category in its intent filter?");
+        throw new IllegalStateException("Unable to determine default activity for " + packageName);
     }
 
     @Override

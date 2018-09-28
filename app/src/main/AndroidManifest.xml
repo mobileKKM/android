@@ -50,7 +50,8 @@
 
         <activity
             android:name=".util.RuntimeHelper"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:process=":helper" />
 
         <service android:name=".login.AuthenticatorService">
             <intent-filter>
