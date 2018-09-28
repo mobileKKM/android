@@ -6,11 +6,16 @@
         app:iconSpaceReserved="false">
 
         <androidx.preference.CheckBoxPreference
-            app:iconSpaceReserved="false"
-            android:defaultValue="false"
             android:key="disclaimer_shown"
+            android:defaultValue="false"
+            android:title="@string/pref_disclaimer_title"
             android:summary="@string/pref_disclaimer_description"
-            android:title="@string/pref_disclaimer_title" />
+            app:iconSpaceReserved="false" />
+
+        <androidx.preference.Preference
+            android:key="restart"
+            android:title="@string/pref_restart"
+            app:iconSpaceReserved="false" />
 
     </com.takisoft.preferencex.PreferenceCategory>
 
@@ -20,13 +25,13 @@
 
         <androidx.preference.Preference
             android:key="about"
-            android:summary="@string/pref_about_description"
             android:title="@string/pref_about_title"
+            android:summary="@string/pref_about_description"
             app:iconSpaceReserved="false" />
         <androidx.preference.Preference
             android:key="version"
-            android:summary="@string/pref_version_description"
             android:title="@string/pref_version_title"
+            android:summary="@string/pref_version_description"
             app:iconSpaceReserved="false" />
 
     </com.takisoft.preferencex.PreferenceCategory>

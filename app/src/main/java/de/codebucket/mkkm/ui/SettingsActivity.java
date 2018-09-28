@@ -14,6 +14,7 @@ import androidx.preference.Preference;
 import com.takisoft.preferencex.PreferenceFragmentCompat;
 
 import de.codebucket.mkkm.BuildConfig;
+import de.codebucket.mkkm.MobileKKM;
 import de.codebucket.mkkm.R;
 
 import me.jfenn.attribouter.Attribouter;
@@ -91,6 +92,15 @@ public class SettingsActivity extends AppCompatActivity implements
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
+
+            Preference restart = findPreference("restart");
+            restart.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    MobileKKM.restartApp(getActivity());
+                    return true;
+                }
+            });
 
             Preference about = findPreference("about");
             about.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {

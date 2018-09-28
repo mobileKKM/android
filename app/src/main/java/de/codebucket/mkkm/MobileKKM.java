@@ -1,14 +1,20 @@
 package de.codebucket.mkkm;
 
 import android.app.Application;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.HandlerThread;
 import android.preference.PreferenceManager;
 import android.provider.Settings.Secure;
+import android.util.Log;
 
 import java.util.UUID;
+
+import de.codebucket.mkkm.util.LooperExecutor;
+import de.codebucket.mkkm.util.RuntimeHelper;
 
 public class MobileKKM extends Application {
 
@@ -16,6 +22,9 @@ public class MobileKKM extends Application {
 
     private static MobileKKM instance;
     private static SharedPreferences preferences;
+
+    private static final HandlerThread sWorkerThread = new HandlerThread("loader");
+    private static final long WAIT_BEFORE_RESTART = 1000;
 
     @Override
     public void onCreate() {
@@ -28,6 +37,8 @@ public class MobileKKM extends Application {
         if (preferences.getString("fingerprint", null) == null) {
             preferences.edit().putString("fingerprint", getFingerprint()).apply();
         }
+
+        sWorkerThread.start();
     }
 
     public String getFingerprint() {
@@ -53,6 +64,22 @@ public class MobileKKM extends Application {
 
     public static SharedPreferences getPreferences() {
         return preferences;
+    }
+
+    public static void restartApp(final Context context) {
+        ProgressDialog.show(context, null, context.getString(R.string.state_loading), true, false);
+        new LooperExecutor(sWorkerThread.getLooper()).execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(WAIT_BEFORE_RESTART);
+                } catch (Exception ex) {
+                    Log.e(TAG, "Error waiting", ex);
+                }
+
+                RuntimeHelper.triggerRestart(context);
+            }
+        });
     }
 
     public static boolean isDebug() {

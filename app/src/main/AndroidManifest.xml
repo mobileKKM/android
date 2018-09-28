@@ -48,6 +48,10 @@
             android:name=".ui.SettingsActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".util.RuntimeHelper"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
         <service android:name=".login.AuthenticatorService">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator" />
