@@ -66,7 +66,7 @@ public class SettingsActivity extends AppCompatActivity implements
     @Override
     public boolean onPreferenceStartFragment(androidx.preference.PreferenceFragmentCompat caller, Preference pref) {
         Fragment fragment;
-        if (pref.getKey().equals("attribouter")) {
+        if (pref.getKey().equals("about")) {
             setTitle(R.string.title_attribouter_about);
             fragment = Attribouter.from(this)
                     .withGitHubToken(BuildConfig.GITHUB_TOKEN)
@@ -102,7 +102,7 @@ public class SettingsActivity extends AppCompatActivity implements
                 }
             });
 
-            Preference about = findPreference("attribouter");
+            Preference about = findPreference("about");
             about.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
