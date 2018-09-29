@@ -1,4 +1,4 @@
-package de.codebucket.mkkm.ui;
+package de.codebucket.mkkm.activity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;

@@ -1,4 +1,4 @@
-package de.codebucket.mkkm.ui;
+package de.codebucket.mkkm.activity;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;

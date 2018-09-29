@@ -1,4 +1,4 @@
-package de.codebucket.mkkm.ui;
+package de.codebucket.mkkm.activity;
 
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -66,11 +66,11 @@ public class SettingsActivity extends AppCompatActivity implements
     @Override
     public boolean onPreferenceStartFragment(androidx.preference.PreferenceFragmentCompat caller, Preference pref) {
         Fragment fragment;
-        if (pref.getKey().equals("about")) {
+        if (pref.getKey().equals("attribouter")) {
             setTitle(R.string.title_attribouter_about);
             fragment = Attribouter.from(this)
                     .withGitHubToken(BuildConfig.GITHUB_TOKEN)
-                    .withFile(R.xml.about)
+                    .withFile(R.xml.attribouter)
                     .toFragment();
         } else {
             fragment = Fragment.instantiate(this, pref.getFragment());
@@ -102,7 +102,7 @@ public class SettingsActivity extends AppCompatActivity implements
                 }
             });
 
-            Preference about = findPreference("about");
+            Preference about = findPreference("attribouter");
             about.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {

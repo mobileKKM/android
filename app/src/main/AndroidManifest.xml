@@ -24,7 +24,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".ui.LoginActivity"
+            android:name=".activity.LoginActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,19 +33,19 @@
         </activity>
 
         <activity
-            android:name=".ui.RegistrationActivity"
+            android:name=".activity.RegistrationActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".activity.MainActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"
             android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-            android:name=".ui.SettingsActivity"
+            android:name=".activity.SettingsActivity"
             android:screenOrientation="portrait" />
 
         <activity
