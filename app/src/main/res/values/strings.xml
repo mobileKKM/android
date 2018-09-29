@@ -46,11 +46,23 @@
     <string name="pref_disclaimer_title">Nie pokazuj komunikatu ponownie</string>
     <string name="pref_disclaimer_description">Wyłącz, aby wyświetlić ponownie komunikat pojawiający się po pierwszym starcie aplikacji</string>
     <string name="pref_enable_notifications">Włącz powiadomienia</string>
+    <string name="pref_expiration">Informuj o upływie ważności biletu</string>
+    <string name="pref_expiration_summary">%s wcześniej</string>
+    <string name="pref_notification_ringtone">Dźwięk</string>
+    <string name="pref_notification_vibrate">Wibracje</string>
     <string name="pref_about_title">Licencje open-source</string>
     <string name="pref_about_description">Poznaj współtwórców oraz użyte biblioteki</string>
     <string name="pref_version_title">Aplikacja mobileKKM</string>
     <string name="pref_version_description">wersja %s-%s.%s</string>
     <string name="pref_restart">Zrestartuj aplikację</string>
+
+    <!-- Sync intervals -->
+    <string name="expiration_oneday">1 dzień</string>
+    <string name="expiration_threedays">3 dni</string>
+    <string name="expiration_fivedays">5 dni</string>
+    <string name="expiration_oneweek">1 tydzień</string>
+    <string name="expiration_twoweeks">2 tygodnie</string>
+    <string name="expiration_onemonth">1 miesiąc</string>
 
     <!-- Attribouter screen -->
     <string name="about_twitter">Twitter</string>

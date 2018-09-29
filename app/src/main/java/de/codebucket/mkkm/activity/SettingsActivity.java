@@ -80,7 +80,7 @@ public class SettingsActivity extends AppCompatActivity implements
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.setCustomAnimations(R.animator.fly_in, R.animator.fade_out, R.animator.fade_in, R.animator.fly_out);
             transaction.replace(R.id.container_content, fragment);
-            transaction.addToBackStack("PreferenceFragment");
+            transaction.addToBackStack("SettingsFragment");
             transaction.commit();
             return true;
         }

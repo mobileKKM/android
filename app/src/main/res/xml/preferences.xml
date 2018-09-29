@@ -29,6 +29,31 @@
             android:title="@string/pref_enable_notifications"
             app:iconSpaceReserved="false" />
 
+        <ListPreference
+            android:key="expiration"
+            android:defaultValue="5"
+            android:title="@string/pref_expiration"
+            android:summary="@string/pref_expiration_summary"
+            android:entries="@array/expiration"
+            android:entryValues="@array/expirationValues"
+            app:iconSpaceReserved="false" />
+
+        <RingtonePreference
+            android:key="notification_ringtone"
+            android:defaultValue="content://settings/system/notification_sound"
+            android:title="@string/pref_notification_ringtone"
+            android:ringtoneType="notification"
+            android:persistent="true"
+            android:showDefault="true"
+            android:showSilent="true"
+            app:iconSpaceReserved="false" />
+
+        <androidx.preference.CheckBoxPreference
+            android:key="notification_vibrate"
+            android:defaultValue="true"
+            android:title="@string/pref_notification_vibrate"
+            app:iconSpaceReserved="false" />
+
     </com.takisoft.preferencex.PreferenceCategory>
 
     <com.takisoft.preferencex.PreferenceCategory
