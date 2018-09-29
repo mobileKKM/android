@@ -31,6 +31,7 @@
 
         <ListPreference
             android:key="expiration"
+            android:dependency="enable_notifications"
             android:defaultValue="5"
             android:title="@string/pref_expiration"
             android:summary="@string/pref_expiration_summary"
@@ -40,6 +41,7 @@
 
         <RingtonePreference
             android:key="notification_ringtone"
+            android:dependency="enable_notifications"
             android:defaultValue="content://settings/system/notification_sound"
             android:title="@string/pref_notification_ringtone"
             android:ringtoneType="notification"
@@ -50,6 +52,7 @@
 
         <androidx.preference.CheckBoxPreference
             android:key="notification_vibrate"
+            android:dependency="enable_notifications"
             android:defaultValue="true"
             android:title="@string/pref_notification_vibrate"
             app:iconSpaceReserved="false" />
