@@ -13,7 +13,7 @@ import de.codebucket.mkkm.BuildConfig;
 
 public class EncryptUtils {
 
-    private static final String ALGORITHM = "AES";
+    private static final String ALGORITHM = "AES/ECB/PKCS5Padding";
     private static final String KEY = "38782f413f442847";
 
     // Base64 validation regular expression
