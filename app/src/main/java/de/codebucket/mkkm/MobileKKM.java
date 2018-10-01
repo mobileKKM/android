@@ -42,7 +42,11 @@ public class MobileKKM extends Application {
             preferences.edit().putString("fingerprint", getFingerprint()).apply();
         }
 
-        database = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "tickets").build();
+        // Init offline database (first step to native migration)
+        database = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "appdata.db")
+                .fallbackToDestructiveMigration()
+                .build();
+
         sWorkerThread.start();
     }
 
