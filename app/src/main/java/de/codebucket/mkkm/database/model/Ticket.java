@@ -24,7 +24,7 @@ public class Ticket {
 
     @ColumnInfo
     @SerializedName("status")
-    private String status;
+    private TicketStatus status;
 
     @ColumnInfo
     @SerializedName("kind")
@@ -78,11 +78,11 @@ public class Ticket {
         this.passengerId = passengerId;
     }
 
-    public String getStatus() {
+    public TicketStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(TicketStatus status) {
         this.status = status;
     }
 
@@ -156,5 +156,13 @@ public class Ticket {
 
     public void setLines(String[] lines) {
         this.lines = lines;
+    }
+
+    public enum TicketStatus {
+        ACTIVE, FUTURE, PENDING;
+
+        public boolean isActive() {
+            return this == ACTIVE || this == FUTURE;
+        }
     }
 }

@@ -13,6 +13,9 @@ import android.util.Log;
 
 import java.util.UUID;
 
+import androidx.room.Room;
+import androidx.room.RoomDatabase;
+import de.codebucket.mkkm.database.AppDatabase;
 import de.codebucket.mkkm.util.LooperExecutor;
 import de.codebucket.mkkm.util.RuntimeHelper;
 
@@ -22,6 +25,7 @@ public class MobileKKM extends Application {
 
     private static MobileKKM instance;
     private static SharedPreferences preferences;
+    private static AppDatabase database;
 
     private static final HandlerThread sWorkerThread = new HandlerThread("loader");
     private static final long WAIT_BEFORE_RESTART = 1000;
@@ -38,6 +42,7 @@ public class MobileKKM extends Application {
             preferences.edit().putString("fingerprint", getFingerprint()).apply();
         }
 
+        database = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "tickets").build();
         sWorkerThread.start();
     }
 
