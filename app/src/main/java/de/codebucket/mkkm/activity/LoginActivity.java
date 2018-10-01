@@ -345,7 +345,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     // Add new account and save encrypted credentials
                     mAccountManager.addAccountExplicitly(account, encryptedPassword, null);
-                    mAccountManager.setAuthToken(account, AuthenticatorService.TOKEN_TYPE, profile.getToken());
+                    mAccountManager.setAuthToken(account, AuthenticatorService.TOKEN_TYPE, profile.getPassengerId());
                     firstSetup = true;
                 }
 
