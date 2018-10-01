@@ -56,7 +56,7 @@
     <string name="pref_version_description">wersja %s-%s.%s</string>
     <string name="pref_restart">Zrestartuj aplikację</string>
 
-    <!-- Sync intervals -->
+    <!-- Expiration values -->
     <string name="expiration_oneday">1 dzień</string>
     <string name="expiration_threedays">3 dni</string>
     <string name="expiration_fivedays">5 dni</string>

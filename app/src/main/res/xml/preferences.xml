@@ -29,7 +29,7 @@
             android:title="@string/pref_enable_notifications"
             app:iconSpaceReserved="false" />
 
-        <ListPreference
+        <androidx.preference.ListPreference
             android:key="expiration"
             android:dependency="enable_notifications"
             android:defaultValue="5"
@@ -39,7 +39,7 @@
             android:entryValues="@array/expirationValues"
             app:iconSpaceReserved="false" />
 
-        <RingtonePreference
+        <com.takisoft.preferencex.RingtonePreference
             android:key="notification_ringtone"
             android:dependency="enable_notifications"
             android:defaultValue="content://settings/system/notification_sound"
