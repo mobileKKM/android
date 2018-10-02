@@ -23,7 +23,7 @@
         android:title="@string/pref_group_notifications"
         app:iconSpaceReserved="false">
 
-        <androidx.preference.CheckBoxPreference
+        <androidx.preference.SwitchPreference
             android:key="enable_notifications"
             android:defaultValue="false"
             android:title="@string/pref_enable_notifications"
