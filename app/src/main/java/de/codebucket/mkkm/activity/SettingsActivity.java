@@ -1,7 +1,12 @@
 package de.codebucket.mkkm.activity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewStub;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -88,10 +93,14 @@ public class SettingsActivity extends AppCompatActivity implements
         return false;
     }
 
-    public static class SettingsFragment extends PreferenceFragmentCompat implements Preference.OnPreferenceChangeListener {
+    public static class SettingsFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
+
+        private SharedPreferences preferences;
+
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
+            preferences = MobileKKM.getPreferences();
 
             Preference restart = findPreference("restart");
             restart.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -121,8 +130,24 @@ public class SettingsActivity extends AppCompatActivity implements
         }
 
         @Override
-        public boolean onPreferenceChange(Preference preference, Object newValue) {
-            return true;
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            preferences.registerOnSharedPreferenceChangeListener(this);
+            return super.onCreateView(inflater, container, savedInstanceState);
+        }
+
+        @Override
+        public void onDestroyView() {
+            preferences.unregisterOnSharedPreferenceChangeListener(this);
+            super.onDestroyView();
+        }
+
+        @Override
+        public void onSharedPreferenceChanged(SharedPreferences preference, String key) {
+            switch (key) {
+                case "enable_notifications":
+                    MobileKKM.getInstance().setupTicketService();
+                    break;
+            }
         }
     }
 }
