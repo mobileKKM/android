@@ -34,8 +34,12 @@ import androidx.browser.customtabs.CustomTabsIntent;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import java.util.List;
+
 import de.codebucket.mkkm.MobileKKM;
 import de.codebucket.mkkm.R;
+import de.codebucket.mkkm.database.model.Ticket;
+import de.codebucket.mkkm.database.model.TicketDao;
 import de.codebucket.mkkm.login.AuthenticatorService;
 import de.codebucket.mkkm.login.LoginFailedException;
 import de.codebucket.mkkm.login.LoginFailedException.ErrorType;
@@ -328,7 +332,19 @@ public class LoginActivity extends AppCompatActivity {
                 return null;
             }
 
-            return mLoginHelper.getSession(token);
+            SessionProfile profile = mLoginHelper.getSession(token);
+
+            // Delete saved tickets
+            TicketDao dao = MobileKKM.getDatabase().ticketDao();
+            for (Ticket ticket : dao.getAllForPassenger(profile.getPassengerId())) {
+                dao.delete(ticket);
+            }
+
+            // Fetch new and save
+            List<Ticket> tickets = mLoginHelper.getTickets(token);
+            dao.insertAll(tickets);
+
+            return profile;
         }
 
         @Override
@@ -345,7 +361,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     // Add new account and save encrypted credentials
                     mAccountManager.addAccountExplicitly(account, encryptedPassword, null);
-                    mAccountManager.setAuthToken(account, AuthenticatorService.TOKEN_TYPE, profile.getToken());
+                    mAccountManager.setAuthToken(account, AuthenticatorService.TOKEN_TYPE, profile.getPassengerId());
                     firstSetup = true;
                 }
 

@@ -4,11 +4,12 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,6 +29,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.google.android.material.navigation.NavigationView;
 
 import de.codebucket.mkkm.BuildConfig;
+import de.codebucket.mkkm.MobileKKM;
 import de.codebucket.mkkm.R;
 import de.codebucket.mkkm.KKMWebviewClient;
 import de.codebucket.mkkm.login.AuthenticatorService;
@@ -54,6 +56,14 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         setTitle(R.string.title_activity_main);
+
+        // Create notification channel on Android O
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel("expiry_notification", getString(R.string.expiry_notification), NotificationManager.IMPORTANCE_HIGH);
+            MobileKKM.getInstance().getSystemService(NotificationManager.class).createNotificationChannel(channel);
+        }
+
+        MobileKKM.getInstance().setupTicketService();
 
         // Set up drawer menu
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

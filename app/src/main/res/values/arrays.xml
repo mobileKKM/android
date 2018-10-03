@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="expiration">
+        <item>@string/expiration_oneday</item>
+        <item>@string/expiration_threedays</item>
+        <item>@string/expiration_fivedays</item>
+        <item>@string/expiration_oneweek</item>
+        <item>@string/expiration_twoweeks</item>
+        <item>@string/expiration_onemonth</item>
+    </string-array>
+
+    <string-array name="expirationValues">
+        <item>1</item>
+        <item>3</item>
+        <item>5</item>
+        <item>7</item>
+        <item>14</item>
+        <item>30</item>
+    </string-array>
+
+</resources>

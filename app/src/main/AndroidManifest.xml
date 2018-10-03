@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="de.codebucket.mkkm">
 
     <!-- To store user credentials as account on device -->
@@ -15,6 +16,10 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
+    <!-- To access stored passengerId and run service -->
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
     <application
         android:name=".MobileKKM"
         android:allowBackup="true"
@@ -22,7 +27,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
 
         <activity
             android:name=".activity.LoginActivity"
@@ -53,6 +59,11 @@
             android:name=".util.RuntimeHelper"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:process=":helper" />
+
+        <service
+            android:name=".service.TicketExpiryCheckService"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
 
         <service android:name=".login.AuthenticatorService">
             <intent-filter>

@@ -41,14 +41,32 @@
     <!-- Strings related to settings -->
     <string name="title_activity_settings">Ustawienia</string>
     <string name="pref_group_general">Ogólne</string>
+    <string name="pref_group_notifications">Powiadomienia</string>
     <string name="pref_group_about">O aplikacji</string>
     <string name="pref_disclaimer_title">Nie pokazuj komunikatu ponownie</string>
     <string name="pref_disclaimer_description">Wyłącz, aby wyświetlić ponownie komunikat pojawiający się po pierwszym starcie aplikacji</string>
+    <string name="pref_enable_notifications">Włącz powiadomienia</string>
+    <string name="pref_expiration">Informuj o upływie ważności biletu</string>
+    <string name="pref_expiration_summary">%s wcześniej</string>
+    <string name="pref_notification_ringtone">Dźwięk</string>
+    <string name="pref_notification_vibrate">Wibracje</string>
     <string name="pref_about_title">Licencje open-source</string>
     <string name="pref_about_description">Poznaj współtwórców oraz użyte biblioteki</string>
     <string name="pref_version_title">Aplikacja mobileKKM</string>
     <string name="pref_version_description">wersja %s-%s.%s</string>
     <string name="pref_restart">Zrestartuj aplikację</string>
+
+    <!-- Expiration values -->
+    <string name="expiration_oneday">1 dzień</string>
+    <string name="expiration_threedays">3 dni</string>
+    <string name="expiration_fivedays">5 dni</string>
+    <string name="expiration_oneweek">1 tydzień</string>
+    <string name="expiration_twoweeks">2 tygodnie</string>
+    <string name="expiration_onemonth">1 miesiąc</string>
+
+    <!-- Notification -->
+    <string name="expiration_notification_title">Twój bilet wkrótce straci ważność</string>
+    <string name="expiration_notification_msg">Termin ważności od %s do %s</string>
 
     <!-- Attribouter screen -->
     <string name="about_twitter">Twitter</string>
@@ -93,4 +111,5 @@
     <string name="not_implemented">Funkcja jeszcze niedostępna!</string>
     <string name="session_expired">Twoja sesja wygasła, zaloguj się ponownie</string>
     <string name="state_loading">Restartowanie aplikacji…</string>
+    <string name="expiry_notification">Informacje o upływie ważności biletu</string>
 </resources>

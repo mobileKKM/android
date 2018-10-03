@@ -2,6 +2,9 @@ package de.codebucket.mkkm;
 
 import android.app.Application;
 import android.app.ProgressDialog;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
@@ -11,8 +14,12 @@ import android.preference.PreferenceManager;
 import android.provider.Settings.Secure;
 import android.util.Log;
 
+import androidx.room.Room;
+
 import java.util.UUID;
 
+import de.codebucket.mkkm.database.AppDatabase;
+import de.codebucket.mkkm.service.TicketExpiryCheckService;
 import de.codebucket.mkkm.util.LooperExecutor;
 import de.codebucket.mkkm.util.RuntimeHelper;
 
@@ -22,6 +29,7 @@ public class MobileKKM extends Application {
 
     private static MobileKKM instance;
     private static SharedPreferences preferences;
+    private static AppDatabase database;
 
     private static final HandlerThread sWorkerThread = new HandlerThread("loader");
     private static final long WAIT_BEFORE_RESTART = 1000;
@@ -37,6 +45,11 @@ public class MobileKKM extends Application {
         if (preferences.getString("fingerprint", null) == null) {
             preferences.edit().putString("fingerprint", getFingerprint()).apply();
         }
+
+        // Init offline database (first step to native migration)
+        database = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "appdata.db")
+                .fallbackToDestructiveMigration()
+                .build();
 
         sWorkerThread.start();
     }
@@ -58,12 +71,33 @@ public class MobileKKM extends Application {
         return false;
     }
 
+    public void setupTicketService() {
+        JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
+        if (preferences.getBoolean("enable_notifications", false)) {
+            if (scheduler.getAllPendingJobs().isEmpty()) {
+                ComponentName service = new ComponentName(this, TicketExpiryCheckService.class);
+                JobInfo info = new JobInfo.Builder(11, service)
+                        .setRequiredNetworkType(JobInfo.NETWORK_TYPE_NONE)
+                        .setPersisted(true)
+                        .setPeriodic(15 * 60 * 1000)
+                        .build();
+                scheduler.schedule(info);
+            }
+        } else {
+            scheduler.cancel(11);
+        }
+    }
+
     public static MobileKKM getInstance() {
         return instance;
     }
 
     public static SharedPreferences getPreferences() {
         return preferences;
+    }
+
+    public static AppDatabase getDatabase() {
+        return database;
     }
 
     public static void restartApp(final Context context) {

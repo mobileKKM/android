@@ -35,3 +35,11 @@
 
 # Custom WebView JavaScript interfaces
 -keep class de.codebucket.mkkm.KKMWebviewClient.ScriptInjectorCallback { *; }
+
+# Room library
+-dontwarn android.arch.util.paging.CountedDataSource
+-dontwarn android.arch.persistence.room.paging.LimitOffsetDataSource
+
+# Database models and converters
+-keep class de.codebucket.mkkm.database.converter.** { *; }
+-keep class de.codebucket.mkkm.database.model.** { *; }
