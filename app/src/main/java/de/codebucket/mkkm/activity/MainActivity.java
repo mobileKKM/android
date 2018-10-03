@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity
 
         // Create notification channel on Android O
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel("expiry_notification", getString(R.string.expiry_notification), NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationChannel channel = new NotificationChannel("expiry_notification", getString(R.string.expiry_notification), NotificationManager.IMPORTANCE_HIGH);
             MobileKKM.getInstance().getSystemService(NotificationManager.class).createNotificationChannel(channel);
         }
 

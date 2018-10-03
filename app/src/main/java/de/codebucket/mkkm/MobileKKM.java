@@ -78,6 +78,7 @@ public class MobileKKM extends Application {
                 ComponentName service = new ComponentName(this, TicketExpiryCheckService.class);
                 JobInfo info = new JobInfo.Builder(11, service)
                         .setRequiredNetworkType(JobInfo.NETWORK_TYPE_NONE)
+                        .setPersisted(true)
                         .setPeriodic(15 * 60 * 1000)
                         .build();
                 scheduler.schedule(info);

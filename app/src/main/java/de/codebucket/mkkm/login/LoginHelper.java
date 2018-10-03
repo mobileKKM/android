@@ -2,6 +2,11 @@ package de.codebucket.mkkm.login;
 
 import android.content.Context;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+
+import de.codebucket.mkkm.util.adapter.TicketStatusTypeAdapter;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -12,15 +17,27 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import de.codebucket.mkkm.MobileKKM;
 import de.codebucket.mkkm.R;
+import de.codebucket.mkkm.database.model.Ticket;
+import de.codebucket.mkkm.database.model.Ticket.TicketStatus;
 import de.codebucket.mkkm.login.LoginFailedException.ErrorType;
+import de.codebucket.mkkm.util.adapter.DateLongFormatTypeAdapter;
 
 public class LoginHelper {
 
     private static final String PROFILE_URL = "https://m.kkm.krakow.pl/profile/%s/%s";
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+
+    private static final Gson sGson = new GsonBuilder()
+            .registerTypeAdapter(Date.class, new DateLongFormatTypeAdapter())
+            .registerTypeAdapter(TicketStatus.class, new TicketStatusTypeAdapter())
+            .create();
 
     private Context mContext;
     private String mFingerprint;
@@ -106,6 +123,37 @@ public class LoginHelper {
         }
 
         return profile;
+    }
+
+    public List<Ticket> getTickets(String token) {
+        // Check if fingerprint is valid
+        if (mFingerprint == null) {
+            return null;
+        }
+
+        OkHttpClient httpClient = new OkHttpClient();
+        List<Ticket> tickets = new ArrayList<>();
+
+        try {
+            // Create GET request
+            Request request = new Request.Builder()
+                    .url(getEndpointUrl("tickets"))
+                    .addHeader("X-JWT-Assertion", token)
+                    .addHeader("Content-Type", "application/json; charset=UTF-8")
+                    .get()
+                    .build();
+
+            // Execute and load if successful
+            Response response = httpClient.newCall(request).execute();
+            if (response.isSuccessful()) {
+                Type listType = new TypeToken<List<Ticket>>(){}.getType();
+                tickets = sGson.fromJson(response.body().charStream(), listType);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return tickets;
     }
 
     public boolean isFingerprintValid() {

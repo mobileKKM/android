@@ -64,6 +64,10 @@
     <string name="expiration_twoweeks">2 tygodnie</string>
     <string name="expiration_onemonth">1 miesiąc</string>
 
+    <!-- Notification -->
+    <string name="expiration_notification_title">Twój bilet wkrótce straci ważność</string>
+    <string name="expiration_notification_msg">Termin ważności od %s do %s</string>
+
     <!-- Attribouter screen -->
     <string name="about_twitter">Twitter</string>
     <string name="title_attribouter_about">O aplikacji</string>
@@ -107,5 +111,5 @@
     <string name="not_implemented">Funkcja jeszcze niedostępna!</string>
     <string name="session_expired">Twoja sesja wygasła, zaloguj się ponownie</string>
     <string name="state_loading">Restartowanie aplikacji…</string>
-    <string name="expiry_notification">Informacje o upływie biletu</string>
+    <string name="expiry_notification">Informacje o upływie ważności biletu</string>
 </resources>
