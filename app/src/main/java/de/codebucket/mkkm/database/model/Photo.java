@@ -22,7 +22,7 @@ public class Photo {
     @ColumnInfo
     private Bitmap bitmap;
 
-    private Photo(String photoId, String passengerId, Bitmap bitmap) {
+    public Photo(String photoId, String passengerId, Bitmap bitmap) {
         this.photoId = photoId;
         this.passengerId = passengerId;
         this.bitmap = bitmap;
