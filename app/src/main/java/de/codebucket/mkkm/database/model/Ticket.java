@@ -1,5 +1,6 @@
 package de.codebucket.mkkm.database.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import com.google.gson.annotations.SerializedName;
@@ -10,7 +11,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "tickets")
-public class Ticket {
+public class Ticket implements Serializable {
 
     @NonNull
     @PrimaryKey
