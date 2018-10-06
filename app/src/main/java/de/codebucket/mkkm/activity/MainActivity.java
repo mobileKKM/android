@@ -8,6 +8,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
@@ -32,8 +33,8 @@ import de.codebucket.mkkm.BuildConfig;
 import de.codebucket.mkkm.MobileKKM;
 import de.codebucket.mkkm.R;
 import de.codebucket.mkkm.KKMWebviewClient;
+import de.codebucket.mkkm.database.model.Photo;
 import de.codebucket.mkkm.login.AuthenticatorService;
-import de.codebucket.mkkm.login.SessionProfile;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, KKMWebviewClient.OnPageChangedListener {
@@ -41,7 +42,7 @@ public class MainActivity extends AppCompatActivity
     private static final String TAG = "Main";
     private static final int TIME_INTERVAL = 2000;
 
-    private SessionProfile mProfile;
+    private de.codebucket.mkkm.database.model.Account mAccount;
     private NavigationView mNavigationView;
     private WebView mWebview;
     private long mBackPressed;
@@ -76,18 +77,25 @@ public class MainActivity extends AppCompatActivity
         mNavigationView.getMenu().getItem(0).setChecked(true);
         setTitle(mNavigationView.getMenu().getItem(0).getTitle());
 
-        // Get user session profile from login
-        mProfile = (SessionProfile) getIntent().getSerializableExtra("profile");
+        // Get user account from login
+        mAccount = (de.codebucket.mkkm.database.model.Account) getIntent().getSerializableExtra("account");
 
         View headerView = mNavigationView.getHeaderView(0);
-        ImageView drawerBackground = (ImageView) headerView.findViewById(R.id.drawer_header_background);
-        mProfile.loadPhoto(drawerBackground);
+        final ImageView drawerBackground = (ImageView) headerView.findViewById(R.id.drawer_header_background);
+
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                Photo photo = MobileKKM.getLoginHelper().getPhoto(mAccount);
+                drawerBackground.setImageBitmap(photo.getBitmap());
+            }
+        });
 
         TextView drawerUsername = (TextView) headerView.findViewById(R.id.drawer_header_username);
-        drawerUsername.setText(String.format("%s %s", mProfile.getFirstName(), mProfile.getLastName()));
+        drawerUsername.setText(String.format("%s %s", mAccount.getFirstName(), mAccount.getLastName()));
 
         TextView drawerEmail = (TextView) headerView.findViewById(R.id.drawer_header_email);
-        drawerEmail.setText(mProfile.getEmailAddress());
+        drawerEmail.setText(mAccount.getEmail());
 
         // Load webview layout
         SwipeRefreshLayout swipe = (SwipeRefreshLayout) findViewById(R.id.swipe);
@@ -105,14 +113,14 @@ public class MainActivity extends AppCompatActivity
         mWebview.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
 
         // Start webapp with values injected
-        injectWebapp(mProfile.getFingerprint(), mProfile.getToken());
+        injectWebapp();
     }
 
-    public void injectWebapp(String fingerprint, String token) {
+    public void injectWebapp() {
         // First inject session data into webview local storage, then load the webapp
         String inject = "<script type='text/javascript'>" +
-                "localStorage.setItem('fingerprint', '" + fingerprint + "');" +
-                "localStorage.setItem('token', '" + token + "');" +
+                "localStorage.setItem('fingerprint', '" + MobileKKM.getLoginHelper().getFingerprint() + "');" +
+                "localStorage.setItem('token', '" + MobileKKM.getLoginHelper().getSessionToken() + "');" +
                 "window.location.replace('https://m.kkm.krakow.pl/#!/home');" +
                 "</script>";
         mWebview.loadDataWithBaseURL("https://m.kkm.krakow.pl/inject", inject, "text/html", "utf-8", null);
@@ -124,7 +132,7 @@ public class MainActivity extends AppCompatActivity
         mWebview.onResume();
 
         // Check if token has expired and logout
-        if (mProfile.isTokenExpired()) {
+        if (MobileKKM.getLoginHelper().isSessionExpired()) {
             Toast.makeText(this, R.string.session_expired, Toast.LENGTH_SHORT).show();
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
             finish();

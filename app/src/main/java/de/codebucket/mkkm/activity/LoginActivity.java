@@ -44,7 +44,6 @@ import de.codebucket.mkkm.login.AuthenticatorService;
 import de.codebucket.mkkm.login.LoginFailedException;
 import de.codebucket.mkkm.login.LoginFailedException.ErrorType;
 import de.codebucket.mkkm.login.LoginHelper;
-import de.codebucket.mkkm.login.SessionProfile;
 import de.codebucket.mkkm.util.EncryptUtils;
 
 import static android.util.Patterns.EMAIL_ADDRESS;
@@ -55,7 +54,6 @@ public class LoginActivity extends AppCompatActivity {
     private static final int REGISTRATION_RESULT_CODE = 99;
 
     // Login stuff
-    private LoginHelper mLoginHelper;
     private UserLoginTask mAuthTask;
     private AccountManager mAccountManager;
     private Account mAccount;
@@ -75,9 +73,6 @@ public class LoginActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         setTitle(R.string.title_activity_login);
-
-        // Init login helper
-        mLoginHelper = new LoginHelper(this);
 
         // Set up the login form.
         mEmailView = (EditText) findViewById(R.id.input_email);
@@ -292,7 +287,7 @@ public class LoginActivity extends AppCompatActivity {
      * Execute user auth asynchronously in background
      */
 
-    public class UserLoginTask extends AsyncTask<Void, Void, SessionProfile> {
+    public class UserLoginTask extends AsyncTask<Void, Void, de.codebucket.mkkm.database.model.Account> {
 
         private final String mEmail;
         private final String mPassword;
@@ -314,7 +309,7 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             // Don't continue if fingerprint is invalid
-            if (!mLoginHelper.isFingerprintValid()) {
+            if (!MobileKKM.getLoginHelper().isFingerprintValid()) {
                 showError(getString(R.string.error_fingerprint));
                 cancel(true);
                 return;
@@ -322,52 +317,53 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         @Override
-        protected SessionProfile doInBackground(Void... params) {
+        protected de.codebucket.mkkm.database.model.Account doInBackground(Void... params) {
+            LoginHelper loginHelper = MobileKKM.getLoginHelper();
             String token = null;
 
             try {
-                token = mLoginHelper.getToken(mEmail, mPassword);
+                loginHelper.login(mEmail, mPassword);
             } catch (LoginFailedException ex) {
                 exception = ex;
                 return null;
             }
 
-            SessionProfile profile = mLoginHelper.getSession(token);
+            de.codebucket.mkkm.database.model.Account account = loginHelper.getAccount();
 
             // Delete saved tickets
             TicketDao dao = MobileKKM.getDatabase().ticketDao();
-            for (Ticket ticket : dao.getAllForPassenger(profile.getPassengerId())) {
+            for (Ticket ticket : dao.getAllForPassenger(account.getPassengerId())) {
                 dao.delete(ticket);
             }
 
             // Fetch new and save
-            List<Ticket> tickets = mLoginHelper.getTickets(token);
+            List<Ticket> tickets = loginHelper.getTickets();
             dao.insertAll(tickets);
 
-            return profile;
+            return account;
         }
 
         @Override
-        protected void onPostExecute(final SessionProfile profile) {
+        protected void onPostExecute(final de.codebucket.mkkm.database.model.Account account) {
             mAuthTask = null;
             showProgress(false);
 
-            if (profile != null) {
+            if (account != null) {
                 // Save account on device if no account
                 boolean firstSetup = false;
                 if (mAccount == null) {
                     String encryptedPassword = EncryptUtils.encrpytString(mPassword);
-                    Account account = new Account(mEmail, AuthenticatorService.ACCOUNT_TYPE);
+                    Account acc = new Account(mEmail, AuthenticatorService.ACCOUNT_TYPE);
 
                     // Add new account and save encrypted credentials
-                    mAccountManager.addAccountExplicitly(account, encryptedPassword, null);
-                    mAccountManager.setAuthToken(account, AuthenticatorService.TOKEN_TYPE, profile.getPassengerId());
+                    mAccountManager.addAccountExplicitly(acc, encryptedPassword, null);
+                    mAccountManager.setAuthToken(acc, AuthenticatorService.TOKEN_TYPE, account.getPassengerId());
                     firstSetup = true;
                 }
 
                 // Open MainActivity with signed in user
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                intent.putExtra("profile", profile);
+                intent.putExtra("account", account);
                 intent.putExtra("firstSetup", firstSetup);
                 startActivity(intent);
                 finish();

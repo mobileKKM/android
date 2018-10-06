@@ -19,6 +19,7 @@ import androidx.room.Room;
 import java.util.UUID;
 
 import de.codebucket.mkkm.database.AppDatabase;
+import de.codebucket.mkkm.login.LoginHelper;
 import de.codebucket.mkkm.service.TicketExpiryCheckService;
 import de.codebucket.mkkm.util.LooperExecutor;
 import de.codebucket.mkkm.util.RuntimeHelper;
@@ -26,10 +27,12 @@ import de.codebucket.mkkm.util.RuntimeHelper;
 public class MobileKKM extends Application {
 
     private static final String TAG = "MobileKKM";
+    private static final String SALT = "_mkkm";
 
     private static MobileKKM instance;
     private static SharedPreferences preferences;
     private static AppDatabase database;
+    private static LoginHelper loginHelper;
 
     private static final HandlerThread sWorkerThread = new HandlerThread("loader");
     private static final long WAIT_BEFORE_RESTART = 1000;
@@ -51,11 +54,14 @@ public class MobileKKM extends Application {
                 .fallbackToDestructiveMigration()
                 .build();
 
+        // Login handler
+        loginHelper = new LoginHelper(this);
+
         sWorkerThread.start();
     }
 
     public String getFingerprint() {
-        String deviceId = Secure.getString(getApplicationContext().getContentResolver(), Secure.ANDROID_ID);
+        String deviceId = Secure.getString(getApplicationContext().getContentResolver(), Secure.ANDROID_ID) + SALT;
         return UUID.nameUUIDFromBytes(deviceId.getBytes()).toString().replaceAll("-", "");
     }
 
@@ -98,6 +104,10 @@ public class MobileKKM extends Application {
 
     public static AppDatabase getDatabase() {
         return database;
+    }
+
+    public static LoginHelper getLoginHelper() {
+        return loginHelper;
     }
 
     public static void restartApp(final Context context) {
