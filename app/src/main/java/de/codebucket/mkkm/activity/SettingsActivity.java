@@ -1,8 +1,11 @@
 package de.codebucket.mkkm.activity;
 
+import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,6 +19,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.Preference;
 
+import com.takisoft.preferencex.PreferenceCategory;
 import com.takisoft.preferencex.PreferenceFragmentCompat;
 
 import de.codebucket.mkkm.BuildConfig;
@@ -111,6 +115,23 @@ public class SettingsActivity extends AppCompatActivity implements
                 }
             });
 
+            PreferenceCategory notifCategory = (PreferenceCategory) findPreference("category_notifications");
+            Preference notificationSettings = findPreference("notification_settings");
+            notificationSettings.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    openNotificationSettings();
+                    return true;
+                }
+            });
+
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+                notifCategory.removePreference(notificationSettings);
+            } else {
+                notifCategory.removePreference(findPreference("notification_ringtone"));
+                notifCategory.removePreference(findPreference("notification_vibrate"));
+            }
+
             Preference about = findPreference("about");
             about.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
@@ -148,6 +169,14 @@ public class SettingsActivity extends AppCompatActivity implements
                     MobileKKM.getInstance().setupTicketService();
                     break;
             }
+        }
+
+        @TargetApi(Build.VERSION_CODES.O)
+        private void openNotificationSettings() {
+            Intent intent = new Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS)
+                    .putExtra(Settings.EXTRA_APP_PACKAGE, getContext().getPackageName())
+                    .putExtra(Settings.EXTRA_CHANNEL_ID, "expiry_notification");
+            startActivity(intent);
         }
     }
 }

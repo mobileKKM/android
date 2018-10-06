@@ -2,6 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.takisoft.preferencex.PreferenceCategory
+        android:key="category_general"
         android:title="@string/pref_group_general"
         app:iconSpaceReserved="false">
 
@@ -20,6 +21,7 @@
     </com.takisoft.preferencex.PreferenceCategory>
 
     <com.takisoft.preferencex.PreferenceCategory
+        android:key="category_notifications"
         android:title="@string/pref_group_notifications"
         app:iconSpaceReserved="false">
 
@@ -57,9 +59,16 @@
             android:title="@string/pref_notification_vibrate"
             app:iconSpaceReserved="false" />
 
+        <androidx.preference.Preference
+            android:key="notification_settings"
+            android:title="@string/pref_notification_settings"
+            android:summary="@string/pref_notification_settings_summary"
+            app:iconSpaceReserved="false" />
+
     </com.takisoft.preferencex.PreferenceCategory>
 
     <com.takisoft.preferencex.PreferenceCategory
+        android:key="category_about"
         android:title="@string/pref_group_about"
         app:iconSpaceReserved="false">
 
@@ -68,6 +77,7 @@
             android:title="@string/pref_about_title"
             android:summary="@string/pref_about_description"
             app:iconSpaceReserved="false" />
+
         <androidx.preference.Preference
             android:key="version"
             android:title="@string/pref_version_title"
