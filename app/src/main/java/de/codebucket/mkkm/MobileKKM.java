@@ -9,7 +9,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.HandlerThread;
+import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.provider.Settings.Secure;
 import android.util.Log;
@@ -21,7 +21,6 @@ import java.util.UUID;
 import de.codebucket.mkkm.database.AppDatabase;
 import de.codebucket.mkkm.login.LoginHelper;
 import de.codebucket.mkkm.service.TicketExpiryCheckService;
-import de.codebucket.mkkm.util.LooperExecutor;
 import de.codebucket.mkkm.util.RuntimeHelper;
 
 public class MobileKKM extends Application {
@@ -34,7 +33,6 @@ public class MobileKKM extends Application {
     private static AppDatabase database;
     private static LoginHelper loginHelper;
 
-    private static final HandlerThread sWorkerThread = new HandlerThread("loader");
     private static final long WAIT_BEFORE_RESTART = 1000;
 
     @Override
@@ -56,8 +54,6 @@ public class MobileKKM extends Application {
 
         // Login handler
         loginHelper = new LoginHelper(this);
-
-        sWorkerThread.start();
     }
 
     public String getFingerprint() {
@@ -112,7 +108,7 @@ public class MobileKKM extends Application {
 
     public static void restartApp(final Context context) {
         ProgressDialog.show(context, null, context.getString(R.string.state_loading), true, false);
-        new LooperExecutor(sWorkerThread.getLooper()).execute(new Runnable() {
+        AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
                 try {
