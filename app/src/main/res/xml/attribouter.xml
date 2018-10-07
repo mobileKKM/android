@@ -72,14 +72,10 @@
 
     <me.jfenn.attribouter.wedges.LicensesWedge>
 
-        <!-- OkHttp + Picasso -->
+        <!-- OkHttp3 -->
         <me.jfenn.attribouter.wedges.LicenseWedge
             title="^OkHttp"
             repo="square/okhttp"
-            license="apache-2.0" />
-        <me.jfenn.attribouter.wedges.LicenseWedge
-            title="^Picasso"
-            repo="square/picasso"
             license="apache-2.0" />
 
         <!-- ATTENTION: This repository is no longer being used for development, tracking issues, or accepting pull requests. -->
