@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
+import android.util.Log;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -113,13 +114,16 @@ public class LoginHelper {
         }
     }
 
-    public Account getAccount() {
-        Account account = null;
+    private Response executeCall(String url) throws LoginFailedException {
+        // Check if we have a running session, if not re-login
+        if (isSessionExpired()) {
+            login();
+        }
 
         try {
             // Create GET request
             Request request = new Request.Builder()
-                    .url(getEndpointUrl("account"))
+                    .url(url)
                     .addHeader("X-JWT-Assertion", mSessionToken)
                     .addHeader("Content-Type", "application/json; charset=UTF-8")
                     .get()
@@ -127,73 +131,44 @@ public class LoginHelper {
 
             // Execute and load if successful
             Response response = mHttpClient.newCall(request).execute();
-            if (response.isSuccessful()) {
-                account = sGson.fromJson(response.body().charStream(), Account.class);
-            }
 
-            // Refresh session token
+            // Update session token
             mSessionToken = response.header("X-JWT-Assertion", mSessionToken);
-        } catch (Exception ex) {
-            ex.printStackTrace();
+            return response;
+        } catch (IOException ex) {
+            // An IOException occurs only when the low-level connection failed
+            throw new LoginFailedException(LoginFailedException.ErrorType.SYSTEM, R.string.error_no_network);
         }
-
-        return account;
     }
 
-    public List<Ticket> getTickets() {
-        List<Ticket> tickets = new ArrayList<>();
-
-        try {
-            // Create GET request
-            Request request = new Request.Builder()
-                    .url(getEndpointUrl("tickets"))
-                    .addHeader("X-JWT-Assertion", mSessionToken)
-                    .addHeader("Content-Type", "application/json; charset=UTF-8")
-                    .get()
-                    .build();
-
-            // Execute and load if successful
-            Response response = mHttpClient.newCall(request).execute();
-            if (response.isSuccessful()) {
-                Type listType = new TypeToken<List<Ticket>>(){}.getType();
-                tickets = sGson.fromJson(response.body().charStream(), listType);
-            }
-
-            // Refresh session token
-            mSessionToken = response.header("X-JWT-Assertion", mSessionToken);
-        } catch (Exception ex) {
-            ex.printStackTrace();
+    public Account getAccount() throws LoginFailedException {
+        Response response = executeCall(getEndpointUrl("account"));
+        if (response.isSuccessful()) {
+            Type classType = new TypeToken<Account>(){}.getType();
+            return sGson.fromJson(response.body().charStream(), classType);
         }
 
-        return tickets;
+        return null;
     }
 
-    public Photo getPhoto(Account account) {
-        Photo photo = null;
-
-        try {
-            // Create GET request
-            Request request = new Request.Builder()
-                    .url(getPhotoUrl(account.getPhotoId()))
-                    .addHeader("X-JWT-Assertion", mSessionToken)
-                    .addHeader("Referer", "https://m.kkm.krakow.pl/")
-                    .get()
-                    .build();
-
-            // Execute and load if successful
-            Response response = mHttpClient.newCall(request).execute();
-            if (response.isSuccessful()) {
-                Bitmap bitmap = BitmapFactory.decodeStream(response.body().byteStream());
-                photo = Photo.fromBitmap(account, bitmap);
-            }
-
-            // Refresh session token
-            mSessionToken = response.header("X-JWT-Assertion", mSessionToken);
-        } catch (Exception ex) {
-            ex.printStackTrace();
+    public List<Ticket> getTickets() throws LoginFailedException {
+        Response response = executeCall(getEndpointUrl("tickets"));
+        if (response.isSuccessful()) {
+            Type listType = new TypeToken<List<Ticket>>(){}.getType();
+            return sGson.fromJson(response.body().charStream(), listType);
         }
 
-        return photo;
+        return new ArrayList<>();
+    }
+
+    public Photo getPhoto(Account account) throws LoginFailedException {
+        Response response = executeCall(getPhotoUrl(account.getPhotoId()));
+        if (response.isSuccessful()) {
+            Bitmap bitmap = BitmapFactory.decodeStream(response.body().byteStream());
+            return Photo.fromBitmap(account, bitmap);
+        }
+
+        return null;
     }
 
     public boolean isFingerprintValid() {

@@ -33,6 +33,7 @@ import androidx.browser.customtabs.CustomTabsIntent;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import java.io.IOException;
 import java.util.List;
 
 import de.codebucket.mkkm.MobileKKM;
@@ -316,7 +317,6 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected de.codebucket.mkkm.database.model.Account doInBackground(Void... params) {
             LoginHelper loginHelper = MobileKKM.getLoginHelper();
-            String token = null;
 
             try {
                 loginHelper.login(mEmail, mPassword);
@@ -325,17 +325,23 @@ public class LoginActivity extends AppCompatActivity {
                 return null;
             }
 
-            de.codebucket.mkkm.database.model.Account account = loginHelper.getAccount();
+            de.codebucket.mkkm.database.model.Account account = null;
 
-            // Delete saved tickets
-            TicketDao dao = MobileKKM.getDatabase().ticketDao();
-            for (Ticket ticket : dao.getAllForPassenger(account.getPassengerId())) {
-                dao.delete(ticket);
+            try {
+                account = loginHelper.getAccount();
+
+                // Delete saved tickets
+                TicketDao dao = MobileKKM.getDatabase().ticketDao();
+                for (Ticket ticket : dao.getAllForPassenger(account.getPassengerId())) {
+                    dao.delete(ticket);
+                }
+
+                // Fetch new and save
+                List<Ticket> tickets = loginHelper.getTickets();
+                dao.insertAll(tickets);
+            } catch (LoginFailedException ex) {
+                exception = ex;
             }
-
-            // Fetch new and save
-            List<Ticket> tickets = loginHelper.getTickets();
-            dao.insertAll(tickets);
 
             return account;
         }

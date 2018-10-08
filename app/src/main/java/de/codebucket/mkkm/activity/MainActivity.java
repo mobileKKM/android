@@ -91,14 +91,16 @@ public class MainActivity extends AppCompatActivity
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-                final Photo photo = MobileKKM.getLoginHelper().getPhoto(mAccount);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        PicassoDrawable drawable = new PicassoDrawable(MainActivity.this, photo.getBitmap(), drawerBackground.getDrawable(), false);
-                        drawerBackground.setImageDrawable(drawable);
-                    }
-                });
+                try {
+                    final Photo photo = MobileKKM.getLoginHelper().getPhoto(mAccount);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            PicassoDrawable drawable = new PicassoDrawable(MainActivity.this, photo.getBitmap(), drawerBackground.getDrawable(), false);
+                            drawerBackground.setImageDrawable(drawable);
+                        }
+                    });
+                } catch (Exception ignored) {}
             }
         });
 
