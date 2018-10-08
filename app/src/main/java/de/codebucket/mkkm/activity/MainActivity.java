@@ -6,6 +6,11 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.TransitionDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -34,6 +39,7 @@ import de.codebucket.mkkm.KKMWebviewClient;
 import de.codebucket.mkkm.database.model.Account;
 import de.codebucket.mkkm.database.model.Photo;
 import de.codebucket.mkkm.login.AccountUtils;
+import de.codebucket.mkkm.util.PicassoDrawable;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, KKMWebviewClient.OnPageChangedListener {
@@ -89,7 +95,8 @@ public class MainActivity extends AppCompatActivity
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        drawerBackground.setImageBitmap(photo.getBitmap());
+                        PicassoDrawable.setPlaceholder(drawerBackground, getDrawable(R.drawable.kkm_avatar));
+                        PicassoDrawable.setBitmap(drawerBackground, MainActivity.this, photo.getBitmap(), false);
                     }
                 });
             }
