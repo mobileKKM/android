@@ -1,7 +1,6 @@
 package de.codebucket.mkkm.activity;
 
 import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -40,7 +39,7 @@ import de.codebucket.mkkm.MobileKKM;
 import de.codebucket.mkkm.R;
 import de.codebucket.mkkm.database.model.Ticket;
 import de.codebucket.mkkm.database.model.TicketDao;
-import de.codebucket.mkkm.login.AuthenticatorService;
+import de.codebucket.mkkm.login.AccountUtils;
 import de.codebucket.mkkm.login.LoginFailedException;
 import de.codebucket.mkkm.login.LoginFailedException.ErrorType;
 import de.codebucket.mkkm.login.LoginHelper;
@@ -55,7 +54,6 @@ public class LoginActivity extends AppCompatActivity {
 
     // Login stuff
     private UserLoginTask mAuthTask;
-    private AccountManager mAccountManager;
     private Account mAccount;
 
     // UI references
@@ -108,16 +106,15 @@ public class LoginActivity extends AppCompatActivity {
         mLoginForm = (ScrollView) findViewById(R.id.login_form);
 
         // Check if user is already signed in
-        mAccountManager = AccountManager.get(this);
-        mAccount = AuthenticatorService.getUserAccount(this);
+        mAccount = AccountUtils.getCurrentAccount();
 
         if (mAccount != null) {
             // Migrate plain password to encrypted credentials
-            String password = mAccountManager.getPassword(mAccount);
+            String password = AccountUtils.getPasswordEncrypted(mAccount);
             if (!EncryptUtils.isBase64(password)) {
                 try {
                     String encryptedPassword = EncryptUtils.encrpytString(password);
-                    mAccountManager.setPassword(mAccount, encryptedPassword);
+                    AccountUtils.setPassword(mAccount, encryptedPassword);
                 } catch (Exception ex) {
                     Log.e(TAG, "Failed to encrypt existing password: " + ex);
                 }
@@ -352,12 +349,7 @@ public class LoginActivity extends AppCompatActivity {
                 // Save account on device if no account
                 boolean firstSetup = false;
                 if (mAccount == null) {
-                    String encryptedPassword = EncryptUtils.encrpytString(mPassword);
-                    Account acc = new Account(mEmail, AuthenticatorService.ACCOUNT_TYPE);
-
-                    // Add new account and save encrypted credentials
-                    mAccountManager.addAccountExplicitly(acc, encryptedPassword, null);
-                    mAccountManager.setAuthToken(acc, AuthenticatorService.TOKEN_TYPE, account.getPassengerId());
+                    AccountUtils.addAccount(mEmail, mPassword, account.getPassengerId());
                     firstSetup = true;
                 }
 
@@ -370,7 +362,7 @@ public class LoginActivity extends AppCompatActivity {
             } else if (exception != null) {
                 // Remove account if credentials are wrong
                 if (mAccount != null && exception.getErrorType() == ErrorType.BACKEND) {
-                    mAccountManager.removeAccount(mAccount, null, null);
+                    AccountUtils.removeAccount(mAccount);
                 }
 
                 // Print error to log and show message to the user

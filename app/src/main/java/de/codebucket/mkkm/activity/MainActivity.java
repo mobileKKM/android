@@ -1,7 +1,5 @@
 package de.codebucket.mkkm.activity;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.NotificationChannel;
@@ -33,8 +31,9 @@ import de.codebucket.mkkm.BuildConfig;
 import de.codebucket.mkkm.MobileKKM;
 import de.codebucket.mkkm.R;
 import de.codebucket.mkkm.KKMWebviewClient;
+import de.codebucket.mkkm.database.model.Account;
 import de.codebucket.mkkm.database.model.Photo;
-import de.codebucket.mkkm.login.AuthenticatorService;
+import de.codebucket.mkkm.login.AccountUtils;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, KKMWebviewClient.OnPageChangedListener {
@@ -42,7 +41,7 @@ public class MainActivity extends AppCompatActivity
     private static final String TAG = "Main";
     private static final int TIME_INTERVAL = 2000;
 
-    private de.codebucket.mkkm.database.model.Account mAccount;
+    private Account mAccount;
     private NavigationView mNavigationView;
     private WebView mWebview;
     private long mBackPressed;
@@ -236,9 +235,7 @@ public class MainActivity extends AppCompatActivity
                         .setPositiveButton(R.string.dialog_yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                AccountManager accountManager = AccountManager.get(MainActivity.this);
-                                Account account = AuthenticatorService.getUserAccount(MainActivity.this);
-                                accountManager.removeAccount(account, null, null);
+                                AccountUtils.removeAccount(AccountUtils.getCurrentAccount());
 
                                 // Return back to login screen
                                 startActivity(new Intent(MainActivity.this, LoginActivity.class));

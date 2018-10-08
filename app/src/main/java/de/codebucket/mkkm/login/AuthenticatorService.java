@@ -3,7 +3,6 @@ package de.codebucket.mkkm.login;
 import android.accounts.AbstractAccountAuthenticator;
 import android.accounts.Account;
 import android.accounts.AccountAuthenticatorResponse;
-import android.accounts.AccountManager;
 import android.accounts.NetworkErrorException;
 import android.app.Service;
 import android.content.Context;
@@ -20,16 +19,6 @@ public class AuthenticatorService extends Service {
     public static final String TOKEN_TYPE = "passengerId";
 
     private Authenticator mAuthenticator;
-
-    public static Account getUserAccount(Context context) {
-        AccountManager accountManager = AccountManager.get(context);
-        Account account = null;
-
-        try {
-            account = accountManager.getAccountsByType(ACCOUNT_TYPE)[0];
-        } catch (Exception ignored) {}
-        return account;
-    }
 
     @Override
     public void onCreate() {

@@ -1,6 +1,5 @@
 package de.codebucket.mkkm.login;
 
-import android.accounts.AccountManager;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -47,7 +46,7 @@ public class LoginHelper {
             .create();
 
     // Device related variables (those aren't null)
-    private AccountManager mAccountManager;
+    private Context mContext;
     private String mFingerprint;
 
     // Login related variables
@@ -55,24 +54,20 @@ public class LoginHelper {
     private OkHttpClient mHttpClient = new OkHttpClient();
 
     public LoginHelper(Context context) {
-        mAccountManager = AccountManager.get(context);
+        mContext = context;
         mFingerprint = MobileKKM.getPreferences().getString("fingerprint", null);
     }
 
     public void login() throws LoginFailedException {
         // Get account from device
-        android.accounts.Account account = null;
-
-        try {
-            account = mAccountManager.getAccountsByType(AuthenticatorService.ACCOUNT_TYPE)[0];
-        } catch (Exception ignored) {}
+        android.accounts.Account account = AccountUtils.getCurrentAccount();
 
         // Don't continue if no account stored on device
         if (account == null) {
             throw new LoginFailedException(LoginFailedException.ErrorType.USER, R.string.error_account);
         }
 
-        String password = mAccountManager.getPassword(account);
+        String password = AccountUtils.getPassword(account);
         login(account.name, password);
     }
 
@@ -243,6 +238,6 @@ public class LoginHelper {
     }
 
     private String getString(int resId) {
-        return MobileKKM.getInstance().getString(resId);
+        return mContext.getString(resId);
     }
 }

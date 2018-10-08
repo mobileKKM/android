@@ -1,7 +1,5 @@
 package de.codebucket.mkkm.service;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.app.NotificationManager;
 import android.app.job.JobParameters;
 import android.app.job.JobService;
@@ -15,12 +13,14 @@ import androidx.core.app.NotificationCompat;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 import java.util.UUID;
 
 import de.codebucket.mkkm.MobileKKM;
 import de.codebucket.mkkm.R;
 import de.codebucket.mkkm.database.model.Ticket;
-import de.codebucket.mkkm.login.AuthenticatorService;
+import de.codebucket.mkkm.database.model.TicketDao;
+import de.codebucket.mkkm.login.AccountUtils;
 
 public class TicketExpiryCheckService extends JobService {
 
@@ -34,22 +34,15 @@ public class TicketExpiryCheckService extends JobService {
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-                Account acc = AuthenticatorService.getUserAccount(MobileKKM.getInstance());
-                AccountManager manager = AccountManager.get(MobileKKM.getInstance());
-
-                String passengerId = null;
-
-                try {
-                    passengerId = manager.blockingGetAuthToken(acc, AuthenticatorService.TOKEN_TYPE, false);
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                    return;
-                }
+                TicketDao ticketDao = MobileKKM.getDatabase().ticketDao();
+                String passengerId = AccountUtils.getPassengerId(AccountUtils.getCurrentAccount());
 
                 Calendar cal = Calendar.getInstance();
-                cal.add(Calendar.DATE, Integer.parseInt(prefs.getString("expiration", "0")));
+                cal.add(Calendar.DATE, 120);
 
-                for (Ticket ticket : MobileKKM.getDatabase().ticketDao().getExpiredForPassenger(passengerId, cal.getTime())) {
+                List<Ticket> tickets = ticketDao.getExpiredForPassenger(passengerId, cal.getTime());
+
+                for (Ticket ticket : tickets) {
                     String dateFrom = DATE_FORMAT.format(ticket.getPurchaseDate());
                     String dateTo = DATE_FORMAT.format(ticket.getExpireDate());
 
