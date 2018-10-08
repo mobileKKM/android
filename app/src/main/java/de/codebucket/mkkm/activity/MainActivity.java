@@ -95,8 +95,8 @@ public class MainActivity extends AppCompatActivity
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        PicassoDrawable.setPlaceholder(drawerBackground, getDrawable(R.drawable.kkm_avatar));
-                        PicassoDrawable.setBitmap(drawerBackground, MainActivity.this, photo.getBitmap(), false);
+                        PicassoDrawable drawable = new PicassoDrawable(MainActivity.this, photo.getBitmap(), drawerBackground.getDrawable(), false);
+                        drawerBackground.setImageDrawable(drawable);
                     }
                 });
             }

@@ -20,42 +20,15 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
 import android.graphics.Rect;
-import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.SystemClock;
-import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 
 public class PicassoDrawable extends BitmapDrawable {
-    // Only accessed from main thread.
+
     private static final float FADE_DURATION = 200f; //ms
-
-    /**
-     * Create or update the drawable on the target {@link ImageView} to display the supplied bitmap
-     * image.
-     */
-    public static void setBitmap(ImageView target, Context context, Bitmap bitmap, boolean noFade) {
-        Drawable placeholder = target.getDrawable();
-        if (placeholder instanceof AnimationDrawable) {
-            ((AnimationDrawable) placeholder).stop();
-        }
-
-        PicassoDrawable drawable = new PicassoDrawable(context, bitmap, placeholder, noFade);
-        target.setImageDrawable(drawable);
-    }
-
-    /**
-     * Create or update the drawable on the target {@link ImageView} to display the supplied
-     * placeholder image.
-     */
-    public static void setPlaceholder(ImageView target, Drawable placeholderDrawable) {
-        target.setImageDrawable(placeholderDrawable);
-        if (target.getDrawable() instanceof AnimationDrawable) {
-            ((AnimationDrawable) target.getDrawable()).start();
-        }
-    }
 
     @Nullable
     private Drawable placeholder;
@@ -64,7 +37,7 @@ public class PicassoDrawable extends BitmapDrawable {
     private boolean animating;
     private int alpha = 0xFF;
 
-    private PicassoDrawable(Context context, Bitmap bitmap, @Nullable Drawable placeholder, boolean noFade) {
+    public PicassoDrawable(Context context, Bitmap bitmap, @Nullable Drawable placeholder, boolean noFade) {
         super(context.getResources(), bitmap);
 
         if (!noFade) {
