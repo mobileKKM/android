@@ -1,6 +1,5 @@
 package de.codebucket.mkkm.activity;
 
-import android.accounts.Account;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -10,7 +9,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -38,24 +36,25 @@ import java.util.List;
 
 import de.codebucket.mkkm.MobileKKM;
 import de.codebucket.mkkm.R;
+import de.codebucket.mkkm.database.model.Account;
 import de.codebucket.mkkm.database.model.Ticket;
 import de.codebucket.mkkm.database.model.TicketDao;
 import de.codebucket.mkkm.login.AccountUtils;
-import de.codebucket.mkkm.login.LoginFailedException;
-import de.codebucket.mkkm.login.LoginFailedException.ErrorType;
 import de.codebucket.mkkm.login.LoginHelper;
+import de.codebucket.mkkm.login.UserLoginTask;
+import de.codebucket.mkkm.util.Const;
 import de.codebucket.mkkm.util.EncryptUtils;
 
 import static android.util.Patterns.EMAIL_ADDRESS;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements UserLoginTask.CallbackListener {
 
     private static final String TAG = "Login";
     private static final int REGISTRATION_RESULT_CODE = 99;
 
     // Login stuff
     private UserLoginTask mAuthTask;
-    private Account mAccount;
+    private android.accounts.Account mAccount; // TODO: remove android.accounts reference
 
     // UI references
     private ProgressDialog mProgressDialog;
@@ -198,10 +197,6 @@ public class LoginActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * Login form validation and authorization
-     */
-
     private void attemptLogin() {
         if (mAuthTask != null) {
             return;
@@ -239,7 +234,7 @@ public class LoginActivity extends AppCompatActivity {
 
         // Show a progress spinner and perform the user login attempt
         showProgress(true);
-        mAuthTask = new UserLoginTask(email, password);
+        mAuthTask = new UserLoginTask(email, password, this);
         mAuthTask.execute();
     }
 
@@ -249,6 +244,60 @@ public class LoginActivity extends AppCompatActivity {
 
     private boolean isPasswordValid(String password) {
         return !password.isEmpty() && password.length() >= 6;
+    }
+
+    @Override
+    public Object onPostLogin() throws IOException {
+        LoginHelper loginHelper = MobileKKM.getLoginHelper();
+        Account account = loginHelper.getAccount();
+
+        // Delete saved tickets
+        TicketDao dao = MobileKKM.getDatabase().ticketDao();
+        for (Ticket ticket : dao.getAllForPassenger(account.getPassengerId())) {
+            dao.delete(ticket);
+        }
+
+        // Fetch new and save
+        List<Ticket> tickets = loginHelper.getTickets();
+        dao.insertAll(tickets);
+
+        return account;
+    }
+
+    @Override
+    public void onSuccess(Object result) {
+        Account account = (Account) result;
+
+        // Save account on device if no account
+        boolean firstSetup = false;
+        if (mAccount == null) {
+            AccountUtils.addAccount(mAuthTask.username, mAuthTask.password, account.getPassengerId());
+            firstSetup = true;
+        }
+
+        // Open MainActivity with signed in user
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        intent.putExtra("account", account);
+        intent.putExtra("firstSetup", firstSetup);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public void onError(int errorCode, String message) {
+        // Remove account if credentials are wrong
+        if (mAccount != null && errorCode == Const.ErrorCode.LOGIN_ERROR) {
+            AccountUtils.removeAccount(mAccount);
+        }
+
+        // Show error message to the user
+        Snackbar.make(mLoginForm, Const.getErrorMessage(errorCode, message), Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onTaskFinish() {
+        mAuthTask = null;
+        showProgress(false);
     }
 
     private void openWebsite(Uri uri) {
@@ -274,113 +323,6 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             mProgressDialog.dismiss();
             mLoginButton.setEnabled(true);
-        }
-    }
-
-    private void showError(String errorMessage) {
-        Snackbar.make(mLoginForm, errorMessage, Snackbar.LENGTH_LONG).show();
-    }
-
-    /**
-     * Execute user auth asynchronously in background
-     */
-
-    public class UserLoginTask extends AsyncTask<Void, Void, de.codebucket.mkkm.database.model.Account> {
-
-        private final String mEmail;
-        private final String mPassword;
-
-        private LoginFailedException exception;
-
-        UserLoginTask(String email, String password) {
-            mEmail = email;
-            mPassword = password;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            // Check if device is connected to the Internet
-            if (!MobileKKM.getInstance().isNetworkConnectivity()) {
-                showError(getString(R.string.error_no_network));
-                cancel(true);
-                return;
-            }
-
-            // Don't continue if fingerprint is invalid
-            if (!MobileKKM.getLoginHelper().isFingerprintValid()) {
-                showError(getString(R.string.error_fingerprint));
-                cancel(true);
-                return;
-            }
-        }
-
-        @Override
-        protected de.codebucket.mkkm.database.model.Account doInBackground(Void... params) {
-            LoginHelper loginHelper = MobileKKM.getLoginHelper();
-
-            try {
-                loginHelper.login(mEmail, mPassword);
-            } catch (LoginFailedException ex) {
-                exception = ex;
-                return null;
-            }
-
-            de.codebucket.mkkm.database.model.Account account = null;
-
-            try {
-                account = loginHelper.getAccount();
-
-                // Delete saved tickets
-                TicketDao dao = MobileKKM.getDatabase().ticketDao();
-                for (Ticket ticket : dao.getAllForPassenger(account.getPassengerId())) {
-                    dao.delete(ticket);
-                }
-
-                // Fetch new and save
-                List<Ticket> tickets = loginHelper.getTickets();
-                dao.insertAll(tickets);
-            } catch (LoginFailedException ex) {
-                exception = ex;
-            }
-
-            return account;
-        }
-
-        @Override
-        protected void onPostExecute(final de.codebucket.mkkm.database.model.Account account) {
-            mAuthTask = null;
-            showProgress(false);
-
-            if (account != null) {
-                // Save account on device if no account
-                boolean firstSetup = false;
-                if (mAccount == null) {
-                    AccountUtils.addAccount(mEmail, mPassword, account.getPassengerId());
-                    firstSetup = true;
-                }
-
-                // Open MainActivity with signed in user
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                intent.putExtra("account", account);
-                intent.putExtra("firstSetup", firstSetup);
-                startActivity(intent);
-                finish();
-            } else if (exception != null) {
-                // Remove account if credentials are wrong
-                if (mAccount != null && exception.getErrorType() == ErrorType.BACKEND) {
-                    AccountUtils.removeAccount(mAccount);
-                }
-
-                // Print error to log and show message to the user
-                Log.e(TAG, String.format("%s: %s", exception.getErrorType(), exception.getErrorMessage()));
-                showError(exception.getErrorMessage());
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            showProgress(false);
         }
     }
 }
