@@ -37,13 +37,13 @@ import java.util.List;
 import de.codebucket.mkkm.MobileKKM;
 import de.codebucket.mkkm.R;
 import de.codebucket.mkkm.database.model.Account;
+import de.codebucket.mkkm.database.model.AccountDao;
 import de.codebucket.mkkm.database.model.Ticket;
 import de.codebucket.mkkm.database.model.TicketDao;
 import de.codebucket.mkkm.login.AccountUtils;
 import de.codebucket.mkkm.login.LoginHelper;
 import de.codebucket.mkkm.login.UserLoginTask;
 import de.codebucket.mkkm.util.Const;
-import de.codebucket.mkkm.util.EncryptUtils;
 
 import static android.util.Patterns.EMAIL_ADDRESS;
 
@@ -53,8 +53,8 @@ public class LoginActivity extends AppCompatActivity implements UserLoginTask.Ca
     private static final int REGISTRATION_RESULT_CODE = 99;
 
     // Login stuff
+    private AlertDialog mAlertDialog;
     private UserLoginTask mAuthTask;
-    private android.accounts.Account mAccount; // TODO: remove android.accounts reference
 
     // UI references
     private ProgressDialog mProgressDialog;
@@ -104,45 +104,7 @@ public class LoginActivity extends AppCompatActivity implements UserLoginTask.Ca
         });
 
         mLoginForm = (ScrollView) findViewById(R.id.login_form);
-
-        // Check if user is already signed in
-        mAccount = AccountUtils.getCurrentAccount();
-
-        if (mAccount != null) {
-            // Migrate plain password to encrypted credentials
-            String password = AccountUtils.getPasswordEncrypted(mAccount);
-            if (!EncryptUtils.isBase64(password)) {
-                try {
-                    String encryptedPassword = EncryptUtils.encrpytString(password);
-                    AccountUtils.setPassword(mAccount, encryptedPassword);
-                } catch (Exception ex) {
-                    Log.e(TAG, "Failed to encrypt existing password: " + ex);
-                }
-            } else {
-                password = EncryptUtils.decryptString(password);
-            }
-
-            mEmailView.setText(mAccount.name);
-            mPasswordView.setText(password);
-            attemptLogin();
-        }
-
-        // Show disclaimer if user hasn't seen yet
-        final SharedPreferences preferences = MobileKKM.getPreferences();
-        if (!preferences.getBoolean("disclaimer_shown", false) || MobileKKM.isDebug()) {
-            new AlertDialog.Builder(this)
-                    .setTitle(R.string.disclaimer_title)
-                    .setMessage(R.string.disclaimer_body)
-                    .setNegativeButton(R.string.dialog_dont_show_again, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            // Don't display disclaimer anymore
-                            preferences.edit().putBoolean("disclaimer_shown", true).apply();
-                        }
-                    })
-                    .setPositiveButton(R.string.dialog_close, null)
-                    .show();
-        }
+        showDisclaimer();
     }
 
     @Override
@@ -251,16 +213,8 @@ public class LoginActivity extends AppCompatActivity implements UserLoginTask.Ca
         LoginHelper loginHelper = MobileKKM.getLoginHelper();
         Account account = loginHelper.getAccount();
 
-        // Delete saved tickets
-        TicketDao dao = MobileKKM.getDatabase().ticketDao();
-        for (Ticket ticket : dao.getAllForPassenger(account.getPassengerId())) {
-            dao.delete(ticket);
-        }
-
-        // Fetch new and save
-        List<Ticket> tickets = loginHelper.getTickets();
-        dao.insertAll(tickets);
-
+        AccountDao dao = MobileKKM.getDatabase().accountDao();
+        dao.add(account);
         return account;
     }
 
@@ -268,28 +222,19 @@ public class LoginActivity extends AppCompatActivity implements UserLoginTask.Ca
     public void onSuccess(Object result) {
         Account account = (Account) result;
 
-        // Save account on device if no account
-        boolean firstSetup = false;
-        if (mAccount == null) {
-            AccountUtils.addAccount(mAuthTask.username, mAuthTask.password, account.getPassengerId());
-            firstSetup = true;
-        }
+        // Save account on device
+        AccountUtils.addAccount(mAuthTask.username, mAuthTask.password, account.getPassengerId());
 
         // Open MainActivity with signed in user
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         intent.putExtra("account", account);
-        intent.putExtra("firstSetup", firstSetup);
+        intent.putExtra("firstSetup", true);
         startActivity(intent);
         finish();
     }
 
     @Override
     public void onError(int errorCode, String message) {
-        // Remove account if credentials are wrong
-        if (mAccount != null && errorCode == Const.ErrorCode.LOGIN_ERROR) {
-            AccountUtils.removeAccount(mAccount);
-        }
-
         // Show error message to the user
         Snackbar.make(mLoginForm, Const.getErrorMessage(errorCode, message), Snackbar.LENGTH_LONG).show();
     }
@@ -316,13 +261,31 @@ public class LoginActivity extends AppCompatActivity implements UserLoginTask.Ca
         }
     }
 
+    private void showDisclaimer() {
+        // Show disclaimer if user hasn't seen yet
+        final SharedPreferences preferences = MobileKKM.getPreferences();
+        if (!preferences.getBoolean("disclaimer_shown", false) || MobileKKM.isDebug()) {
+            mAlertDialog = new AlertDialog.Builder(this)
+                    .setTitle(R.string.disclaimer_title)
+                    .setMessage(R.string.disclaimer_body)
+                    .setNegativeButton(R.string.dialog_dont_show_again, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Don't display disclaimer anymore
+                            preferences.edit().putBoolean("disclaimer_shown", true).apply();
+                        }
+                    })
+                    .setPositiveButton(R.string.dialog_close, null)
+                    .show();
+        }
+    }
+
     private void showProgress(boolean show) {
+        mLoginButton.setEnabled(!show);
         if (show) {
             mProgressDialog = ProgressDialog.show(this, null, getString(R.string.progress_login), true, false);
-            mLoginButton.setEnabled(false);
         } else {
             mProgressDialog.dismiss();
-            mLoginButton.setEnabled(true);
         }
     }
 }
