@@ -115,4 +115,5 @@
     <string name="session_expired">Twoja sesja wygasła, zaloguj się ponownie</string>
     <string name="state_loading">Restartowanie aplikacji…</string>
     <string name="expiry_notification">Informacje o upływie ważności biletu</string>
+    <string name="tickets_provider_name">Zapisane bilety</string>
 </resources>
