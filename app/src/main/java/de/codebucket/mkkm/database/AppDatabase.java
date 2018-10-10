@@ -15,7 +15,7 @@ import de.codebucket.mkkm.database.model.PhotoDao;
 import de.codebucket.mkkm.database.model.Ticket;
 import de.codebucket.mkkm.database.model.TicketDao;
 
-@Database(entities = {Account.class, Photo.class, Ticket.class }, version = 3)
+@Database(entities = {Account.class, Photo.class, Ticket.class }, version = 3, exportSchema = false)
 @TypeConverters({ BitmapBase64Converter.class, DateTypeConverter.class, StringArrayConverter.class, TicketStatusConverter.class })
 public abstract class AppDatabase extends RoomDatabase {
 

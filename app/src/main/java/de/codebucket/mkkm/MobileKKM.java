@@ -53,7 +53,7 @@ public class MobileKKM extends Application {
                 .build();
 
         // Login handler
-        loginHelper = new LoginHelper(this);
+        loginHelper = new LoginHelper(preferences.getString("fingerprint", null));
     }
 
     public String getFingerprint() {

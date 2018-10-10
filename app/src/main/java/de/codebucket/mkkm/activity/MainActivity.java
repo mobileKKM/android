@@ -1,14 +1,12 @@
 package de.codebucket.mkkm.activity;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
@@ -28,21 +26,30 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
+
+import java.io.IOException;
 
 import de.codebucket.mkkm.BuildConfig;
 import de.codebucket.mkkm.MobileKKM;
 import de.codebucket.mkkm.R;
 import de.codebucket.mkkm.KKMWebviewClient;
+import de.codebucket.mkkm.database.model.Account;
 import de.codebucket.mkkm.database.model.Photo;
-import de.codebucket.mkkm.login.AuthenticatorService;
+import de.codebucket.mkkm.login.AccountUtils;
+import de.codebucket.mkkm.login.UserLoginTask;
+import de.codebucket.mkkm.util.Const;
+import de.codebucket.mkkm.util.PicassoDrawable;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, KKMWebviewClient.OnPageChangedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, KKMWebviewClient.OnPageChangedListener, UserLoginTask.OnCallbackListener {
 
     private static final String TAG = "Main";
     private static final int TIME_INTERVAL = 2000;
 
-    private de.codebucket.mkkm.database.model.Account mAccount;
+    private Account mAccount;
+    private UserLoginTask mAuthTask;
+
     private NavigationView mNavigationView;
     private WebView mWebview;
     private long mBackPressed;
@@ -81,20 +88,6 @@ public class MainActivity extends AppCompatActivity
         mAccount = (de.codebucket.mkkm.database.model.Account) getIntent().getSerializableExtra("account");
 
         View headerView = mNavigationView.getHeaderView(0);
-        final ImageView drawerBackground = (ImageView) headerView.findViewById(R.id.drawer_header_background);
-
-        AsyncTask.execute(new Runnable() {
-            @Override
-            public void run() {
-                final Photo photo = MobileKKM.getLoginHelper().getPhoto(mAccount);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        drawerBackground.setImageBitmap(photo.getBitmap());
-                    }
-                });
-            }
-        });
 
         TextView drawerUsername = (TextView) headerView.findViewById(R.id.drawer_header_username);
         drawerUsername.setText(String.format("%s %s", mAccount.getFirstName(), mAccount.getLastName()));
@@ -105,6 +98,8 @@ public class MainActivity extends AppCompatActivity
         // Load webview layout
         SwipeRefreshLayout swipe = (SwipeRefreshLayout) findViewById(R.id.swipe);
         swipe.setColorSchemeColors(getResources().getColor(R.color.colorAccentFallback));
+        swipe.setEnabled(true);
+        swipe.setRefreshing(true);
 
         if (BuildConfig.DEBUG) {
             WebView.setWebContentsDebuggingEnabled(true);
@@ -117,18 +112,24 @@ public class MainActivity extends AppCompatActivity
         mWebview.getSettings().setAppCacheEnabled(true);
         mWebview.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
 
-        // Start webapp with values injected
         injectWebapp();
     }
 
     public void injectWebapp() {
-        // First inject session data into webview local storage, then load the webapp
-        String inject = "<script type='text/javascript'>" +
-                "localStorage.setItem('fingerprint', '" + MobileKKM.getLoginHelper().getFingerprint() + "');" +
-                "localStorage.setItem('token', '" + MobileKKM.getLoginHelper().getSessionToken() + "');" +
-                "window.location.replace('https://m.kkm.krakow.pl/#!/home');" +
-                "</script>";
-        mWebview.loadDataWithBaseURL("https://m.kkm.krakow.pl/inject", inject, "text/html", "utf-8", null);
+        if (mAuthTask != null) {
+            return;
+        }
+
+        mAuthTask = new UserLoginTask(this);
+        mAuthTask.execute();
+    }
+
+    private void logout() {
+        AccountUtils.removeAccount(AccountUtils.getCurrentAccount());
+
+        // Return back to login screen
+        startActivity(new Intent(MainActivity.this, LoginActivity.class));
+        finish();
     }
 
     @Override
@@ -136,11 +137,9 @@ public class MainActivity extends AppCompatActivity
         super.onResume();
         mWebview.onResume();
 
-        // Check if token has expired and logout
+        // Check if token has expired and re-inject
         if (MobileKKM.getLoginHelper().isSessionExpired()) {
-            Toast.makeText(this, R.string.session_expired, Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(MainActivity.this, LoginActivity.class));
-            finish();
+            injectWebapp();
         }
     }
 
@@ -236,13 +235,7 @@ public class MainActivity extends AppCompatActivity
                         .setPositiveButton(R.string.dialog_yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                AccountManager accountManager = AccountManager.get(MainActivity.this);
-                                Account account = AuthenticatorService.getUserAccount(MainActivity.this);
-                                accountManager.removeAccount(account, null, null);
-
-                                // Return back to login screen
-                                startActivity(new Intent(MainActivity.this, LoginActivity.class));
-                                finish();
+                                logout();
                             }
                         })
                         .show();
@@ -282,6 +275,53 @@ public class MainActivity extends AppCompatActivity
         if (item != null && !item.isChecked()) {
             mNavigationView.setCheckedItem(item);
             setTitle(item.getTitle());
+        }
+    }
+
+    @Override
+    public Object onPostLogin() throws IOException {
+        final Photo photo = MobileKKM.getLoginHelper().getPhoto(mAccount);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ImageView drawerBackground = (ImageView) mNavigationView.getHeaderView(0).findViewById(R.id.drawer_header_background);
+                PicassoDrawable drawable = new PicassoDrawable(MainActivity.this, photo.getBitmap(), drawerBackground.getDrawable(), false);
+                drawerBackground.setImageDrawable(drawable);
+            }
+        });
+
+        return mAccount;
+    }
+
+    @Override
+    public void onSuccess(Object result) {
+        // First inject session data into webview local storage, then load the webapp
+        String inject = "<script type='text/javascript'>" +
+                "localStorage.setItem('fingerprint', '" + MobileKKM.getLoginHelper().getFingerprint() + "');" +
+                "localStorage.setItem('token', '" + MobileKKM.getLoginHelper().getSessionToken() + "');" +
+                "window.location.replace('https://m.kkm.krakow.pl/#!/home');" +
+                "</script>";
+        mWebview.loadDataWithBaseURL("https://m.kkm.krakow.pl/inject", inject, "text/html", "utf-8", null);
+        mAuthTask = null;
+    }
+
+    @Override
+    public void onError(int errorCode, String message) {
+        mAuthTask = null;
+
+        if (errorCode == Const.ErrorCode.LOGIN_ERROR) {
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+            logout();
+        } else {
+            Snackbar.make(findViewById(R.id.swipe), Const.getErrorMessage(errorCode, null), Snackbar.LENGTH_INDEFINITE)
+                    .setAction(R.string.snackbar_retry, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            injectWebapp();
+                        }
+                    })
+                    .setActionTextColor(Color.YELLOW)
+                    .show();
         }
     }
 }

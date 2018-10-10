@@ -1,7 +1,5 @@
 package de.codebucket.mkkm.activity;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -11,7 +9,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -34,29 +31,27 @@ import androidx.browser.customtabs.CustomTabsIntent;
 
 import com.google.android.material.snackbar.Snackbar;
 
-import java.util.List;
+import java.io.IOException;
 
 import de.codebucket.mkkm.MobileKKM;
 import de.codebucket.mkkm.R;
-import de.codebucket.mkkm.database.model.Ticket;
-import de.codebucket.mkkm.database.model.TicketDao;
-import de.codebucket.mkkm.login.AuthenticatorService;
-import de.codebucket.mkkm.login.LoginFailedException;
-import de.codebucket.mkkm.login.LoginFailedException.ErrorType;
+import de.codebucket.mkkm.database.model.Account;
+import de.codebucket.mkkm.database.model.AccountDao;
+import de.codebucket.mkkm.login.AccountUtils;
 import de.codebucket.mkkm.login.LoginHelper;
-import de.codebucket.mkkm.util.EncryptUtils;
+import de.codebucket.mkkm.login.UserLoginTask;
+import de.codebucket.mkkm.util.Const;
 
 import static android.util.Patterns.EMAIL_ADDRESS;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements UserLoginTask.OnCallbackListener {
 
     private static final String TAG = "Login";
     private static final int REGISTRATION_RESULT_CODE = 99;
 
     // Login stuff
+    private AlertDialog mAlertDialog;
     private UserLoginTask mAuthTask;
-    private AccountManager mAccountManager;
-    private Account mAccount;
 
     // UI references
     private ProgressDialog mProgressDialog;
@@ -106,46 +101,7 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         mLoginForm = (ScrollView) findViewById(R.id.login_form);
-
-        // Check if user is already signed in
-        mAccountManager = AccountManager.get(this);
-        mAccount = AuthenticatorService.getUserAccount(this);
-
-        if (mAccount != null) {
-            // Migrate plain password to encrypted credentials
-            String password = mAccountManager.getPassword(mAccount);
-            if (!EncryptUtils.isBase64(password)) {
-                try {
-                    String encryptedPassword = EncryptUtils.encrpytString(password);
-                    mAccountManager.setPassword(mAccount, encryptedPassword);
-                } catch (Exception ex) {
-                    Log.e(TAG, "Failed to encrypt existing password: " + ex);
-                }
-            } else {
-                password = EncryptUtils.decryptString(password);
-            }
-
-            mEmailView.setText(mAccount.name);
-            mPasswordView.setText(password);
-            attemptLogin();
-        }
-
-        // Show disclaimer if user hasn't seen yet
-        final SharedPreferences preferences = MobileKKM.getPreferences();
-        if (!preferences.getBoolean("disclaimer_shown", false) || MobileKKM.isDebug()) {
-            new AlertDialog.Builder(this)
-                    .setTitle(R.string.disclaimer_title)
-                    .setMessage(R.string.disclaimer_body)
-                    .setNegativeButton(R.string.dialog_dont_show_again, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            // Don't display disclaimer anymore
-                            preferences.edit().putBoolean("disclaimer_shown", true).apply();
-                        }
-                    })
-                    .setPositiveButton(R.string.dialog_close, null)
-                    .show();
-        }
+        showDisclaimer();
     }
 
     @Override
@@ -200,10 +156,6 @@ public class LoginActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * Login form validation and authorization
-     */
-
     private void attemptLogin() {
         if (mAuthTask != null) {
             return;
@@ -241,7 +193,7 @@ public class LoginActivity extends AppCompatActivity {
 
         // Show a progress spinner and perform the user login attempt
         showProgress(true);
-        mAuthTask = new UserLoginTask(email, password);
+        mAuthTask = new UserLoginTask(email, password, this);
         mAuthTask.execute();
     }
 
@@ -251,6 +203,42 @@ public class LoginActivity extends AppCompatActivity {
 
     private boolean isPasswordValid(String password) {
         return !password.isEmpty() && password.length() >= 6;
+    }
+
+    @Override
+    public Object onPostLogin() throws IOException {
+        LoginHelper loginHelper = MobileKKM.getLoginHelper();
+        Account account = loginHelper.getAccount();
+
+        AccountDao dao = MobileKKM.getDatabase().accountDao();
+        dao.add(account);
+        return account;
+    }
+
+    @Override
+    public void onSuccess(Object result) {
+        mAuthTask = null;
+        showProgress(false);
+
+        // Save account on device
+        Account account = (Account) result;
+        AccountUtils.addAccount(mAuthTask.username, mAuthTask.password, account.getPassengerId());
+
+        // Open MainActivity with signed in user
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        intent.putExtra("account", account);
+        intent.putExtra("firstSetup", true);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public void onError(int errorCode, String message) {
+        mAuthTask = null;
+        showProgress(false);
+
+        // Show error message to the user
+        Snackbar.make(mLoginForm, Const.getErrorMessage(errorCode, message), Snackbar.LENGTH_LONG).show();
     }
 
     private void openWebsite(Uri uri) {
@@ -269,120 +257,31 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    private void showDisclaimer() {
+        // Show disclaimer if user hasn't seen yet
+        final SharedPreferences preferences = MobileKKM.getPreferences();
+        if (!preferences.getBoolean("disclaimer_shown", false) || MobileKKM.isDebug()) {
+            mAlertDialog = new AlertDialog.Builder(this)
+                    .setTitle(R.string.disclaimer_title)
+                    .setMessage(R.string.disclaimer_body)
+                    .setNegativeButton(R.string.dialog_dont_show_again, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Don't display disclaimer anymore
+                            preferences.edit().putBoolean("disclaimer_shown", true).apply();
+                        }
+                    })
+                    .setPositiveButton(R.string.dialog_close, null)
+                    .show();
+        }
+    }
+
     private void showProgress(boolean show) {
+        mLoginButton.setEnabled(!show);
         if (show) {
             mProgressDialog = ProgressDialog.show(this, null, getString(R.string.progress_login), true, false);
-            mLoginButton.setEnabled(false);
         } else {
             mProgressDialog.dismiss();
-            mLoginButton.setEnabled(true);
-        }
-    }
-
-    private void showError(String errorMessage) {
-        Snackbar.make(mLoginForm, errorMessage, Snackbar.LENGTH_LONG).show();
-    }
-
-    /**
-     * Execute user auth asynchronously in background
-     */
-
-    public class UserLoginTask extends AsyncTask<Void, Void, de.codebucket.mkkm.database.model.Account> {
-
-        private final String mEmail;
-        private final String mPassword;
-
-        private LoginFailedException exception;
-
-        UserLoginTask(String email, String password) {
-            mEmail = email;
-            mPassword = password;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            // Check if device is connected to the Internet
-            if (!MobileKKM.getInstance().isNetworkConnectivity()) {
-                showError(getString(R.string.error_no_network));
-                cancel(true);
-                return;
-            }
-
-            // Don't continue if fingerprint is invalid
-            if (!MobileKKM.getLoginHelper().isFingerprintValid()) {
-                showError(getString(R.string.error_fingerprint));
-                cancel(true);
-                return;
-            }
-        }
-
-        @Override
-        protected de.codebucket.mkkm.database.model.Account doInBackground(Void... params) {
-            LoginHelper loginHelper = MobileKKM.getLoginHelper();
-            String token = null;
-
-            try {
-                loginHelper.login(mEmail, mPassword);
-            } catch (LoginFailedException ex) {
-                exception = ex;
-                return null;
-            }
-
-            de.codebucket.mkkm.database.model.Account account = loginHelper.getAccount();
-
-            // Delete saved tickets
-            TicketDao dao = MobileKKM.getDatabase().ticketDao();
-            for (Ticket ticket : dao.getAllForPassenger(account.getPassengerId())) {
-                dao.delete(ticket);
-            }
-
-            // Fetch new and save
-            List<Ticket> tickets = loginHelper.getTickets();
-            dao.insertAll(tickets);
-
-            return account;
-        }
-
-        @Override
-        protected void onPostExecute(final de.codebucket.mkkm.database.model.Account account) {
-            mAuthTask = null;
-            showProgress(false);
-
-            if (account != null) {
-                // Save account on device if no account
-                boolean firstSetup = false;
-                if (mAccount == null) {
-                    String encryptedPassword = EncryptUtils.encrpytString(mPassword);
-                    Account acc = new Account(mEmail, AuthenticatorService.ACCOUNT_TYPE);
-
-                    // Add new account and save encrypted credentials
-                    mAccountManager.addAccountExplicitly(acc, encryptedPassword, null);
-                    mAccountManager.setAuthToken(acc, AuthenticatorService.TOKEN_TYPE, account.getPassengerId());
-                    firstSetup = true;
-                }
-
-                // Open MainActivity with signed in user
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                intent.putExtra("account", account);
-                intent.putExtra("firstSetup", firstSetup);
-                startActivity(intent);
-                finish();
-            } else if (exception != null) {
-                // Remove account if credentials are wrong
-                if (mAccount != null && exception.getErrorType() == ErrorType.BACKEND) {
-                    mAccountManager.removeAccount(mAccount, null, null);
-                }
-
-                // Print error to log and show message to the user
-                Log.e(TAG, String.format("%s: %s", exception.getErrorType(), exception.getErrorMessage()));
-                showError(exception.getErrorMessage());
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            showProgress(false);
         }
     }
 }
