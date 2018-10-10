@@ -32,14 +32,11 @@ import androidx.browser.customtabs.CustomTabsIntent;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.IOException;
-import java.util.List;
 
 import de.codebucket.mkkm.MobileKKM;
 import de.codebucket.mkkm.R;
 import de.codebucket.mkkm.database.model.Account;
 import de.codebucket.mkkm.database.model.AccountDao;
-import de.codebucket.mkkm.database.model.Ticket;
-import de.codebucket.mkkm.database.model.TicketDao;
 import de.codebucket.mkkm.login.AccountUtils;
 import de.codebucket.mkkm.login.LoginHelper;
 import de.codebucket.mkkm.login.UserLoginTask;
@@ -47,7 +44,7 @@ import de.codebucket.mkkm.util.Const;
 
 import static android.util.Patterns.EMAIL_ADDRESS;
 
-public class LoginActivity extends AppCompatActivity implements UserLoginTask.CallbackListener {
+public class LoginActivity extends AppCompatActivity implements UserLoginTask.OnCallbackListener {
 
     private static final String TAG = "Login";
     private static final int REGISTRATION_RESULT_CODE = 99;
@@ -220,9 +217,11 @@ public class LoginActivity extends AppCompatActivity implements UserLoginTask.Ca
 
     @Override
     public void onSuccess(Object result) {
-        Account account = (Account) result;
+        mAuthTask = null;
+        showProgress(false);
 
         // Save account on device
+        Account account = (Account) result;
         AccountUtils.addAccount(mAuthTask.username, mAuthTask.password, account.getPassengerId());
 
         // Open MainActivity with signed in user
@@ -235,14 +234,11 @@ public class LoginActivity extends AppCompatActivity implements UserLoginTask.Ca
 
     @Override
     public void onError(int errorCode, String message) {
-        // Show error message to the user
-        Snackbar.make(mLoginForm, Const.getErrorMessage(errorCode, message), Snackbar.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void onTaskFinish() {
         mAuthTask = null;
         showProgress(false);
+
+        // Show error message to the user
+        Snackbar.make(mLoginForm, Const.getErrorMessage(errorCode, message), Snackbar.LENGTH_LONG).show();
     }
 
     private void openWebsite(Uri uri) {

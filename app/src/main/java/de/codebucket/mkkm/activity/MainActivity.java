@@ -42,7 +42,7 @@ import de.codebucket.mkkm.util.Const;
 import de.codebucket.mkkm.util.PicassoDrawable;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, KKMWebviewClient.OnPageChangedListener, UserLoginTask.CallbackListener {
+        implements NavigationView.OnNavigationItemSelectedListener, KKMWebviewClient.OnPageChangedListener, UserLoginTask.OnCallbackListener {
 
     private static final String TAG = "Main";
     private static final int TIME_INTERVAL = 2000;
@@ -302,10 +302,13 @@ public class MainActivity extends AppCompatActivity
                 "window.location.replace('https://m.kkm.krakow.pl/#!/home');" +
                 "</script>";
         mWebview.loadDataWithBaseURL("https://m.kkm.krakow.pl/inject", inject, "text/html", "utf-8", null);
+        mAuthTask = null;
     }
 
     @Override
     public void onError(int errorCode, String message) {
+        mAuthTask = null;
+
         if (errorCode == Const.ErrorCode.LOGIN_ERROR) {
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
             logout();
@@ -320,10 +323,5 @@ public class MainActivity extends AppCompatActivity
                     .setActionTextColor(Color.YELLOW)
                     .show();
         }
-    }
-
-    @Override
-    public void onTaskFinish() {
-        mAuthTask = null;
     }
 }

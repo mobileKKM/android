@@ -16,13 +16,13 @@ public class UserLoginTask extends AsyncTask<Void, Void, Object> {
     public final String username, password;
 
     @NonNull
-    private CallbackListener mListener;
+    private OnCallbackListener mListener;
 
-    public UserLoginTask(@NonNull CallbackListener listener) {
+    public UserLoginTask(@NonNull OnCallbackListener listener) {
         this(null, null, listener);
     }
 
-    public UserLoginTask(@Nullable String username, @Nullable String password, @NonNull CallbackListener listener) {
+    public UserLoginTask(@Nullable String username, @Nullable String password, @NonNull OnCallbackListener listener) {
         this.username = username;
         this.password = password;
 
@@ -80,23 +80,14 @@ public class UserLoginTask extends AsyncTask<Void, Void, Object> {
             mListener.onSuccess(result);
         }
 
-        mListener.onTaskFinish();
         super.onPostExecute(result);
     }
 
-    @Override
-    protected void onCancelled() {
-        mListener.onTaskFinish();
-        super.onCancelled();
-    }
-
-    public interface CallbackListener {
+    public interface OnCallbackListener {
         Object onPostLogin() throws IOException;
 
         void onSuccess(Object result);
 
         void onError(int errorCode, String message);
-
-        void onTaskFinish();
     }
 }
