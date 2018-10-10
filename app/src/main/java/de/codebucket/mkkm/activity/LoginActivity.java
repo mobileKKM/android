@@ -217,7 +217,6 @@ public class LoginActivity extends AppCompatActivity implements UserLoginTask.On
 
     @Override
     public void onSuccess(Object result) {
-        mAuthTask = null;
         showProgress(false);
 
         // Save account on device
@@ -230,6 +229,8 @@ public class LoginActivity extends AppCompatActivity implements UserLoginTask.On
         intent.putExtra("firstSetup", true);
         startActivity(intent);
         finish();
+        
+        mAuthTask = null;
     }
 
     @Override
