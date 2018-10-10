@@ -6,7 +6,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
@@ -26,6 +26,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.io.IOException;
 
@@ -306,7 +307,18 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onError(int errorCode, String message) {
         if (errorCode == Const.ErrorCode.LOGIN_ERROR) {
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
             logout();
+        } else {
+            Snackbar.make(findViewById(R.id.swipe), Const.getErrorMessage(errorCode, null), Snackbar.LENGTH_INDEFINITE)
+                    .setAction(R.string.snackbar_retry, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            injectWebapp();
+                        }
+                    })
+                    .setActionTextColor(Color.YELLOW)
+                    .show();
         }
     }
 
