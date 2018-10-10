@@ -3,6 +3,6 @@
     android:contentAuthority="de.codebucket.mkkm.provider"
     android:accountType="de.codebucket.mkkm.login"
     android:userVisible="true"
+    android:supportsUploading="true"
     android:allowParallelSyncs="false"
-    android:isAlwaysSyncable="true"
-    android:supportsUploading="true" />
+    android:isAlwaysSyncable="true" />

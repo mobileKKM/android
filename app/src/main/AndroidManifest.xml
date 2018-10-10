@@ -36,7 +36,8 @@
         <provider android:authorities="de.codebucket.mkkm.provider"
             android:name=".util.StubContentProvider"
             android:label="@string/tickets_provider_name"
-            android:exported="false"/>
+            android:exported="false"
+            android:syncable="true" />
 
         <activity
             android:name=".activity.SplashActivity"
