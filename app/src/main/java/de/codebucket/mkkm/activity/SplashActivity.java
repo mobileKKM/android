@@ -57,8 +57,14 @@ public class SplashActivity extends AppCompatActivity {
 
                         // Don't continue if no instance found
                         if (account == null) {
+                            // Pass login details for autofill
+                            Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+                            intent.putExtra("autofill", true);
+                            intent.putExtra("username", deviceAccount.name);
+                            intent.putExtra("password", AccountUtils.getPassword(deviceAccount));
+
                             AccountUtils.removeAccount(deviceAccount);
-                            launch(new Intent(SplashActivity.this, LoginActivity.class));
+                            launch(intent);
                             return;
                         }
 
