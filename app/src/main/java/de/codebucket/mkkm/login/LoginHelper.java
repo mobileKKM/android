@@ -62,7 +62,7 @@ public class LoginHelper {
         }
 
         String password = AccountUtils.getPassword(account);
-        return isSessionExpired() ? login(account.name, password) : Const.ErrorCode.SUCCESS;
+        return hasSessionExpired() ? login(account.name, password) : Const.ErrorCode.SUCCESS;
     }
 
     public int login(final String login, final String password) throws LoginFailedException {
@@ -156,11 +156,7 @@ public class LoginHelper {
         return null;
     }
 
-    public boolean isFingerprintValid() {
-        return mFingerprint != null && mFingerprint.length() == 32;
-    }
-
-    public boolean isSessionExpired() {
+    public boolean hasSessionExpired() {
         if (mSessionToken == null) {
             return true;
         }
@@ -179,6 +175,10 @@ public class LoginHelper {
             return payload.getLong("exp") < System.currentTimeMillis() / 1000;
         } catch (JSONException ignored) {}
         return true;
+    }
+
+    public boolean isFingerprintValid() {
+        return mFingerprint != null && mFingerprint.length() == 32;
     }
 
     public String getFingerprint() {
