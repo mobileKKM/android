@@ -229,7 +229,7 @@ public class LoginActivity extends AppCompatActivity implements UserLoginTask.On
         intent.putExtra("firstSetup", true);
         startActivity(intent);
         finish();
-        
+
         mAuthTask = null;
     }
 

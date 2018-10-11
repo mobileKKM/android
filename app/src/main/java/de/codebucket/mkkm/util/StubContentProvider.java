@@ -10,6 +10,8 @@ import androidx.annotation.Nullable;
 
 public class StubContentProvider extends ContentProvider {
 
+    public static final String AUTHORITY = "de.codebucket.mkkm.provider";
+
     @Override
     public boolean onCreate() {
         return false;

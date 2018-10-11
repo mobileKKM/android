@@ -71,7 +71,7 @@
         <activity
             android:name=".util.RuntimeHelper"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:process=":helper" />
+            android:process=":runtime" />
 
         <service
             android:name=".service.TicketExpiryCheckService"
