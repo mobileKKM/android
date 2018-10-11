@@ -15,8 +15,8 @@ import java.io.IOException;
 import java.util.List;
 
 import de.codebucket.mkkm.MobileKKM;
-import de.codebucket.mkkm.database.AppDatabase;
 import de.codebucket.mkkm.database.model.Ticket;
+import de.codebucket.mkkm.database.model.TicketDao;
 import de.codebucket.mkkm.login.AccountUtils;
 import de.codebucket.mkkm.login.LoginFailedException;
 import de.codebucket.mkkm.login.LoginHelper;
@@ -67,19 +67,19 @@ public class TicketSyncService extends Service {
                     return;
                 }
 
-                AppDatabase db = MobileKKM.getDatabase();
+                TicketDao ticketDao = MobileKKM.getDatabase().ticketDao();
 
                 // Insert/update all tickets for user
                 List<Ticket> tickets = loginHelper.getTickets();
-                db.ticketDao().insertAll(tickets);
+                ticketDao.insertAll(tickets);
 
                 // Delete not existing tickets from database
-                for (Ticket ticket : db.ticketDao().getAllByPassenger(passengerId)) {
+                for (Ticket ticket : ticketDao.getAllByPassenger(passengerId)) {
                     if (tickets.contains(ticket)) {
                         continue;
                     }
 
-                    db.ticketDao().delete(ticket);
+                    ticketDao.delete(ticket);
                 }
 
                 Log.d(TAG, "Saved " + tickets.size() + " tickets to database");

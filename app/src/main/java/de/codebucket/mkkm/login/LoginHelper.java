@@ -17,6 +17,7 @@ import com.google.gson.reflect.TypeToken;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import de.codebucket.mkkm.util.EncryptUtils;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -59,6 +60,12 @@ public class LoginHelper {
         // Don't continue if no account stored on device
         if (account == null) {
             return Const.ErrorCode.NO_ACCOUNT;
+        }
+
+        // Check if stored password is encrypted
+        String encryptedPassword = AccountUtils.getPasswordEncrypted(account);
+        if (!EncryptUtils.isBase64(encryptedPassword)) {
+            return Const.ErrorCode.INVALID_CREDENTIALS;
         }
 
         String password = AccountUtils.getPassword(account);
