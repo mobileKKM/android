@@ -211,7 +211,7 @@ public class LoginActivity extends AppCompatActivity implements UserLoginTask.On
         Account account = loginHelper.getAccount();
 
         AccountDao dao = MobileKKM.getDatabase().accountDao();
-        dao.add(account);
+        dao.insert(account);
         return account;
     }
 

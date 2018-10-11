@@ -16,7 +16,7 @@ public interface TicketDao {
     List<Ticket> getAll();
 
     @Query("SELECT * FROM tickets WHERE passengerId = :id")
-    List<Ticket> getAllForPassenger(String id);
+    List<Ticket> getAllByPassenger(String id);
 
     @Query("SELECT * FROM tickets WHERE passengerId = :id AND status = 'active' AND expireDate < :expiration")
     List<Ticket> getExpiredForPassenger(String id, Date expiration);

@@ -17,5 +17,5 @@ public interface AccountDao {
     Account getById(String id);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void add(Account account);
+    void insert(Account account);
 }

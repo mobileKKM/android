@@ -74,7 +74,7 @@ public class TicketSyncService extends Service {
                 db.ticketDao().insertAll(tickets);
 
                 // Delete not existing tickets from database
-                for (Ticket ticket : db.ticketDao().getAllForPassenger(passengerId)) {
+                for (Ticket ticket : db.ticketDao().getAllByPassenger(passengerId)) {
                     if (tickets.contains(ticket)) {
                         continue;
                     }

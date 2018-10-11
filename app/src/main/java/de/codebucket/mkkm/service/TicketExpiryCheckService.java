@@ -38,7 +38,7 @@ public class TicketExpiryCheckService extends JobService {
                 String passengerId = AccountUtils.getPassengerId(AccountUtils.getCurrentAccount());
 
                 Calendar cal = Calendar.getInstance();
-                cal.add(Calendar.DATE, 120);
+                cal.add(Calendar.DATE, Integer.parseInt(prefs.getString("expiration", "0")));
 
                 List<Ticket> tickets = ticketDao.getExpiredForPassenger(passengerId, cal.getTime());
 
