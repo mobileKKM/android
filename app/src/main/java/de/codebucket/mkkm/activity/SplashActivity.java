@@ -5,10 +5,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import de.codebucket.mkkm.MobileKKM;
+import de.codebucket.mkkm.R;
 import de.codebucket.mkkm.database.model.Account;
 import de.codebucket.mkkm.database.model.AccountDao;
 import de.codebucket.mkkm.login.AccountUtils;
@@ -59,9 +61,11 @@ public class SplashActivity extends AppCompatActivity {
                         if (account == null) {
                             // Pass login details for autofill
                             Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
-                            intent.putExtra("autofill", true);
                             intent.putExtra("username", deviceAccount.name);
                             intent.putExtra("password", AccountUtils.getPassword(deviceAccount));
+
+                            // Show warning about logout
+                            Toast.makeText(SplashActivity.this, R.string.session_expired, Toast.LENGTH_SHORT).show();
 
                             AccountUtils.removeAccount(deviceAccount);
                             launch(intent);
