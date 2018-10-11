@@ -111,6 +111,16 @@ public class LoginActivity extends AppCompatActivity implements UserLoginTask.On
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        // Prevent leaking view exceptions
+        if (mAlertDialog != null) {
+            mAlertDialog.dismiss();
+        }
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode != REGISTRATION_RESULT_CODE) {
             super.onActivityResult(requestCode, resultCode, data);
