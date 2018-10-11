@@ -6,6 +6,7 @@ import java.util.Date;
 import com.google.gson.annotations.SerializedName;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -157,6 +158,15 @@ public class Ticket implements Serializable {
 
     public void setLines(String[] lines) {
         this.lines = lines;
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        if (obj instanceof Ticket) {
+            return ticketId.equals(((Ticket) obj).getTicketId());
+        }
+
+        return super.equals(obj);
     }
 
     public enum TicketStatus {
