@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SyncResult;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.util.Log;
 
 import java.io.IOException;
 import java.util.List;
@@ -41,12 +42,16 @@ public class TicketSyncService extends Service {
 
     public class TicketSyncAdapter extends AbstractThreadedSyncAdapter {
 
+        private static final String TAG = "TicketSync";
+
         public TicketSyncAdapter(Context context, boolean autoInitialize) {
             super(context, autoInitialize);
         }
 
         @Override
         public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
+            Log.d(TAG, "Starting sync...");
+
             final String passengerId = AccountUtils.getPassengerId(account);
             if (passengerId == null) {
                 AccountUtils.removeAccount(account);
@@ -54,6 +59,7 @@ public class TicketSyncService extends Service {
             }
 
             LoginHelper loginHelper = MobileKKM.getLoginHelper();
+            Log.d(TAG, "Trying to fetch tickets online");
 
             try {
                 if (loginHelper.login() != Const.ErrorCode.SUCCESS) {
@@ -75,11 +81,15 @@ public class TicketSyncService extends Service {
 
                     db.ticketDao().delete(ticket);
                 }
+
+                Log.d(TAG, "Saved " + tickets.size() + " tickets to database");
             } catch (LoginFailedException ex) {
                 syncResult.stats.numAuthExceptions++;
             } catch (IOException ex) {
                 syncResult.stats.numIoExceptions++;
             }
+
+            Log.d(TAG, "Sync finished!");
         }
     }
 }
