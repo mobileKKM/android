@@ -101,7 +101,7 @@ public class LoginActivity extends AppCompatActivity implements UserLoginTask.On
         });
 
         // Pre-fill login fields if provided
-        if (getIntent().getBooleanExtra("autofill", false)) {
+        if (getIntent().hasExtra("username")) {
             mEmailView.setText(getIntent().getStringExtra("username"));
             mPasswordView.setText(getIntent().getStringExtra("password"));
         }
