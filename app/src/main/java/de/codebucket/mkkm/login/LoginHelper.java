@@ -62,7 +62,7 @@ public class LoginHelper {
         }
 
         String password = AccountUtils.getPassword(account);
-        return login(account.name, password);
+        return isSessionExpired() ? login(account.name, password) : Const.ErrorCode.SUCCESS;
     }
 
     public int login(final String login, final String password) throws LoginFailedException {
