@@ -56,10 +56,11 @@ public class AccountUtils {
 
         // Add new account and save encrypted credentials
         if (sAccountManager.addAccountExplicitly(account, encryptedPassword, null)) {
+            // Set passengerId as auth token for easier access
+            sAccountManager.setAuthToken(account, TOKEN_TYPE, passengerId);
+
             final String AUTHORITY = StubContentProvider.CONTENT_AUTHORITY;
             final long SYNC_FREQUENCY = 60 * 60; // 1 hour (seconds)
-
-            sAccountManager.setAuthToken(account, TOKEN_TYPE, passengerId);
 
             // Inform the system that this account supports sync
             ContentResolver.setIsSyncable(account, AUTHORITY, 1);
@@ -70,6 +71,7 @@ public class AccountUtils {
             // Recommend a schedule for automatic synchronization. The system may modify this based
             // on other scheduled syncs and network utilization.
             ContentResolver.addPeriodicSync(account, AUTHORITY, new Bundle(), SYNC_FREQUENCY);
+
             created = true;
         }
 
