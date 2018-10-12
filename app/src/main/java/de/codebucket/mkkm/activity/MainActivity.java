@@ -65,14 +65,6 @@ public class MainActivity extends AppCompatActivity
 
         setTitle(R.string.title_activity_main);
 
-        // Create notification channel on Android O
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel("expiry_notification", getString(R.string.expiry_notification), NotificationManager.IMPORTANCE_HIGH);
-            MobileKKM.getInstance().getSystemService(NotificationManager.class).createNotificationChannel(channel);
-        }
-
-        MobileKKM.getInstance().setupTicketService();
-
         // Set up drawer menu
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -141,6 +133,8 @@ public class MainActivity extends AppCompatActivity
         if (MobileKKM.getLoginHelper().hasSessionExpired()) {
             injectWebapp();
         }
+
+        MobileKKM.getInstance().setupTicketService();
     }
 
     @Override
