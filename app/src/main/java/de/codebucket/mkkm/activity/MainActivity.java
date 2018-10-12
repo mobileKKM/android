@@ -27,7 +27,6 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.io.IOException;
 
-import de.codebucket.mkkm.BuildConfig;
 import de.codebucket.mkkm.MobileKKM;
 import de.codebucket.mkkm.R;
 import de.codebucket.mkkm.KKMWebviewClient;
@@ -75,7 +74,7 @@ public class MainActivity extends AppCompatActivity
         setTitle(mNavigationView.getMenu().getItem(0).getTitle());
 
         // Get user account from login
-        mAccount = (de.codebucket.mkkm.database.model.Account) getIntent().getSerializableExtra("account");
+        mAccount = (Account) getIntent().getSerializableExtra("account");
 
         View headerView = mNavigationView.getHeaderView(0);
 
@@ -88,12 +87,6 @@ public class MainActivity extends AppCompatActivity
         // Load webview layout
         SwipeRefreshLayout swipe = (SwipeRefreshLayout) findViewById(R.id.swipe);
         swipe.setColorSchemeColors(getResources().getColor(R.color.colorAccentFallback));
-        swipe.setEnabled(true);
-        swipe.setRefreshing(true);
-
-        if (BuildConfig.DEBUG) {
-            WebView.setWebContentsDebuggingEnabled(true);
-        }
 
         mWebview = (WebView) findViewById(R.id.webview);
         mWebview.setWebViewClient(new KKMWebviewClient(this, this));

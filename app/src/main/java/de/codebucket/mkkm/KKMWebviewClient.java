@@ -42,9 +42,9 @@ public class KKMWebviewClient extends WebViewClient {
         mSwipeLayout = context.findViewById(R.id.swipe);
         mPageListener = listener;
 
-        // Enable spinner and disable swipe gesture
-        mSwipeLayout.setRefreshing(true);
-        mSwipeLayout.setEnabled(true);
+        if (BuildConfig.DEBUG) {
+            WebView.setWebContentsDebuggingEnabled(true);
+        }
     }
 
     @Override
