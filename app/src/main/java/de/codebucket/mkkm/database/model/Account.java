@@ -40,39 +40,8 @@ public class Account implements Serializable {
     private Date birthDate;
 
     @ColumnInfo
-    @SerializedName("city")
-    private String city;
-
-    @ColumnInfo
-    @SerializedName("postal_code")
-    private String postalCode;
-
-    @SerializedName("commune")
-    private String commune;
-
-    @ColumnInfo
-    @SerializedName("street")
-    private String street;
-
-    @ColumnInfo
-    @SerializedName("house_number")
-    private String houseNumber;
-
-    @ColumnInfo
-    @SerializedName("flat_number")
-    private String flatNumber;
-
-    @ColumnInfo
     @SerializedName("email")
     private String email;
-
-    @ColumnInfo
-    @SerializedName("foreigner")
-    private boolean foreigner;
-
-    @ColumnInfo
-    @SerializedName("notifications")
-    private boolean notifications;
 
     @ColumnInfo
     @SerializedName("photo_id")
@@ -134,76 +103,12 @@ public class Account implements Serializable {
         this.birthDate = birthDate;
     }
 
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getPostalCode() {
-        return postalCode;
-    }
-
-    public void setPostalCode(String postalCode) {
-        this.postalCode = postalCode;
-    }
-
-    public String getCommune() {
-        return commune;
-    }
-
-    public void setCommune(String commune) {
-        this.commune = commune;
-    }
-
-    public String getStreet() {
-        return street;
-    }
-
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
-    public String getHouseNumber() {
-        return houseNumber;
-    }
-
-    public void setHouseNumber(String houseNumber) {
-        this.houseNumber = houseNumber;
-    }
-
-    public String getFlatNumber() {
-        return flatNumber;
-    }
-
-    public void setFlatNumber(String flatNumber) {
-        this.flatNumber = flatNumber;
-    }
-
     public String getEmail() {
         return email;
     }
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public boolean isForeigner() {
-        return foreigner;
-    }
-
-    public void setForeigner(boolean foreigner) {
-        this.foreigner = foreigner;
-    }
-
-    public boolean isNotifications() {
-        return notifications;
-    }
-
-    public void setNotifications(boolean notifications) {
-        this.notifications = notifications;
     }
 
     public String getPhotoId() {
