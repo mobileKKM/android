@@ -74,7 +74,12 @@ public class SplashActivity extends AppCompatActivity {
                             intent.putExtra("password", AccountUtils.getPassword(deviceAccount));
 
                             // Show warning about logout
-                            Toast.makeText(SplashActivity.this, R.string.session_expired, Toast.LENGTH_SHORT).show();
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(SplashActivity.this, R.string.session_expired, Toast.LENGTH_SHORT).show();
+                                }
+                            });
 
                             AccountUtils.removeAccount(deviceAccount);
                             launch(intent);
