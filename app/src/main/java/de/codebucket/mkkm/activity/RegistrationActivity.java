@@ -16,10 +16,10 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import de.codebucket.mkkm.BuildConfig;
-import de.codebucket.mkkm.KKMWebviewClient;
+import de.codebucket.mkkm.KKMWebViewClient;
 import de.codebucket.mkkm.R;
 
-public class RegistrationActivity extends AppCompatActivity implements KKMWebviewClient.OnPageChangedListener {
+public class RegistrationActivity extends AppCompatActivity implements KKMWebViewClient.OnPageChangedListener {
 
     public static final String EXTRA_REGISTRATION_COMPLETE = "registrationComplete";
 
@@ -49,11 +49,11 @@ public class RegistrationActivity extends AppCompatActivity implements KKMWebvie
         }
 
         mWebview = (WebView) findViewById(R.id.webview);
-        mWebview.setWebViewClient(new KKMWebviewClient(this, this));
+        mWebview.setWebViewClient(new KKMWebViewClient(this, this));
         mWebview.setWebChromeClient(new RegistrationWebChromeClient());
         mWebview.getSettings().setJavaScriptEnabled(true);
         mWebview.getSettings().setDomStorageEnabled(true);
-        mWebview.loadUrl(KKMWebviewClient.getPageUrl("register"));
+        mWebview.loadUrl(KKMWebViewClient.getPageUrl("register"));
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }

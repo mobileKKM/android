@@ -34,7 +34,7 @@
 -keep,allowshrinking,allowoptimization class me.jfenn.attribouter.** { *; }
 
 # Custom WebView JavaScript interfaces
--keep class de.codebucket.mkkm.KKMWebviewClient.ScriptInjectorCallback { *; }
+-keep class de.codebucket.mkkm.KKMWebViewClient.ScriptInjectorCallback { *; }
 
 # Room library
 -dontwarn android.arch.util.paging.CountedDataSource

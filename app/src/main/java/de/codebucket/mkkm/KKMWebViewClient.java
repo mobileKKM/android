@@ -21,7 +21,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class KKMWebviewClient extends WebViewClient {
+public class KKMWebViewClient extends WebViewClient {
 
     private static final String TAG = "WebviewClient";
     private static final String WEBAPP_URL = "https://m.kkm.krakow.pl";
@@ -37,7 +37,7 @@ public class KKMWebviewClient extends WebViewClient {
 
     private boolean hasInjected = false;
 
-    public KKMWebviewClient(Activity context, OnPageChangedListener listener) {
+    public KKMWebViewClient(Activity context, OnPageChangedListener listener) {
         mContext = context;
         mSwipeLayout = context.findViewById(R.id.swipe);
         mPageListener = listener;

@@ -29,7 +29,7 @@ import java.io.IOException;
 
 import de.codebucket.mkkm.MobileKKM;
 import de.codebucket.mkkm.R;
-import de.codebucket.mkkm.KKMWebviewClient;
+import de.codebucket.mkkm.KKMWebViewClient;
 import de.codebucket.mkkm.database.model.Account;
 import de.codebucket.mkkm.database.model.Photo;
 import de.codebucket.mkkm.database.model.PhotoDao;
@@ -39,7 +39,7 @@ import de.codebucket.mkkm.util.Const;
 import de.codebucket.mkkm.util.PicassoDrawable;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, KKMWebviewClient.OnPageChangedListener, UserLoginTask.OnCallbackListener {
+        implements NavigationView.OnNavigationItemSelectedListener, KKMWebViewClient.OnPageChangedListener, UserLoginTask.OnCallbackListener {
 
     private static final String TAG = "Main";
     private static final int TIME_INTERVAL = 2000;
@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity
         swipe.setColorSchemeColors(getResources().getColor(R.color.colorAccentFallback));
 
         mWebview = (WebView) findViewById(R.id.webview);
-        mWebview.setWebViewClient(new KKMWebviewClient(this, this));
+        mWebview.setWebViewClient(new KKMWebViewClient(this, this));
         mWebview.getSettings().setJavaScriptEnabled(true);
         mWebview.getSettings().setDomStorageEnabled(true);
         mWebview.getSettings().setAppCacheEnabled(true);
@@ -245,14 +245,14 @@ public class MainActivity extends AppCompatActivity
         MenuItem item = null;
 
         switch (page) {
-            case KKMWebviewClient.PAGE_OVERVIEW:
-            case KKMWebviewClient.PAGE_CONTROL:
+            case KKMWebViewClient.PAGE_OVERVIEW:
+            case KKMWebViewClient.PAGE_CONTROL:
                 item = mNavigationView.getMenu().findItem(R.id.nav_tickets);
                 break;
-            case KKMWebviewClient.PAGE_PURCHASE:
+            case KKMWebViewClient.PAGE_PURCHASE:
                 item = mNavigationView.getMenu().findItem(R.id.nav_purchase);
                 break;
-            case KKMWebviewClient.PAGE_ACCOUNT:
+            case KKMWebViewClient.PAGE_ACCOUNT:
                 item = mNavigationView.getMenu().findItem(R.id.nav_account);
                 break;
         }
