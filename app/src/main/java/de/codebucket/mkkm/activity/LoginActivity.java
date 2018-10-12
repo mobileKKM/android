@@ -237,7 +237,7 @@ public class LoginActivity extends AppCompatActivity implements UserLoginTask.On
 
         // Save account on device
         Account account = (Account) result;
-        AccountUtils.addAccount(mAuthTask.username, mAuthTask.password, account.getPassengerId());
+        AccountUtils.createAccount(mAuthTask.username, mAuthTask.password, account.getPassengerId());
 
         // Open MainActivity with signed in user
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);

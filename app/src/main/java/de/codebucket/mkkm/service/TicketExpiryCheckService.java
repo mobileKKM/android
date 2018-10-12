@@ -35,7 +35,7 @@ public class TicketExpiryCheckService extends JobService {
             @Override
             public void run() {
                 TicketDao ticketDao = MobileKKM.getDatabase().ticketDao();
-                String passengerId = AccountUtils.getPassengerId(AccountUtils.getCurrentAccount());
+                String passengerId = AccountUtils.getPassengerId(AccountUtils.getAccount());
 
                 Calendar cal = Calendar.getInstance();
                 cal.add(Calendar.DATE, Integer.parseInt(prefs.getString("expiration", "0")));

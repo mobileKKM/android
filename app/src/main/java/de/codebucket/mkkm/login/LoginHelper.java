@@ -55,7 +55,7 @@ public class LoginHelper {
 
     public int login() throws LoginFailedException {
         // Get account from device
-        android.accounts.Account account = AccountUtils.getCurrentAccount();
+        android.accounts.Account account = AccountUtils.getAccount();
 
         // Don't continue if no account stored on device
         if (account == null) {

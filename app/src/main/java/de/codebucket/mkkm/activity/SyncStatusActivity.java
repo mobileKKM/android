@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import de.codebucket.mkkm.login.AccountUtils;
 
-import static de.codebucket.mkkm.util.StubContentProvider.AUTHORITY;
+import static de.codebucket.mkkm.util.StubContentProvider.CONTENT_AUTHORITY;
 
 public abstract class SyncStatusActivity extends AppCompatActivity implements SyncStatusObserver {
 
@@ -18,7 +18,7 @@ public abstract class SyncStatusActivity extends AppCompatActivity implements Sy
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAccount = AccountUtils.getCurrentAccount();
+        mAccount = AccountUtils.getAccount();
     }
 
     @Override
@@ -37,12 +37,12 @@ public abstract class SyncStatusActivity extends AppCompatActivity implements Sy
     public void onStatusChanged(int which) {
         if (which == ContentResolver.SYNC_OBSERVER_TYPE_PENDING) {
             // 'Pending' state changed.
-            if (ContentResolver.isSyncPending(mAccount, AUTHORITY)) {
+            if (ContentResolver.isSyncPending(mAccount, CONTENT_AUTHORITY)) {
                 onSyncStarted();
             }
         } else if (which == ContentResolver.SYNC_OBSERVER_TYPE_ACTIVE) {
             // 'Active' state changed.
-            if (!ContentResolver.isSyncActive(mAccount, AUTHORITY)) {
+            if (!ContentResolver.isSyncActive(mAccount, CONTENT_AUTHORITY)) {
                 onSyncFinished();
             }
         }
@@ -56,6 +56,6 @@ public abstract class SyncStatusActivity extends AppCompatActivity implements Sy
         Bundle bundle = new Bundle();
         bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
         bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
-        ContentResolver.requestSync(mAccount, AUTHORITY, bundle);
+        ContentResolver.requestSync(mAccount, CONTENT_AUTHORITY, bundle);
     }
 }

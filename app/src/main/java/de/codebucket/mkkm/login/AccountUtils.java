@@ -2,9 +2,12 @@ package de.codebucket.mkkm.login;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.content.ContentResolver;
+import android.os.Bundle;
 
 import de.codebucket.mkkm.MobileKKM;
 import de.codebucket.mkkm.util.EncryptUtils;
+import de.codebucket.mkkm.util.StubContentProvider;
 
 import static de.codebucket.mkkm.login.AuthenticatorService.ACCOUNT_TYPE;
 import static de.codebucket.mkkm.login.AuthenticatorService.TOKEN_TYPE;
@@ -14,7 +17,7 @@ public class AccountUtils {
     // this should be always static
     private static AccountManager sAccountManager = AccountManager.get(MobileKKM.getInstance());
 
-    public static Account getCurrentAccount() {
+    public static Account getAccount() {
         Account account = null;
 
         try {
@@ -44,13 +47,36 @@ public class AccountUtils {
         return passengerId;
     }
 
-    public static void addAccount(String username, String password, String passengerId) {
+    public static void createAccount(String username, String password, String passengerId) {
+        // Flag to determine if this is a new account or not
+        boolean created = false;
+
         String encryptedPassword = EncryptUtils.encrpytString(password);
         Account account = new Account(username, ACCOUNT_TYPE);
 
         // Add new account and save encrypted credentials
-        sAccountManager.addAccountExplicitly(account, encryptedPassword, null);
-        sAccountManager.setAuthToken(account, TOKEN_TYPE, passengerId);
+        if (sAccountManager.addAccountExplicitly(account, encryptedPassword, null)) {
+            final String AUTHORITY = StubContentProvider.CONTENT_AUTHORITY;
+            final long SYNC_FREQUENCY = 60 * 60; // 1 hour (seconds)
+
+            sAccountManager.setAuthToken(account, TOKEN_TYPE, passengerId);
+
+            // Inform the system that this account supports sync
+            ContentResolver.setIsSyncable(account, AUTHORITY, 1);
+
+            // Inform the system that this account is eligible for auto sync when the network is up
+            ContentResolver.setSyncAutomatically(account, AUTHORITY, true);
+
+            // Recommend a schedule for automatic synchronization. The system may modify this based
+            // on other scheduled syncs and network utilization.
+            ContentResolver.addPeriodicSync(account, AUTHORITY, new Bundle(), SYNC_FREQUENCY);
+            created = true;
+        }
+
+        // Force a sync if the account was just created
+        if (created) {
+            SyncAdapter.performSync();
+        }
     }
 
     public static void removeAccount(Account account) {

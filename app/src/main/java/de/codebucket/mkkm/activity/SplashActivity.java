@@ -28,7 +28,7 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         // Check if user is already signed in
-        final android.accounts.Account deviceAccount = AccountUtils.getCurrentAccount();
+        final android.accounts.Account deviceAccount = AccountUtils.getAccount();
 
         if (deviceAccount != null) {
             // Migrate plain password to encrypted credentials

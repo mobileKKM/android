@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void logout() {
-        AccountUtils.removeAccount(AccountUtils.getCurrentAccount());
+        AccountUtils.removeAccount(AccountUtils.getAccount());
 
         // Return back to login screen
         startActivity(new Intent(MainActivity.this, LoginActivity.class));
