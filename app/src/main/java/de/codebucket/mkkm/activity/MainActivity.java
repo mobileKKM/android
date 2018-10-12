@@ -36,6 +36,7 @@ import de.codebucket.mkkm.R;
 import de.codebucket.mkkm.KKMWebviewClient;
 import de.codebucket.mkkm.database.model.Account;
 import de.codebucket.mkkm.database.model.Photo;
+import de.codebucket.mkkm.database.model.PhotoDao;
 import de.codebucket.mkkm.login.AccountUtils;
 import de.codebucket.mkkm.login.UserLoginTask;
 import de.codebucket.mkkm.util.Const;
@@ -274,28 +275,34 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public Object onPostLogin() throws IOException {
-        final Photo photo = MobileKKM.getLoginHelper().getPhoto(mAccount);
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                ImageView drawerBackground = (ImageView) mNavigationView.getHeaderView(0).findViewById(R.id.drawer_header_background);
-                PicassoDrawable drawable = new PicassoDrawable(MainActivity.this, photo.getBitmap(), drawerBackground.getDrawable(), false);
-                drawerBackground.setImageDrawable(drawable);
-            }
-        });
+        PhotoDao dao = MobileKKM.getDatabase().photoDao();
+        Photo photo = dao.getById(mAccount.getPhotoId());
 
-        return mAccount;
+        // Check if photo isn't null, otherwise fetch from website
+        if (photo == null || photo.getBitmap() == null) {
+            photo = MobileKKM.getLoginHelper().getPhoto(mAccount);
+            dao.insert(photo);
+        }
+
+        return photo;
     }
 
     @Override
     public void onSuccess(Object result) {
+        Photo photo = (Photo) result;
+
+        // Set photo as drawerBackground, TODO: check if photoId has changed and fetch photo then only
+        ImageView drawerBackground = (ImageView) mNavigationView.getHeaderView(0).findViewById(R.id.drawer_header_background);
+        PicassoDrawable drawable = new PicassoDrawable(MainActivity.this, photo.getBitmap(), drawerBackground.getDrawable(), false);
+        drawerBackground.setImageDrawable(drawable);
+
         // First inject session data into webview local storage, then load the webapp
         String inject = "<script type='text/javascript'>" +
                 "localStorage.setItem('fingerprint', '" + MobileKKM.getLoginHelper().getFingerprint() + "');" +
                 "localStorage.setItem('token', '" + MobileKKM.getLoginHelper().getSessionToken() + "');" +
                 "window.location.replace('https://m.kkm.krakow.pl/#!/home');" +
                 "</script>";
-        mWebview.loadDataWithBaseURL("https://m.kkm.krakow.pl/inject", inject, "text/html", "utf-8", null);
+        mWebview.loadDataWithBaseURL("https://m.kkm.krakow.pl/injeScct", inject, "text/html", "utf-8", null);
         mAuthTask = null;
     }
 
