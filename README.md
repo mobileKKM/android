@@ -1,6 +1,9 @@
 # mKKM-Webview
 [![Build Status](https://build.codebucket.de/api/badges/divadsn/mKKM-Webview/status.svg)](https://build.codebucket.de/divadsn/mKKM-Webview)
+[![Codacy grade](https://img.shields.io/codacy/grade/33ee3b66e0b44c6e9b1158d9588c41db.svg)](https://app.codacy.com/project/divadsn/mKKM-Webview/dashboard)
 [![Releases](https://img.shields.io/badge/telegram-%40mobilekkmci-blue.svg)](https://t.me/mobilekkmci)
+[![Donate on PayPal](https://img.shields.io/badge/PayPal-Donate%20Now-brightgreen.svg)](https://paypal.me/divadsn)
+[![GitHub release](https://img.shields.io/github/release/divadsn/mKKM-Webview/all.svg)](https://github.com/divadsn/mKKM-Weview/releases)
 
 A webview wrapper for the mobile KKM ticketing webapp, with additional features.
 
