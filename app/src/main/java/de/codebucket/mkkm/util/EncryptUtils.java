@@ -1,7 +1,6 @@
 package de.codebucket.mkkm.util;
 
 import android.util.Base64;
-import android.util.Log;
 
 import java.security.Key;
 import java.util.regex.Pattern;

@@ -5,13 +5,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.google.android.material.navigation.NavigationView;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+
+import com.google.android.material.navigation.NavigationView;
 
 import de.codebucket.mkkm.R;
 
@@ -38,6 +38,7 @@ public abstract class DrawerActivity extends WebViewActivity implements Navigati
         mNavigationView.setNavigationItemSelectedListener(this);
         mNavigationView.getMenu().getItem(0).setChecked(true);
 
+        // Set title to first navbar item
         setTitle(mNavigationView.getMenu().getItem(0).getTitle());
     }
 

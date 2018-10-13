@@ -17,7 +17,6 @@ import com.google.gson.reflect.TypeToken;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import de.codebucket.mkkm.util.EncryptUtils;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -28,6 +27,7 @@ import de.codebucket.mkkm.database.model.Account;
 import de.codebucket.mkkm.database.model.Photo;
 import de.codebucket.mkkm.database.model.Ticket;
 import de.codebucket.mkkm.util.Const;
+import de.codebucket.mkkm.util.EncryptUtils;
 import de.codebucket.mkkm.util.adapter.DateLongFormatTypeAdapter;
 import de.codebucket.mkkm.util.adapter.TicketStatusTypeAdapter;
 
