@@ -83,8 +83,14 @@ public class KKMWebViewClient extends WebViewClient {
         mSwipeLayout.setRefreshing(false);
         mSwipeLayout.setEnabled(false);
 
+        // Don't continue if it's not our webapp
+        final String baseUrl = getPageUrl("");
+        if (!url.startsWith(baseUrl)) {
+            return;
+        }
+
         // Remove navbar after page has finished loading
-        if (url.startsWith(WEBAPP_URL) && !hasInjected) {
+        if (!hasInjected) {
             AssetManager assetManager = mContext.getAssets();
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             InputStream inputStream = null;
@@ -110,7 +116,7 @@ public class KKMWebViewClient extends WebViewClient {
             view.evaluateJavascript(inject, null);
         }
 
-        String page = url.substring(WEBAPP_URL.length() + 4).split("/")[0];
+        String page = url.substring(baseUrl.length()).split("/")[0];
         mPageListener.onPageChanged(view, page);
     }
 
