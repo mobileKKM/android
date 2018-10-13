@@ -81,11 +81,14 @@ public abstract class DrawerActivity extends WebViewActivity implements Navigati
             return;
         }
 
-        if (mWebview.canGoBack()) {
-            mWebview.goBack();
+        // Check if current page is not home
+        String homeUrl = getPageUrl("home");
+        if (mWebview.getUrl() != null && !mWebview.getUrl().equals(homeUrl)) {
+            mWebview.loadUrl(homeUrl);
             return;
         }
 
+        // Press back to exit twice
         if (mBackPressed + TIME_INTERVAL < System.currentTimeMillis()) {
             Toast.makeText(this, R.string.press_back_again, Toast.LENGTH_SHORT).show();
             mBackPressed = System.currentTimeMillis();
