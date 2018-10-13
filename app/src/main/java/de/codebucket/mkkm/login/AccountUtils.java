@@ -60,7 +60,7 @@ public class AccountUtils {
             sAccountManager.setAuthToken(account, TOKEN_TYPE, passengerId);
 
             final String AUTHORITY = StubContentProvider.CONTENT_AUTHORITY;
-            final long SYNC_FREQUENCY = 60 * 60; // 1 hour (seconds)
+            final long SYNC_FREQUENCY = 3 * 60 * 60; // 3 hours (seconds)
 
             // Inform the system that this account supports sync
             ContentResolver.setIsSyncable(account, AUTHORITY, 1);
