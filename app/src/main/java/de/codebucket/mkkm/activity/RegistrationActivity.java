@@ -1,6 +1,5 @@
 package de.codebucket.mkkm.activity;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -11,15 +10,11 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import de.codebucket.mkkm.BuildConfig;
 import de.codebucket.mkkm.KKMWebViewClient;
 import de.codebucket.mkkm.R;
 
-public class RegistrationActivity extends AppCompatActivity implements KKMWebViewClient.OnPageChangedListener {
+public class RegistrationActivity extends WebViewActivity {
 
     public static final String EXTRA_REGISTRATION_COMPLETE = "registrationComplete";
 
@@ -27,35 +22,17 @@ public class RegistrationActivity extends AppCompatActivity implements KKMWebVie
     private static final int FILE_CHOOSER_RESULT_CODE = 100;
     private ValueCallback<Uri[]> mFilePathCallback;
 
-    private WebView mWebview;
-
     @Override
-    @SuppressLint("SetJavaScriptEnabled")
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
+        setupView();
         setTitle(R.string.title_activity_registration);
-
-        // Load webview layout
-        SwipeRefreshLayout swipe = (SwipeRefreshLayout) findViewById(R.id.swipe);
-        swipe.setColorSchemeColors(getResources().getColor(R.color.colorAccentFallback));
-
-        if (BuildConfig.DEBUG) {
-            WebView.setWebContentsDebuggingEnabled(true);
-        }
-
-        mWebview = (WebView) findViewById(R.id.webview);
-        mWebview.setWebViewClient(new KKMWebViewClient(this, this));
-        mWebview.setWebChromeClient(new RegistrationWebChromeClient());
-        mWebview.getSettings().setJavaScriptEnabled(true);
-        mWebview.getSettings().setDomStorageEnabled(true);
-        mWebview.loadUrl(KKMWebViewClient.getPageUrl("register"));
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        mWebview.setWebChromeClient(new RegistrationWebChromeClient());
+        mWebview.loadUrl(KKMWebViewClient.getPageUrl("register"));
     }
 
     @Override
@@ -77,30 +54,6 @@ public class RegistrationActivity extends AppCompatActivity implements KKMWebVie
 
         mFilePathCallback.onReceiveValue(results);
         mFilePathCallback = null;
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mWebview.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        mWebview.onPause();
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        mWebview.saveState(outState);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        mWebview.restoreState(savedInstanceState);
     }
 
     @Override

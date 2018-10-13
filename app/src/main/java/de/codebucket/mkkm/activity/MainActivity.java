@@ -1,35 +1,28 @@
 package de.codebucket.mkkm.activity;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+import androidx.annotation.Nullable;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.IOException;
 
+import de.codebucket.mkkm.KKMWebViewClient;
 import de.codebucket.mkkm.MobileKKM;
 import de.codebucket.mkkm.R;
-import de.codebucket.mkkm.KKMWebViewClient;
 import de.codebucket.mkkm.database.model.Account;
 import de.codebucket.mkkm.database.model.Photo;
 import de.codebucket.mkkm.database.model.PhotoDao;
@@ -38,44 +31,22 @@ import de.codebucket.mkkm.login.UserLoginTask;
 import de.codebucket.mkkm.util.Const;
 import de.codebucket.mkkm.util.PicassoDrawable;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, KKMWebViewClient.OnPageChangedListener, UserLoginTask.OnCallbackListener {
+public class MainActivity extends DrawerActivity implements UserLoginTask.OnCallbackListener {
 
     private static final String TAG = "Main";
-    private static final int TIME_INTERVAL = 2000;
 
     private Account mAccount;
     private UserLoginTask mAuthTask;
 
-    private NavigationView mNavigationView;
-    private WebView mWebview;
-    private long mBackPressed;
-
     @Override
-    @SuppressLint("SetJavaScriptEnabled")
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        setTitle(R.string.title_activity_main);
-
-        // Set up drawer menu
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-        mNavigationView = (NavigationView) findViewById(R.id.nav_view);
-        mNavigationView.setNavigationItemSelectedListener(this);
-        mNavigationView.getMenu().getItem(0).setChecked(true);
-        setTitle(mNavigationView.getMenu().getItem(0).getTitle());
+        setupView();
 
         // Get user account from login
         mAccount = (Account) getIntent().getSerializableExtra("account");
-
         View headerView = mNavigationView.getHeaderView(0);
 
         TextView drawerUsername = (TextView) headerView.findViewById(R.id.drawer_header_username);
@@ -83,19 +54,6 @@ public class MainActivity extends AppCompatActivity
 
         TextView drawerEmail = (TextView) headerView.findViewById(R.id.drawer_header_email);
         drawerEmail.setText(mAccount.getEmail());
-
-        // Load webview layout
-        SwipeRefreshLayout swipe = (SwipeRefreshLayout) findViewById(R.id.swipe);
-        swipe.setColorSchemeColors(getResources().getColor(R.color.colorAccentFallback));
-
-        mWebview = (WebView) findViewById(R.id.webview);
-        mWebview.setWebViewClient(new KKMWebViewClient(this, this));
-        mWebview.getSettings().setJavaScriptEnabled(true);
-        mWebview.getSettings().setDomStorageEnabled(true);
-        mWebview.getSettings().setAppCacheEnabled(true);
-        mWebview.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
-
-        injectWebapp();
     }
 
     public void injectWebapp() {
@@ -118,7 +76,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        mWebview.onResume();
 
         // Check if token has expired and re-inject
         if (MobileKKM.getLoginHelper().hasSessionExpired()) {
@@ -126,69 +83,6 @@ public class MainActivity extends AppCompatActivity
         }
 
         MobileKKM.getInstance().setupTicketService();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        mWebview.onPause();
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        mWebview.saveState(outState);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        mWebview.restoreState(savedInstanceState);
-    }
-
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-            return;
-        }
-
-        if (mWebview.canGoBack()) {
-            mWebview.goBack();
-            return;
-        }
-
-        if (mBackPressed + TIME_INTERVAL < System.currentTimeMillis()) {
-            Toast.makeText(this, R.string.press_back_again, Toast.LENGTH_SHORT).show();
-            mBackPressed = System.currentTimeMillis();
-            return;
-        }
-
-        super.onBackPressed();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_refresh) {
-            mWebview.reload();
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @Override

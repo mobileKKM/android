@@ -125,11 +125,11 @@ public class SettingsActivity extends AppCompatActivity implements
                 }
             });
 
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-                notifCategory.removePreference(notificationSettings);
-            } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 notifCategory.removePreference(findPreference("notification_ringtone"));
                 notifCategory.removePreference(findPreference("notification_vibrate"));
+            } else {
+                notifCategory.removePreference(notificationSettings);
             }
 
             Preference about = findPreference("about");
