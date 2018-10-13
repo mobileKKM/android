@@ -32,7 +32,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
         final String passengerId = AccountUtils.getPassengerId(account);
         if (passengerId == null) {
-            AccountUtils.removeAccount(account);
+            syncResult.tooManyRetries = true;
             return;
         }
 
