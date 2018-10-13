@@ -10,6 +10,8 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "photos")
 public class Photo {
 
+    public static final Photo NULL_INSTANCE = new Photo(null, null, null);
+
     @NonNull
     @PrimaryKey
     @ColumnInfo
