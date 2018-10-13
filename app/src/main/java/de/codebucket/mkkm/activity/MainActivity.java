@@ -95,7 +95,7 @@ public class MainActivity extends DrawerActivity implements UserLoginTask.OnCall
     public Object onPostLogin() throws IOException {
         LoginHelper loginHelper = MobileKKM.getLoginHelper();
 
-        // Always fetch user account to update
+        // Always fetch new user account to update
         Account newAccount = loginHelper.getAccount();
 
         AccountDao accountDao = MobileKKM.getDatabase().accountDao();

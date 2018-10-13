@@ -78,6 +78,9 @@ public class LoginHelper {
             return Const.ErrorCode.INVALID_FINGERPRINT;
         }
 
+        // We need to close that later
+        Response response = null;
+
         try {
             // Add values to JSON
             JSONObject jsonBody = new JSONObject();
@@ -91,7 +94,7 @@ public class LoginHelper {
                     .post(body)
                     .build();
 
-            Response response = mHttpClient.newCall(request).execute();
+            response = mHttpClient.newCall(request).execute();
             JSONObject jsonObject = new JSONObject(response.body().string());
 
             // Check if response has error code (no 200 OK)
@@ -111,6 +114,10 @@ public class LoginHelper {
         } catch (JSONException ex) {
             // This shouldn't happen at all, unless something went wrong on the server
             return Const.ErrorCode.WRONG_RESPONSE;
+        } finally {
+            if (response != null) {
+                response.body().close();
+            }
         }
 
         return Const.ErrorCode.SUCCESS;
