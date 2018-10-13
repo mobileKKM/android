@@ -143,6 +143,9 @@ public class MainActivity extends DrawerActivity implements UserLoginTask.OnCall
                 "localStorage.setItem('token', '" + MobileKKM.getLoginHelper().getSessionToken() + "');" +
                 "window.location.replace('" + startUrl + "');" +
                 "</script>";
+
+        // Clear history first
+        mWebview.clearHistory();
         mWebview.loadDataWithBaseURL("https://m.kkm.krakow.pl/inject", inject, "text/html", "utf-8", null);
     }
 
