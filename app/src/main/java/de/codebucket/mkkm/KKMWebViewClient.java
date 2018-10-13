@@ -41,10 +41,6 @@ public class KKMWebViewClient extends WebViewClient {
         mContext = context;
         mSwipeLayout = context.findViewById(R.id.swipe);
         mPageListener = listener;
-
-        if (BuildConfig.DEBUG) {
-            WebView.setWebContentsDebuggingEnabled(true);
-        }
     }
 
     @Override
