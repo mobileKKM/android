@@ -103,21 +103,25 @@ public class MainActivity extends DrawerActivity implements UserLoginTask.OnCall
 
         // Check if photoId has changed
         PhotoDao photoDao = MobileKKM.getDatabase().photoDao();
-        Photo photo = new Photo(null, null, null);
+        String photoId = newAccount.getPhotoId();
 
-        if (!mAccount.getPhotoId().equals(newAccount.getPhotoId())) {
-            photo = photoDao.getById(newAccount.getPhotoId());
+        // Dummy reference with null bitmap
+        Photo photo = new Photo(photoId, newAccount.getPhotoId(), null);
+
+        if (!mAccount.getPhotoId().equals(photoId)) {
+            // Try to check if photo is already stored in database
+            photo = photoDao.getById(photoId);
 
             // Check if photo isn't null, otherwise fetch from website
-            if (photo == null || photo.getBitmap() == null) {
+            if (photo == null) {
                 photo = MobileKKM.getLoginHelper().getPhoto(newAccount);
                 photoDao.insert(photo);
             }
 
             // Remove old photo from database
             photoDao.deleteById(mAccount.getPhotoId());
-        } else if (photoDao.getById(mAccount.getPhotoId()) == null) {
-            // Current photo isn't stored in database
+        } else if (photoDao.getById(photoId) == null) {
+            // Current photo isn't stored in database, fix it
             photo = MobileKKM.getLoginHelper().getPhoto(newAccount);
             photoDao.insert(photo);
         }
