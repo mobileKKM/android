@@ -102,10 +102,10 @@ public class MainActivity extends DrawerActivity implements UserLoginTask.OnCall
         accountDao.insert(newAccount);
 
         // Check if photoId has changed
+        PhotoDao photoDao = MobileKKM.getDatabase().photoDao();
         Photo photo = new Photo(null, null, null);
 
         if (!mAccount.getPhotoId().equals(newAccount.getPhotoId())) {
-            PhotoDao photoDao = MobileKKM.getDatabase().photoDao();
             photo = photoDao.getById(newAccount.getPhotoId());
 
             // Check if photo isn't null, otherwise fetch from website
@@ -116,6 +116,10 @@ public class MainActivity extends DrawerActivity implements UserLoginTask.OnCall
 
             // Remove old photo from database
             photoDao.deleteById(mAccount.getPhotoId());
+        } else if (photoDao.getById(mAccount.getPhotoId()) == null) {
+            // Current photo isn't stored in database
+            photo = MobileKKM.getLoginHelper().getPhoto(newAccount);
+            photoDao.insert(photo);
         }
 
         mAccount = newAccount;
