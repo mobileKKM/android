@@ -36,6 +36,8 @@ public abstract class WebViewActivity extends AppCompatActivity implements KKMWe
         // Load webview layout
         SwipeRefreshLayout swipe = findViewById(R.id.swipe);
         swipe.setColorSchemeColors(getResources().getColor(R.color.colorAccentFallback));
+        swipe.setEnabled(true);
+        swipe.setRefreshing(true);
 
         if (BuildConfig.DEBUG) {
             WebView.setWebContentsDebuggingEnabled(true);
