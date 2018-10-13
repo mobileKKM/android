@@ -11,6 +11,7 @@ import android.webkit.WebView;
 
 import androidx.annotation.Nullable;
 
+import androidx.appcompat.widget.Toolbar;
 import de.codebucket.mkkm.KKMWebViewClient;
 import de.codebucket.mkkm.R;
 
@@ -27,12 +28,17 @@ public class RegistrationActivity extends WebViewActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
 
-        setupView();
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         setTitle(R.string.title_activity_registration);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        // Set up webview layout
+        setupWebView();
 
         mWebview.setWebChromeClient(new RegistrationWebChromeClient());
         mWebview.loadUrl(KKMWebViewClient.getPageUrl("register"));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override

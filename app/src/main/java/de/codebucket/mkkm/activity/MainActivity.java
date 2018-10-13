@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -33,8 +34,6 @@ import de.codebucket.mkkm.util.PicassoDrawable;
 
 public class MainActivity extends DrawerActivity implements UserLoginTask.OnCallbackListener {
 
-    private static final String TAG = "Main";
-
     private Account mAccount;
     private UserLoginTask mAuthTask;
 
@@ -43,7 +42,13 @@ public class MainActivity extends DrawerActivity implements UserLoginTask.OnCall
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        setupView();
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        setTitle(R.string.title_activity_registration);
+
+        // Set up navigation drawer
+        setupDrawer(toolbar);
 
         // Get user account from login
         mAccount = (Account) getIntent().getSerializableExtra("account");
@@ -54,6 +59,8 @@ public class MainActivity extends DrawerActivity implements UserLoginTask.OnCall
 
         TextView drawerEmail = (TextView) headerView.findViewById(R.id.drawer_header_email);
         drawerEmail.setText(mAccount.getEmail());
+
+        setupWebView();
     }
 
     public void injectWebapp() {

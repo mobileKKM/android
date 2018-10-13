@@ -24,10 +24,7 @@ public abstract class WebViewActivity extends AppCompatActivity implements KKMWe
     }
 
     @SuppressLint("SetJavaScriptEnabled")
-    public void setupView() {
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
+    public void setupWebView() {
         // Load webview layout
         SwipeRefreshLayout swipe = findViewById(R.id.swipe);
         swipe.setColorSchemeColors(getResources().getColor(R.color.colorAccentFallback));

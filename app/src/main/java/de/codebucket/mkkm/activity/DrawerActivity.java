@@ -27,11 +27,7 @@ public abstract class DrawerActivity extends WebViewActivity implements Navigati
         super.onCreate(savedInstanceState);
     }
 
-    @Override
-    public void setupView() {
-        super.setupView();
-        Toolbar toolbar = findViewById(R.id.toolbar);
-
+    public void setupDrawer(Toolbar toolbar) {
         // Set up drawer menu
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
