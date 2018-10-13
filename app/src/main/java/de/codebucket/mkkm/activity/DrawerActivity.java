@@ -27,6 +27,8 @@ import de.codebucket.mkkm.database.model.Account;
 import de.codebucket.mkkm.login.AccountUtils;
 import de.codebucket.mkkm.util.PicassoDrawable;
 
+import static de.codebucket.mkkm.KKMWebViewClient.getPageUrl;
+
 public abstract class DrawerActivity extends WebViewActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final int TIME_INTERVAL = 2000;
@@ -115,13 +117,13 @@ public abstract class DrawerActivity extends WebViewActivity implements Navigati
         // Handle navigation view item clicks here.
         switch (item.getItemId()) {
             case R.id.nav_tickets:
-                mWebview.loadUrl("https://m.kkm.krakow.pl/#!/home");
+                mWebview.loadUrl(getPageUrl("home"));
                 break;
             case R.id.nav_purchase:
-                mWebview.loadUrl("https://m.kkm.krakow.pl/#!/ticket/buy");
+                mWebview.loadUrl(getPageUrl("ticket/buy"));
                 break;
             case R.id.nav_account:
-                mWebview.loadUrl("https://m.kkm.krakow.pl/#!/account");
+                mWebview.loadUrl(getPageUrl("account"));
                 break;
             case R.id.nav_pricing:
                 mWebview.loadUrl("https://www.codebucket.de/mkkm/pricing.php");

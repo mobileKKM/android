@@ -23,9 +23,11 @@ import de.codebucket.mkkm.login.LoginHelper;
 import de.codebucket.mkkm.login.UserLoginTask;
 import de.codebucket.mkkm.util.Const;
 
+import static de.codebucket.mkkm.KKMWebViewClient.getPageUrl;
+
 public class MainActivity extends DrawerActivity implements UserLoginTask.OnCallbackListener {
 
-    private static final String WEBAPP_URL = "https://m.kkm.krakow.pl/#!/home";
+    private static final String WEBAPP_URL = getPageUrl("home");
 
     private Account mAccount;
     private UserLoginTask mAuthTask;
