@@ -83,7 +83,7 @@ public abstract class DrawerActivity extends WebViewActivity implements Navigati
 
         // Check if current page is not home
         String homeUrl = getPageUrl("home");
-        if (mWebview.getUrl() != null && !mWebview.getUrl().equals(homeUrl)) {
+        if (!homeUrl.equals(mWebview.getUrl())) {
             mWebview.loadUrl(homeUrl);
             return;
         }
