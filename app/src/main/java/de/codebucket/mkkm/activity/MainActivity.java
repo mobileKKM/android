@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -45,7 +46,7 @@ public class MainActivity extends DrawerActivity implements UserLoginTask.OnCall
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        setTitle(R.string.title_activity_registration);
+        setTitle(R.string.title_activity_main);
 
         // Set up navigation drawer
         setupDrawer(toolbar);
@@ -60,7 +61,13 @@ public class MainActivity extends DrawerActivity implements UserLoginTask.OnCall
         TextView drawerEmail = (TextView) headerView.findViewById(R.id.drawer_header_email);
         drawerEmail.setText(mAccount.getEmail());
 
-        setupWebView();
+        // Load additional data from database and inject webapp
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+
+            }
+        });
     }
 
     public void injectWebapp() {
@@ -95,9 +102,7 @@ public class MainActivity extends DrawerActivity implements UserLoginTask.OnCall
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        switch (id) {
+        switch (item.getItemId()) {
             case R.id.nav_tickets:
                 mWebview.loadUrl("https://m.kkm.krakow.pl/#!/home");
                 break;
@@ -108,7 +113,7 @@ public class MainActivity extends DrawerActivity implements UserLoginTask.OnCall
                 mWebview.loadUrl("https://m.kkm.krakow.pl/#!/account");
                 break;
             case R.id.nav_pricing:
-                mWebview.loadUrl("https://m.kkm.krakow.pl/instructions/CENNIK.pdf");
+                mWebview.loadUrl("https://www.codebucket.de/mkkm/pricing.php");
                 break;
             case R.id.nav_backup:
                 Toast.makeText(this, R.string.not_implemented, Toast.LENGTH_SHORT).show();
@@ -193,7 +198,7 @@ public class MainActivity extends DrawerActivity implements UserLoginTask.OnCall
                 "localStorage.setItem('token', '" + MobileKKM.getLoginHelper().getSessionToken() + "');" +
                 "window.location.replace('https://m.kkm.krakow.pl/#!/home');" +
                 "</script>";
-        mWebview.loadDataWithBaseURL("https://m.kkm.krakow.pl/injeScct", inject, "text/html", "utf-8", null);
+        mWebview.loadDataWithBaseURL("https://m.kkm.krakow.pl/inject", inject, "text/html", "utf-8", null);
         mAuthTask = null;
     }
 
