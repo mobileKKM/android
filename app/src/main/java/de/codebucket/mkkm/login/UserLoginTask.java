@@ -48,30 +48,28 @@ public class UserLoginTask extends AsyncTask<Void, Void, Object> {
 
     @Override
     protected Object doInBackground(Void... voids) {
+        ErrorResult error = null;
+
         try {
             LoginHelper loginHelper = MobileKKM.getLoginHelper();
             int loginResult = username == null ? loginHelper.login() : loginHelper.login(username, password);
 
-            // Don't proceed if login wasn't successful
-            if (loginResult != Const.ErrorCode.SUCCESS) {
-                mListener.onError(loginResult, null);
-                cancel(true);
-                return null;
+            // Execute post login callback if login was successful
+            if (loginResult == Const.ErrorCode.SUCCESS) {
+                return mListener.onPostLogin();
             }
 
-            // Execute post login callback<
-            return mListener.onPostLogin();
+            error = new ErrorResult(loginResult);
         } catch (LoginFailedException ex) {
             // Error returned back by backend, contains error message
-            mListener.onError(Const.ErrorCode.LOGIN_ERROR, ex.getMessage());
-            cancel(true);
+            error = new ErrorResult(Const.ErrorCode.LOGIN_ERROR, ex.getMessage());
         } catch (IOException ex) {
             // Something went wrong with connection
-            mListener.onError(Const.ErrorCode.CONNECTION_ERROR, null);
-            cancel(true);
+            error = new ErrorResult(Const.ErrorCode.CONNECTION_ERROR);
         }
 
-        return null;
+        cancel(false);
+        return error;
     }
 
     @Override
@@ -81,6 +79,31 @@ public class UserLoginTask extends AsyncTask<Void, Void, Object> {
         }
 
         super.onPostExecute(result);
+    }
+
+    @Override
+    protected void onCancelled(Object result) {
+        if (result instanceof ErrorResult) {
+            ErrorResult errorResult = (ErrorResult) result;
+            mListener.onError(errorResult.code, errorResult.message);
+        }
+
+        super.onCancelled(result);
+    }
+
+    private class ErrorResult {
+
+        public int code;
+        public String message;
+
+        ErrorResult(int errorCode) {
+            this(errorCode, Const.getErrorMessage(errorCode, null));
+        }
+
+        ErrorResult(int errorCode, String errorMessage) {
+            code = errorCode;
+            message = errorMessage;
+        }
     }
 
     public interface OnCallbackListener {
