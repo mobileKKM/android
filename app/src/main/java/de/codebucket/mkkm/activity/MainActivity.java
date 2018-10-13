@@ -1,39 +1,31 @@
 package de.codebucket.mkkm.activity;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
-import android.webkit.WebView;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.IOException;
 
-import de.codebucket.mkkm.KKMWebViewClient;
 import de.codebucket.mkkm.MobileKKM;
 import de.codebucket.mkkm.R;
 import de.codebucket.mkkm.database.model.Account;
+import de.codebucket.mkkm.database.model.AccountDao;
 import de.codebucket.mkkm.database.model.Photo;
 import de.codebucket.mkkm.database.model.PhotoDao;
-import de.codebucket.mkkm.login.AccountUtils;
+import de.codebucket.mkkm.login.LoginHelper;
 import de.codebucket.mkkm.login.UserLoginTask;
 import de.codebucket.mkkm.util.Const;
-import de.codebucket.mkkm.util.PicassoDrawable;
 
 public class MainActivity extends DrawerActivity implements UserLoginTask.OnCallbackListener {
+
+    private static final String WEBAPP_URL = "https://m.kkm.krakow.pl/#!/home";
 
     private Account mAccount;
     private UserLoginTask mAuthTask;
@@ -53,19 +45,25 @@ public class MainActivity extends DrawerActivity implements UserLoginTask.OnCall
 
         // Get user account from login
         mAccount = (Account) getIntent().getSerializableExtra("account");
-        View headerView = mNavigationView.getHeaderView(0);
+        setupDrawerHeader(mAccount);
 
-        TextView drawerUsername = (TextView) headerView.findViewById(R.id.drawer_header_username);
-        drawerUsername.setText(String.format("%s %s", mAccount.getFirstName(), mAccount.getLastName()));
-
-        TextView drawerEmail = (TextView) headerView.findViewById(R.id.drawer_header_email);
-        drawerEmail.setText(mAccount.getEmail());
+        // Set up webview layout
+        setupWebView();
 
         // Load additional data from database and inject webapp
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
+                PhotoDao photoDao = MobileKKM.getDatabase().photoDao();
+                Photo photo = photoDao.getById(mAccount.getPhotoId());
 
+                // Set drawer header background if photo exists
+                if (photo != null) {
+                    setupDrawerBackground(photo.getBitmap());
+                }
+
+                // Execute login and inject webapp
+                injectWebapp();
             }
         });
     }
@@ -77,14 +75,6 @@ public class MainActivity extends DrawerActivity implements UserLoginTask.OnCall
 
         mAuthTask = new UserLoginTask(this);
         mAuthTask.execute();
-    }
-
-    private void logout() {
-        AccountUtils.removeAccount(AccountUtils.getAccount());
-
-        // Return back to login screen
-        startActivity(new Intent(MainActivity.this, LoginActivity.class));
-        finish();
     }
 
     @Override
@@ -100,106 +90,57 @@ public class MainActivity extends DrawerActivity implements UserLoginTask.OnCall
     }
 
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        switch (item.getItemId()) {
-            case R.id.nav_tickets:
-                mWebview.loadUrl("https://m.kkm.krakow.pl/#!/home");
-                break;
-            case R.id.nav_purchase:
-                mWebview.loadUrl("https://m.kkm.krakow.pl/#!/ticket/buy");
-                break;
-            case R.id.nav_account:
-                mWebview.loadUrl("https://m.kkm.krakow.pl/#!/account");
-                break;
-            case R.id.nav_pricing:
-                mWebview.loadUrl("https://www.codebucket.de/mkkm/pricing.php");
-                break;
-            case R.id.nav_backup:
-                Toast.makeText(this, R.string.not_implemented, Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.nav_logout:
-                new AlertDialog.Builder(this)
-                        .setTitle(R.string.dialog_logout_title)
-                        .setMessage(R.string.dialog_logout_warning)
-                        .setNegativeButton(R.string.dialog_no, null)
-                        .setPositiveButton(R.string.dialog_yes, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                logout();
-                            }
-                        })
-                        .show();
-                break;
-            case R.id.nav_settings:
-                startActivity(new Intent(MainActivity.this, SettingsActivity.class));
-                break;
-        }
-
-        // Change title only on checkable items
-        if (item.isCheckable()) {
-            setTitle(item.getTitle());
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
-
-    @Override
-    public void onPageChanged(WebView view, String page) {
-        MenuItem item = null;
-
-        switch (page) {
-            case KKMWebViewClient.PAGE_OVERVIEW:
-            case KKMWebViewClient.PAGE_CONTROL:
-                item = mNavigationView.getMenu().findItem(R.id.nav_tickets);
-                break;
-            case KKMWebViewClient.PAGE_PURCHASE:
-                item = mNavigationView.getMenu().findItem(R.id.nav_purchase);
-                break;
-            case KKMWebViewClient.PAGE_ACCOUNT:
-                item = mNavigationView.getMenu().findItem(R.id.nav_account);
-                break;
-        }
-
-        if (item != null && !item.isChecked()) {
-            mNavigationView.setCheckedItem(item);
-            setTitle(item.getTitle());
-        }
-    }
-
-    @Override
     public Object onPostLogin() throws IOException {
-        PhotoDao dao = MobileKKM.getDatabase().photoDao();
-        Photo photo = dao.getById(mAccount.getPhotoId());
+        LoginHelper loginHelper = MobileKKM.getLoginHelper();
 
-        // Check if photo isn't null, otherwise fetch from website
-        if (photo == null || photo.getBitmap() == null) {
-            photo = MobileKKM.getLoginHelper().getPhoto(mAccount);
-            dao.insert(photo);
+        // Always fetch user account to update
+        Account newAccount = loginHelper.getAccount();
+
+        AccountDao accountDao = MobileKKM.getDatabase().accountDao();
+        accountDao.insert(newAccount);
+
+        // Check if photoId has changed
+        Photo photo = new Photo(null, null, null);
+
+        if (!mAccount.getPhotoId().equals(newAccount.getPhotoId())) {
+            PhotoDao photoDao = MobileKKM.getDatabase().photoDao();
+            photo = photoDao.getById(newAccount.getPhotoId());
+
+            // Check if photo isn't null, otherwise fetch from website
+            if (photo == null || photo.getBitmap() == null) {
+                photo = MobileKKM.getLoginHelper().getPhoto(newAccount);
+                photoDao.insert(photo);
+            }
+
+            // Remove old photo from database
+            photoDao.deleteById(mAccount.getPhotoId());
         }
 
+        mAccount = newAccount;
         return photo;
     }
 
     @Override
     public void onSuccess(Object result) {
-        Photo photo = (Photo) result;
+        mAuthTask = null;
 
-        // Set photo as drawerBackground, TODO: check if photoId has changed and fetch photo then only
-        ImageView drawerBackground = (ImageView) mNavigationView.getHeaderView(0).findViewById(R.id.drawer_header_background);
-        PicassoDrawable drawable = new PicassoDrawable(MainActivity.this, photo.getBitmap(), drawerBackground.getDrawable(), false);
-        drawerBackground.setImageDrawable(drawable);
+        // Update drawer header
+        setupDrawerHeader(mAccount);
+
+        // Check if photo has changed and update
+        Photo photo = (Photo) result;
+        if (photo.getBitmap() != null) {
+            setupDrawerBackground(photo.getBitmap());
+        }
 
         // First inject session data into webview local storage, then load the webapp
+        String startUrl = mWebview.getUrl() == null ? WEBAPP_URL : mWebview.getUrl();
         String inject = "<script type='text/javascript'>" +
                 "localStorage.setItem('fingerprint', '" + MobileKKM.getLoginHelper().getFingerprint() + "');" +
                 "localStorage.setItem('token', '" + MobileKKM.getLoginHelper().getSessionToken() + "');" +
-                "window.location.replace('https://m.kkm.krakow.pl/#!/home');" +
+                "window.location.replace('" + startUrl + "');" +
                 "</script>";
         mWebview.loadDataWithBaseURL("https://m.kkm.krakow.pl/inject", inject, "text/html", "utf-8", null);
-        mAuthTask = null;
     }
 
     @Override
@@ -208,7 +149,7 @@ public class MainActivity extends DrawerActivity implements UserLoginTask.OnCall
 
         if (errorCode == Const.ErrorCode.LOGIN_ERROR) {
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-            logout();
+            doLogout();
         } else {
             Snackbar.make(findViewById(R.id.swipe), Const.getErrorMessage(errorCode, null), Snackbar.LENGTH_INDEFINITE)
                     .setAction(R.string.snackbar_retry, new View.OnClickListener() {

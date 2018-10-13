@@ -3,6 +3,7 @@ package de.codebucket.mkkm.database.model;
 import java.util.List;
 
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
@@ -21,4 +22,10 @@ public interface PhotoDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Photo photo);
+
+    @Delete
+    void delete(Photo photo);
+
+    @Query("DELETE FROM photos WHERE photoId = :id")
+    void deleteById(String id);
 }
