@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import java.io.IOException;
 
 import de.codebucket.mkkm.MobileKKM;
+import de.codebucket.mkkm.database.model.Account;
 import de.codebucket.mkkm.util.Const;
 
 public class UserLoginTask extends AsyncTask<Void, Void, Object> {
@@ -57,7 +58,8 @@ public class UserLoginTask extends AsyncTask<Void, Void, Object> {
 
             // Execute post login callback if login was successful
             if (loginResult == Const.ErrorCode.SUCCESS) {
-                return mListener.onPostLogin();
+                Account account = loginHelper.getAccount();
+                return mListener.onPostLogin(account);
             }
 
             error = new ErrorResult(loginResult);
@@ -108,7 +110,7 @@ public class UserLoginTask extends AsyncTask<Void, Void, Object> {
     }
 
     public interface OnCallbackListener {
-        Object onPostLogin() throws IOException;
+        Object onPostLogin(Account account) throws IOException;
 
         void onSuccess(Object result);
 

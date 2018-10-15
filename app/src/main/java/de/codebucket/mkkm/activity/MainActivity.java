@@ -19,7 +19,6 @@ import de.codebucket.mkkm.database.model.Account;
 import de.codebucket.mkkm.database.model.AccountDao;
 import de.codebucket.mkkm.database.model.Photo;
 import de.codebucket.mkkm.database.model.PhotoDao;
-import de.codebucket.mkkm.login.LoginHelper;
 import de.codebucket.mkkm.login.UserLoginTask;
 import de.codebucket.mkkm.util.Const;
 
@@ -92,25 +91,21 @@ public class MainActivity extends DrawerActivity implements UserLoginTask.OnCall
     }
 
     @Override
-    public Object onPostLogin() throws IOException {
-        LoginHelper loginHelper = MobileKKM.getLoginHelper();
-
-        // Always fetch new user account to update
-        Account newAccount = loginHelper.getAccount();
-
+    public Object onPostLogin(Account account) throws IOException {
+        // Always update stored account
         AccountDao accountDao = MobileKKM.getDatabase().accountDao();
-        accountDao.insert(newAccount);
+        accountDao.insert(account);
 
         // Check if photoId has changed
         PhotoDao photoDao = MobileKKM.getDatabase().photoDao();
-        String photoId = newAccount.getPhotoId();
+        String photoId = account.getPhotoId();
 
         // Dummy reference with null bitmap
         Photo photo = null;
 
         if (!mAccount.getPhotoId().equals(photoId) || photoDao.getById(photoId) == null) {
             // Fetch photo from website and store in database
-            photo = MobileKKM.getLoginHelper().getPhoto(newAccount);
+            photo = MobileKKM.getLoginHelper().getPhoto(account);
             photoDao.insert(photo);
 
             // Remove old photo from database
@@ -119,7 +114,7 @@ public class MainActivity extends DrawerActivity implements UserLoginTask.OnCall
             }
         }
 
-        mAccount = newAccount;
+        mAccount = account;
         return photo;
     }
 

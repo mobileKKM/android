@@ -31,14 +31,11 @@ import androidx.browser.customtabs.CustomTabsIntent;
 
 import com.google.android.material.snackbar.Snackbar;
 
-import java.io.IOException;
-
 import de.codebucket.mkkm.MobileKKM;
 import de.codebucket.mkkm.R;
 import de.codebucket.mkkm.database.model.Account;
 import de.codebucket.mkkm.database.model.AccountDao;
 import de.codebucket.mkkm.login.AccountUtils;
-import de.codebucket.mkkm.login.LoginHelper;
 import de.codebucket.mkkm.login.UserLoginTask;
 import de.codebucket.mkkm.util.Const;
 
@@ -222,10 +219,7 @@ public class LoginActivity extends AppCompatActivity implements UserLoginTask.On
     }
 
     @Override
-    public Object onPostLogin() throws IOException {
-        LoginHelper loginHelper = MobileKKM.getLoginHelper();
-        Account account = loginHelper.getAccount();
-
+    public Object onPostLogin(Account account) {
         AccountDao dao = MobileKKM.getDatabase().accountDao();
         dao.insert(account);
         return account;
