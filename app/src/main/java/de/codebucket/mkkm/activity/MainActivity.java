@@ -106,7 +106,7 @@ public class MainActivity extends DrawerActivity implements UserLoginTask.OnCall
         String photoId = newAccount.getPhotoId();
 
         // Dummy reference with null bitmap
-        Photo photo = Photo.NULL_INSTANCE;
+        Photo photo = null;
 
         if (!mAccount.getPhotoId().equals(photoId) || photoDao.getById(photoId) == null) {
             // Fetch photo from website and store in database
@@ -131,8 +131,8 @@ public class MainActivity extends DrawerActivity implements UserLoginTask.OnCall
         setupDrawerHeader(mAccount);
 
         // Check if photo has changed and update
-        Photo photo = (Photo) result;
-        if (photo.getBitmap() != null) {
+        if (result != null) {
+            Photo photo = (Photo) result;
             setupDrawerBackground(photo.getBitmap());
         }
 

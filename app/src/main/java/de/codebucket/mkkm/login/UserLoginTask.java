@@ -48,7 +48,8 @@ public class UserLoginTask extends AsyncTask<Void, Void, Object> {
 
     @Override
     protected Object doInBackground(Void... voids) {
-        ErrorResult error = null;
+        // This is not null if login has succeeded
+        ErrorResult error;
 
         try {
             LoginHelper loginHelper = MobileKKM.getLoginHelper();
@@ -74,7 +75,7 @@ public class UserLoginTask extends AsyncTask<Void, Void, Object> {
 
     @Override
     protected void onPostExecute(Object result) {
-        if (result != null) {
+        if (!isCancelled()) {
             mListener.onSuccess(result);
         }
 
