@@ -70,8 +70,9 @@ public class MainActivity extends DrawerActivity implements UserLoginTask.OnCall
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             try {
-                                // Open website with download link for Lawnfeed
-                                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://facebook.com/getmobilekkm"));
+                                // Open app page in facebook app
+                                String facebookUrl = Const.getFacebookPageUrl(MainActivity.this);
+                                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(facebookUrl));
                                 startActivity(intent);
                             } catch (ActivityNotFoundException exc) {
                                 // Believe me, this actually happens.

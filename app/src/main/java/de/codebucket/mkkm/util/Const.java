@@ -1,9 +1,31 @@
 package de.codebucket.mkkm.util;
 
+import android.content.Context;
+import android.content.pm.PackageManager;
+
 import de.codebucket.mkkm.MobileKKM;
 import de.codebucket.mkkm.R;
 
 public class Const {
+
+    public static String FACEBOOK_URL = "https://www.facebook.com/getmobilekkm";
+    public static String FACEBOOK_PAGE_ID = "getmobilekkm";
+
+    // method to get the right URL to use in the intent
+    public static String getFacebookPageUrl(Context context) {
+        PackageManager packageManager = context.getPackageManager();
+
+        try {
+            int versionCode = packageManager.getPackageInfo("com.facebook.katana", 0).versionCode;
+            if (versionCode >= 3002850) { // newer versions of fb app
+                return "fb://facewebmodal/f?href=" + FACEBOOK_URL;
+            } else { // older versions of fb app
+                return "fb://page/" + FACEBOOK_PAGE_ID;
+            }
+        } catch (PackageManager.NameNotFoundException ex) {
+            return FACEBOOK_URL; // normal web url
+        }
+    }
 
     public static final class ErrorCode {
         public static final int SUCCESS = 0;

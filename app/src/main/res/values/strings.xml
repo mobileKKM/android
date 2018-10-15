@@ -98,7 +98,7 @@
     <string name="dialog_logout_title">Wylogowanie</string>
     <string name="dialog_logout_warning">Czy chcesz się wylogować? Nie utracisz biletów powiązanych z tym urządzeniem.</string>
     <string name="dialog_facebook_title">Facebook</string>
-    <string name="dialog_facebook_body">Polub aplikację na Facebooku, aby otrzymywać najnowsze wiadomości, być na bieżąco z funkcjami i dzielić się swoimi opiniami!</string>
+    <string name="dialog_facebook_body">Polub naszą stonę aplikacji na Facebooku, aby otrzymywać najnowsze wiadomości, być na bieżąco z funkcjami i dzielić się swoimi opiniami!</string>
     <string name="dialog_dont_show_again">Nie pokazuj więcej</string>
     <string name="dialog_ok">Ok</string>
     <string name="dialog_cancel">Anuluj</string>
