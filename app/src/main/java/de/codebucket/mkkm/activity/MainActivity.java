@@ -1,6 +1,11 @@
 package de.codebucket.mkkm.activity;
 
+import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -54,6 +59,28 @@ public class MainActivity extends DrawerActivity implements UserLoginTask.OnCall
 
         // Set up webview layout
         setupWebView();
+
+        // Show facebook dialog on first run
+        if (firstSetup) {
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.dialog_facebook_title)
+                    .setMessage(R.string.dialog_facebook_body)
+                    .setNegativeButton(R.string.dialog_cancel, null)
+                    .setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            try {
+                                // Open website with download link for Lawnfeed
+                                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://facebook.com/getmobilekkm"));
+                                startActivity(intent);
+                            } catch (ActivityNotFoundException exc) {
+                                // Believe me, this actually happens.
+                                Toast.makeText(MainActivity.this, R.string.no_browser_activity, Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    })
+                    .show();
+        }
 
         // Load additional data from database and inject webapp
         AsyncTask.execute(new Runnable() {
