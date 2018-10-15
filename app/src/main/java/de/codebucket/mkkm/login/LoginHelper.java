@@ -3,6 +3,7 @@ package de.codebucket.mkkm.login;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
+import android.util.Log;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -32,6 +33,8 @@ import de.codebucket.mkkm.util.adapter.DateLongFormatTypeAdapter;
 import de.codebucket.mkkm.util.adapter.TicketStatusTypeAdapter;
 
 public class LoginHelper {
+
+    private static final String TAG = "LoginHelper";
 
     // mKKM endpoint URLs
     private static final String PROFILE_URL = "https://m.kkm.krakow.pl/profile/%s/%s";
@@ -124,6 +127,8 @@ public class LoginHelper {
     }
 
     private Response executeCall(String url) throws IOException {
+        Log.d(TAG, "Executing GET: " + url);
+
         // Create GET request
         Request request = new Request.Builder()
                 .url(url)
