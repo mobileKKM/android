@@ -31,6 +31,9 @@ public class MainActivity extends DrawerActivity implements UserLoginTask.OnCall
     private Account mAccount;
     private UserLoginTask mAuthTask;
 
+    // Based on that we skip fetching account on sync
+    private boolean firstSetup = false;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +49,7 @@ public class MainActivity extends DrawerActivity implements UserLoginTask.OnCall
 
         // Get user account from login
         mAccount = (Account) getIntent().getSerializableExtra("account");
+        firstSetup = getIntent().getBooleanExtra("firstSetup", false);
         setupDrawerHeader(mAccount);
 
         // Set up webview layout
@@ -74,7 +78,13 @@ public class MainActivity extends DrawerActivity implements UserLoginTask.OnCall
             return;
         }
 
+        // Pass current account instance based on firstSetup value
         mAuthTask = new UserLoginTask(this);
+        if (firstSetup) {
+            mAuthTask.setAccount(mAccount);
+        }
+
+        // Do the sync first, then load the webapp
         mAuthTask.execute();
     }
 
@@ -114,8 +124,12 @@ public class MainActivity extends DrawerActivity implements UserLoginTask.OnCall
             }
         }
 
+        // Now we can update our local instance
         mAccount = account;
-        return photo;
+
+        // This should be always set to false after first sync
+        firstSetup = false;
+        return photo; // return photo to update drawer header in onSuccess
     }
 
     @Override
@@ -148,6 +162,7 @@ public class MainActivity extends DrawerActivity implements UserLoginTask.OnCall
     public void onError(int errorCode, String message) {
         mAuthTask = null;
 
+        // Logout the user if the error is returned from backend
         if (errorCode == Const.ErrorCode.LOGIN_ERROR) {
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
             doLogout();

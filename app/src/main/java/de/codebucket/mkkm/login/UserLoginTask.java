@@ -19,6 +19,9 @@ public class UserLoginTask extends AsyncTask<Void, Void, Object> {
     @NonNull
     private OnCallbackListener mListener;
 
+    @Nullable
+    private Account mAccount;
+
     public UserLoginTask(@NonNull OnCallbackListener listener) {
         this(null, null, listener);
     }
@@ -28,6 +31,10 @@ public class UserLoginTask extends AsyncTask<Void, Void, Object> {
         this.password = password;
 
         mListener = listener;
+    }
+
+    public void setAccount(Account account) {
+        mAccount = account;
     }
 
     @Override
@@ -58,7 +65,7 @@ public class UserLoginTask extends AsyncTask<Void, Void, Object> {
 
             // Execute post login callback if login was successful
             if (loginResult == Const.ErrorCode.SUCCESS) {
-                Account account = loginHelper.getAccount();
+                Account account = mAccount == null ? loginHelper.getAccount() : mAccount;
                 return mListener.onPostLogin(account);
             }
 
