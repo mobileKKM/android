@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -60,8 +61,11 @@ public class MainActivity extends DrawerActivity implements UserLoginTask.OnCall
         // Set up webview layout
         setupWebView();
 
-        // Show facebook dialog on first run
-        if (firstSetup) {
+        // Show facebook dialog on first run or if hasn't been shown
+        final SharedPreferences preferences = MobileKKM.getPreferences();
+        if (firstSetup || preferences.getBoolean("facebook_shown", false)) {
+            // Always set this to true after showing the dialog
+            preferences.edit().putBoolean("facebook_shown", true).apply();
             new AlertDialog.Builder(this)
                     .setTitle(R.string.dialog_facebook_title)
                     .setMessage(R.string.dialog_facebook_body)
@@ -181,8 +185,7 @@ public class MainActivity extends DrawerActivity implements UserLoginTask.OnCall
                 "window.location.replace('" + startUrl + "');" +
                 "</script>";
 
-        // Clear history first
-        mWebview.clearHistory();
+        // Load the app
         mWebview.loadDataWithBaseURL("https://m.kkm.krakow.pl/inject", inject, "text/html", "utf-8", null);
     }
 
