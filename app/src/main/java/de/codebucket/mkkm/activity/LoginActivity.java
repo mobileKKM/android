@@ -19,7 +19,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,6 +27,7 @@ import androidx.annotation.Nullable;
 import androidx.browser.customtabs.CustomTabsIntent;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputEditText;
 
 import de.codebucket.mkkm.MobileKKM;
 import de.codebucket.mkkm.R;
@@ -50,7 +50,7 @@ public class LoginActivity extends ToolbarActivity implements UserLoginTask.OnCa
 
     // UI references
     private ProgressDialog mProgressDialog;
-    private EditText mEmailView, mPasswordView;
+    private TextInputEditText mEmailView, mPasswordView;
     private Button mLoginButton;
     private View mLoginForm;
 
@@ -64,8 +64,8 @@ public class LoginActivity extends ToolbarActivity implements UserLoginTask.OnCa
         setTitle(R.string.title_activity_login);
 
         // Set up the login form.
-        mEmailView = (EditText) findViewById(R.id.input_email);
-        mPasswordView = (EditText) findViewById(R.id.input_password);
+        mEmailView = (TextInputEditText) findViewById(R.id.input_email);
+        mPasswordView = (TextInputEditText) findViewById(R.id.input_password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
