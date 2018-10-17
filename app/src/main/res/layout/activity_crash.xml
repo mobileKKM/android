@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/windowBackground"
@@ -7,30 +8,53 @@
 
     <include layout="@layout/toolbar" />
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <!-- Crash stacktrace -->
+    <ScrollView
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true">
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/stacktrace"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="monospace"
+                android:padding="8dp"
+                android:textColor="@android:color/black"
+                android:textSize="12sp" />
+
+        </HorizontalScrollView>
+
+    </ScrollView>
+
+    <!-- Action buttons -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center">
+        android:orientation="horizontal"
+        style="?android:buttonStyle">
 
-        <ImageView
-            android:id="@+id/blob"
-            android:layout_width="match_parent"
-            android:layout_height="120dp"
-            android:importantForAccessibility="no"
-            android:src="@drawable/ic_error_report" />
+        <Button
+            android:id="@+id/cancel"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:text="@string/crash_cancel"
+            style="?android:borderlessButtonStyle" />
 
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/blob"
-            android:layout_centerInParent="true"
-            android:layout_marginTop="20dp"
-            android:text="@string/crash_apologise"
-            android:textAllCaps="true"
-            android:textColor="?android:textColorPrimary"
-            android:textStyle="bold" />
+        <Button
+            android:id="@+id/send"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:text="@string/crash_send"
+            style="?android:borderlessButtonStyle" />
 
-    </RelativeLayout>
+    </LinearLayout>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</LinearLayout>
