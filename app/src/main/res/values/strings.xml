@@ -94,6 +94,10 @@
     <string name="about_bio_imintie">Druga połówka Davida Sn.</string>
     <string name="about_bio_deletescape">Entuzjasta Androida oraz twórca aplikacji na niego, uwielbia memy (nawet za bardzo). Założyciel projektu Lawnchair.</string>
 
+    <!-- Strings related to crash report -->
+    <string name="title_activity_crash">Zgłoś problem</string>
+    <string name="crash_apologise">Wybacz mi, ale nastąpił problem!</string>
+
     <!-- Strings related to dialogs -->
     <string name="dialog_logout_title">Wylogowanie</string>
     <string name="dialog_logout_warning">Czy chcesz się wylogować? Nie utracisz biletów powiązanych z tym urządzeniem.</string>

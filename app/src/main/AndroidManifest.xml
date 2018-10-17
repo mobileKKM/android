@@ -69,6 +69,10 @@
             android:screenOrientation="portrait" />
 
         <activity
+            android:name=".activity.CrashReportActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name=".util.RuntimeHelper"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:process=":runtime" />

@@ -18,6 +18,8 @@ import androidx.room.Room;
 
 import java.util.UUID;
 
+import cat.ereza.customactivityoncrash.config.CaocConfig;
+import de.codebucket.mkkm.activity.CrashReportActivity;
 import de.codebucket.mkkm.database.AppDatabase;
 import de.codebucket.mkkm.login.LoginHelper;
 import de.codebucket.mkkm.service.TicketExpiryCheckService;
@@ -54,6 +56,17 @@ public class MobileKKM extends Application {
 
         // Login handler
         loginHelper = new LoginHelper(preferences.getString("fingerprint", null));
+
+        // Custom Activity on Crash initialization
+        CaocConfig.Builder.create()
+                .backgroundMode(CaocConfig.BACKGROUND_MODE_SHOW_CUSTOM)
+                .enabled(true)
+                .showErrorDetails(true)
+                .showRestartButton(true)
+                .trackActivities(true)
+                .minTimeBetweenCrashesMs(1)
+                .errorActivity(CrashReportActivity.class)
+                .apply();
     }
 
     public String getFingerprint() {
