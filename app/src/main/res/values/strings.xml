@@ -4,6 +4,7 @@
 
     <!-- Strings related to login -->
     <string name="title_activity_login">Zaloguj się do mKKM</string>
+    <string name="login_title">Krakowska Karta Miejska</string>
     <string name="prompt_email">Adres e-mail</string>
     <string name="prompt_password">Hasło</string>
     <string name="action_login">Zaloguj się</string>
