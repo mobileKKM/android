@@ -25,8 +25,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.browser.customtabs.CustomTabsIntent;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -41,7 +39,7 @@ import de.codebucket.mkkm.util.Const;
 
 import static android.util.Patterns.EMAIL_ADDRESS;
 
-public class LoginActivity extends AppCompatActivity implements UserLoginTask.OnCallbackListener {
+public class LoginActivity extends ToolbarActivity implements UserLoginTask.OnCallbackListener {
 
     private static final String TAG = "Login";
     private static final int REGISTRATION_RESULT_CODE = 99;
@@ -59,11 +57,10 @@ public class LoginActivity extends AppCompatActivity implements UserLoginTask.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_login);;
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
+        // Setup action bar
+        setupToolbar();
         setTitle(R.string.title_activity_login);
 
         // Set up the login form.

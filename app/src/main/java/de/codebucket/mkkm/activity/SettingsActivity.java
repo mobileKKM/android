@@ -28,7 +28,7 @@ import de.codebucket.mkkm.R;
 
 import me.jfenn.attribouter.Attribouter;
 
-public class SettingsActivity extends AppCompatActivity implements
+public class SettingsActivity extends ToolbarActivity implements
         PreferenceFragmentCompat.OnPreferenceStartFragmentCallback, FragmentManager.OnBackStackChangedListener {
 
     @Override
@@ -36,9 +36,8 @@ public class SettingsActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
+        // Set up action bar
+        setupToolbar();
         setTitle(R.string.title_activity_settings);
 
         ViewStub stub = findViewById(R.id.container_stub);

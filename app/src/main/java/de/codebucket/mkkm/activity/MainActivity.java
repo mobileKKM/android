@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.snackbar.Snackbar;
 
@@ -45,13 +44,12 @@ public class MainActivity extends DrawerActivity implements UserLoginTask.OnCall
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
+        // Set up action bar
+        setupToolbar();
         setTitle(R.string.title_activity_main);
 
         // Set up navigation drawer
-        setupDrawer(toolbar);
+        setupDrawer();
 
         // Get user account from login
         mAccount = (Account) getIntent().getSerializableExtra("account");

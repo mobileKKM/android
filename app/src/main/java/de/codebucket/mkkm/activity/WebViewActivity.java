@@ -11,14 +11,13 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import de.codebucket.mkkm.BuildConfig;
 import de.codebucket.mkkm.KKMWebViewClient;
 import de.codebucket.mkkm.R;
 
-public abstract class WebViewActivity extends AppCompatActivity implements KKMWebViewClient.OnPageChangedListener {
+public abstract class WebViewActivity extends ToolbarActivity implements KKMWebViewClient.OnPageChangedListener {
 
     protected WebView mWebview;
 

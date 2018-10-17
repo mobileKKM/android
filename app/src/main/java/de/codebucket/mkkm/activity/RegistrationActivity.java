@@ -7,7 +7,6 @@ import android.view.MenuItem;
 import android.webkit.WebView;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
 
 import de.codebucket.mkkm.KKMWebViewClient;
 import de.codebucket.mkkm.R;
@@ -21,9 +20,8 @@ public class RegistrationActivity extends WebViewActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
+        // Set up action bar
+        setupToolbar();
         setTitle(R.string.title_activity_registration);
 
         // Set up webview layout
