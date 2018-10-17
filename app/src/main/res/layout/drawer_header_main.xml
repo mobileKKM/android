@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:contentDescription="@string/nav_header_desc"
-        android:src="@drawable/kkm_avatar"
+        android:src="@drawable/ic_default_avatar"
         android:scaleType="centerCrop" />
 
     <LinearLayout
