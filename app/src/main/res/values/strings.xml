@@ -96,10 +96,11 @@
     <string name="about_bio_deletescape">Entuzjasta Androida oraz twórca aplikacji na niego, uwielbia memy (nawet za bardzo). Założyciel projektu Lawnchair.</string>
 
     <!-- Strings related to crash report -->
-    <string name="title_activity_crash">Zgłoś problem</string>
+    <string name="title_activity_crash">Raport błędu</string>
     <string name="crash_apologise">Wybacz mi, ale nastąpił problem!</string>
+    <string name="crash_share">Udostępnij</string>
     <string name="crash_cancel">Anuluj</string>
-    <string name="crash_send">Wyślij</string>
+    <string name="crash_send_report">Wyślij</string>
 
     <!-- Strings related to dialogs -->
     <string name="dialog_logout_title">Wylogowanie</string>

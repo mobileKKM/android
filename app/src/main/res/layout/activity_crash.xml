@@ -20,7 +20,7 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/stacktrace"
+                android:id="@+id/crash_report"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="monospace"
@@ -40,7 +40,7 @@
         style="?android:buttonStyle">
 
         <Button
-            android:id="@+id/cancel"
+            android:id="@+id/btn_cancel"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_weight="1"
@@ -48,11 +48,11 @@
             style="?android:borderlessButtonStyle" />
 
         <Button
-            android:id="@+id/send"
+            android:id="@+id/btn_send"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_weight="1"
-            android:text="@string/crash_send"
+            android:text="@string/crash_send_report"
             style="?android:borderlessButtonStyle" />
 
     </LinearLayout>
