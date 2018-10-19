@@ -111,7 +111,7 @@ public abstract class WebViewActivity extends ToolbarActivity implements KKMWebV
             intent.addCategory(Intent.CATEGORY_OPENABLE);
             intent.setType("image/*");
 
-            startActivityForResult(Intent.createChooser(intent, null), FILE_CHOOSER_RESULT_CODE);
+            startActivityForResult(Intent.createChooser(intent, getString(R.string.intent_chooser_file)), FILE_CHOOSER_RESULT_CODE);
             return true;
         }
     }
