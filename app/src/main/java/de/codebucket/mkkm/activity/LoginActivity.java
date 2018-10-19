@@ -272,6 +272,7 @@ public class LoginActivity extends ToolbarActivity implements UserLoginTask.OnCa
             mAlertDialog = new AlertDialog.Builder(this)
                     .setTitle(R.string.disclaimer_title)
                     .setMessage(R.string.disclaimer_body)
+                    .setCancelable(false)
                     .setNegativeButton(R.string.dialog_dont_show_again, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
