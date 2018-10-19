@@ -98,9 +98,9 @@
     <!-- Strings related to crash report -->
     <string name="title_activity_crash">Raport błędu</string>
     <string name="crash_apologise">Wybacz mi, ale nastąpił problem!</string>
-    <string name="crash_share">Udostępnij</string>
     <string name="crash_cancel">Anuluj</string>
-    <string name="crash_send_report">Wyślij</string>
+    <string name="crash_send_report">Zgłoś błąd</string>
+    <string name="action_share">Udostępnij</string>
 
     <!-- Strings related to dialogs -->
     <string name="dialog_logout_title">Wylogowanie</string>
@@ -117,6 +117,11 @@
     <!-- Disclaimer popup -->
     <string name="disclaimer_title">Przeczytaj uważnie!</string>
     <string name="disclaimer_body">mobileKKM jest <b>niezależnie od KKM i MPK Kraków opracowaną</b> aplikacją \"open-source\" z kodem zródłowym dostępnym na serwisie GitHub. Jej celem jest ułatwienie obsługi mobilnej wersji Krakowskiej Karty Miejskiej na urządzeniach mobilnych z systemem Android 5.0 lub wyżej.\n\nAplikacja <b>nie udostępnia</b> żadnych danych osobowych osobom trzecim, wszystkie dane są <b>bezpiecznie przesyłane</b> bezpośrednio do strony mobilnej KKM.\n\nKontakt do twórcy:\n<b>David Sn (@divadsn)\n<a href="mailto:projects@codebucket.de">projects@codebucket.de</a></b></string>
+    <string name="privacy_policy_title">Polityka prywatności</string>
+    <string name="privacy_policy_body">Ze względu na wprowadzenie Ogólnego Rozporządzenia o ochronie danych (RODO), chcielibyśmy zwrócić Twoją uwagę na politykę prywatności mobileKKM. Proszę przeczytać ją uważnie.\nMusisz ją zaakceptować, aby przesyłać raporty o błędach.</string>
+    <string name="read_privacy_policy">Przeczytaj politykę prywatności</string>
+    <string name="accept">Akceptuj</string>
+    <string name="decline">Odrzuć</string>
 
     <!-- Other strings -->
     <string name="progress_login">Logowanie…</string>
@@ -128,4 +133,6 @@
     <string name="state_loading">Restartowanie aplikacji…</string>
     <string name="expiry_notification">Informacje o upływie ważności biletu</string>
     <string name="tickets_provider_name">Zapisane bilety</string>
+    <string name="intent_chooser_document">Wybierz plik</string>
+    <string name="intent_chooser_email">Wyślij e-mail</string>
 </resources>
