@@ -1,5 +1,8 @@
 package de.codebucket.mkkm.activity;
 
+import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -9,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -58,10 +62,34 @@ public class CrashReportActivity extends ToolbarActivity {
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:" + REPORT_EMAIL_ADDRESS));
-                intent.putExtra(Intent.EXTRA_SUBJECT, REPORT_EMAIL_SUBJECT);
-                intent.putExtra(Intent.EXTRA_TEXT, crashReport);
-                startActivity(Intent.createChooser(intent, getString(R.string.intent_chooser_email)));
+                new AlertDialog.Builder(CrashReportActivity.this)
+                        .setTitle(R.string.privacy_policy_title)
+                        .setMessage(R.string.privacy_policy_body)
+                        .setCancelable(false)
+                        .setNeutralButton(R.string.read_privacy_policy, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                try {
+                                    // Open website with privacy policy
+                                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.codebucket.de/privacy-policy.html"));
+                                    startActivity(intent);
+                                } catch (ActivityNotFoundException exc) {
+                                    // Believe me, this actually happens.
+                                    Toast.makeText(CrashReportActivity.this, R.string.no_browser_activity, Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        })
+                        .setPositiveButton(R.string.accept, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:" + REPORT_EMAIL_ADDRESS));
+                                intent.putExtra(Intent.EXTRA_SUBJECT, REPORT_EMAIL_SUBJECT);
+                                intent.putExtra(Intent.EXTRA_TEXT, crashReport);
+                                startActivity(Intent.createChooser(intent, getString(R.string.intent_chooser_email)));
+                            }
+                        })
+                        .setNegativeButton(R.string.decline, null)
+                        .show();
             }
         });
 
