@@ -20,8 +20,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import cat.ereza.customactivityoncrash.CustomActivityOnCrash;
-
 import cat.ereza.customactivityoncrash.config.CaocConfig;
+
 import de.codebucket.mkkm.BuildConfig;
 import de.codebucket.mkkm.R;
 
