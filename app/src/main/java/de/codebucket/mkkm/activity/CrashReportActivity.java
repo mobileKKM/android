@@ -27,7 +27,7 @@ import de.codebucket.mkkm.R;
 
 public class CrashReportActivity extends ToolbarActivity {
 
-    public static final String REPORT_EMAIL_ADDRESS = "projects@codebucket.de";
+    public static final String REPORT_EMAIL_ADDRESS = "mobilekkm@codebucket.de";
     public static final String REPORT_EMAIL_SUBJECT = "Błąd w mobileKKM " + BuildConfig.VERSION_NAME;
 
     private String mStacktrace;
