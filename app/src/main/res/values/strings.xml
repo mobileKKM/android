@@ -133,6 +133,7 @@
     <string name="state_loading">Restartowanie aplikacji…</string>
     <string name="expiry_notification">Informacje o upływie ważności biletu</string>
     <string name="tickets_provider_name">Zapisane bilety</string>
-    <string name="intent_chooser_document">Wybierz plik</string>
+    <string name="intent_chooser_file">Wybierz plik</string>
     <string name="intent_chooser_email">Wyślij e-mail</string>
+    <string name="intent_chooser_share">Udostępnij przez</string>
 </resources>

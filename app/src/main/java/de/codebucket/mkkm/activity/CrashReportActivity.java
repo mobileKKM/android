@@ -1,6 +1,5 @@
 package de.codebucket.mkkm.activity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -16,11 +15,10 @@ import androidx.annotation.Nullable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import androidx.appcompat.app.AlertDialog;
 import cat.ereza.customactivityoncrash.CustomActivityOnCrash;
 
+import cat.ereza.customactivityoncrash.config.CaocConfig;
 import de.codebucket.mkkm.BuildConfig;
-import de.codebucket.mkkm.MobileKKM;
 import de.codebucket.mkkm.R;
 
 public class CrashReportActivity extends ToolbarActivity {
@@ -28,7 +26,7 @@ public class CrashReportActivity extends ToolbarActivity {
     public static final String REPORT_EMAIL_ADDRESS = "projects@codebucket.de";
     public static final String REPORT_EMAIL_SUBJECT = "Błąd w mobileKKM " + BuildConfig.VERSION_NAME;
 
-    private String mCrashReport;
+    private String mStacktrace;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,15 +37,19 @@ public class CrashReportActivity extends ToolbarActivity {
         setupToolbar();
         setTitle(R.string.title_activity_crash);
 
+        mStacktrace = CustomActivityOnCrash.getStackTraceFromIntent(getIntent());
+
         // Create crash report from stacktrace
-        mCrashReport = createErrorReport(getIntent());
+        final CaocConfig caocConfig = CustomActivityOnCrash.getConfigFromIntent(getIntent());
+        final String crashReport = createErrorReport(mStacktrace);
 
         // Restart app on cancel
         Button cancelButton = findViewById(R.id.btn_cancel);
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MobileKKM.restartApp(CrashReportActivity.this);
+                Intent intent = new Intent(CrashReportActivity.this, SplashActivity.class);
+                CustomActivityOnCrash.restartApplicationWithIntent(CrashReportActivity.this, intent, caocConfig);
             }
         });
 
@@ -56,31 +58,10 @@ public class CrashReportActivity extends ToolbarActivity {
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new AlertDialog.Builder(CrashReportActivity.this)
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .setTitle(R.string.privacy_policy_title)
-                        .setMessage(R.string.privacy_policy_body)
-                        .setCancelable(false)
-                        .setNeutralButton(R.string.read_privacy_policy, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                Intent webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.codebucket.de/privacy-policy.html"));
-                                startActivity(webIntent);
-                            }
-                        })
-                        .setPositiveButton(R.string.accept, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                Intent intent = new Intent(Intent.ACTION_SENDTO);
-                                intent.setData(Uri.parse("mailto:" + REPORT_EMAIL_ADDRESS))
-                                        .putExtra(Intent.EXTRA_SUBJECT, REPORT_EMAIL_SUBJECT)
-                                        .putExtra(Intent.EXTRA_TEXT, mCrashReport);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(Intent.createChooser(intent, "Send Email"));
-                            }
-                        })
-                        .setNegativeButton(R.string.decline, null)
-                        .show();
+                Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:" + REPORT_EMAIL_ADDRESS));
+                intent.putExtra(Intent.EXTRA_SUBJECT, REPORT_EMAIL_SUBJECT);
+                intent.putExtra(Intent.EXTRA_TEXT, crashReport);
+                startActivity(Intent.createChooser(intent, getString(R.string.intent_chooser_email)));
             }
         });
 
@@ -88,7 +69,7 @@ public class CrashReportActivity extends ToolbarActivity {
         TextView errorView = findViewById(R.id.crash_error);
         String report = getString(R.string.crash_apologise) +  ":( \n";
         report += "-------------------------------------\n";
-        report += mCrashReport;
+        report += crashReport;
         errorView.setText(report);
     }
 
@@ -102,14 +83,17 @@ public class CrashReportActivity extends ToolbarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_share) {
-
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.putExtra(Intent.EXTRA_TEXT, mStacktrace);
+            intent.setType("text/plain");
+            startActivity(Intent.createChooser(intent, getString(R.string.intent_chooser_share)));
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    private String createErrorReport(Intent intent) {
+    private String createErrorReport(String stacktrace) {
         String versionName = BuildConfig.VERSION_NAME + " (" + BuildConfig.VERSION_CODE + ")";
         String details = "";
 
@@ -136,8 +120,7 @@ public class CrashReportActivity extends ToolbarActivity {
         details += "\n";
 
         details += "--------- beginning of stacktrace\n";
-        details += CustomActivityOnCrash.getStackTraceFromIntent(intent);
+        details += stacktrace;
         return details;
-
     }
 }
