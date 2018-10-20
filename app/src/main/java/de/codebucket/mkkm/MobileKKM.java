@@ -19,6 +19,7 @@ import androidx.room.Room;
 import java.util.UUID;
 
 import cat.ereza.customactivityoncrash.config.CaocConfig;
+
 import de.codebucket.mkkm.activity.CrashReportActivity;
 import de.codebucket.mkkm.database.AppDatabase;
 import de.codebucket.mkkm.login.LoginHelper;

@@ -65,6 +65,10 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
+            android:name=".activity.BackupActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name=".activity.SettingsActivity"
             android:screenOrientation="portrait" />
 

@@ -131,7 +131,7 @@ public abstract class DrawerActivity extends WebViewActivity implements Navigati
                 mWebview.loadUrl("https://www.codebucket.de/mkkm/pricing.php");
                 break;
             case R.id.nav_backup:
-                Toast.makeText(this, R.string.not_implemented, Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(DrawerActivity.this, BackupActivity.class));
                 break;
             case R.id.nav_logout:
                 new AlertDialog.Builder(this)

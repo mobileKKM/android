@@ -41,6 +41,14 @@
     <string name="nav_logout">Wyloguj się</string>
     <string name="nav_settings">Ustawienia</string>
 
+    <!-- Backup and restore -->
+    <string name="title_activity_backup">Kopie zapasowe</string>
+    <string name="backup_category">Kopie zapasowe</string>
+    <string name="backup_export_title">Zapisz kopie</string>
+    <string name="backup_export_desc">Zapisz kopie</string>
+    <string name="backup_import_title">Przywroc kopie</string>
+    <string name="backup_import_desc">Przywroc kopie</string>
+
     <!-- Strings related to settings -->
     <string name="title_activity_settings">Ustawienia</string>
     <string name="pref_group_general">Ogólne</string>
