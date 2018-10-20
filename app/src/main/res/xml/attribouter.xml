@@ -95,6 +95,12 @@
             title="^Android Support Preference v7 Fix"
             repo="Gericop/Android-Support-Preference-V7-Fix"
             license="unlicense" />
+        
+        <!-- Android library that allows launching a custom activity when your app crashes, instead of showing the hated "Unfortunately, X has stopped" dialog. -->
+        <me.jfenn.attribouter.wedges.LicenseWedge
+            title="^Custom Activity On Crash"
+            repo="Ereza/CustomActivityOnCrash"
+            license="apache-2.0" />
 
     </me.jfenn.attribouter.wedges.LicensesWedge>
 </about>
