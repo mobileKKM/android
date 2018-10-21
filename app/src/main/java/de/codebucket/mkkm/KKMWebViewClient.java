@@ -59,6 +59,12 @@ public class KKMWebViewClient extends WebViewClient {
     @Override
     public void onReceivedError(final WebView view, WebResourceRequest request, WebResourceError error) {
         super.onReceivedError(view, request, error);
+
+        // Ignore error if it isn't our main page
+        if (!request.isForMainFrame()) {
+            return;
+        }
+
         mSwipeLayout.setRefreshing(false);
         mSwipeLayout.setEnabled(false);
 
