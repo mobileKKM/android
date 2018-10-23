@@ -104,7 +104,7 @@ public class CrashReportActivity extends ToolbarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.share, menu);
+        getMenuInflater().inflate(R.menu.menu_share, menu);
         return true;
     }
 
