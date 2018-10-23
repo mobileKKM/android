@@ -1,0 +1,36 @@
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.takisoft.preferencex.PreferenceCategory
+        android:key="category_import"
+        android:title="@string/backup_category_import"
+        app:iconSpaceReserved="false">
+
+        <androidx.preference.Preference
+            android:key="import"
+            android:title="@string/backup_import_title"
+            android:summary="@string/backup_import_desc"
+            app:iconSpaceReserved="false" />
+
+        <androidx.preference.Preference
+            android:key="restore"
+            android:title="@string/backup_restore_title"
+            android:summary="@string/backup_restore_desc"
+            app:iconSpaceReserved="false" />
+
+    </com.takisoft.preferencex.PreferenceCategory>
+
+    <com.takisoft.preferencex.PreferenceCategory
+        android:key="category_export"
+        android:title="@string/backup_category_export"
+        app:iconSpaceReserved="false">
+
+        <androidx.preference.Preference
+            android:key="export"
+            android:title="@string/backup_export_title"
+            android:summary="@string/backup_export_desc"
+            app:iconSpaceReserved="false" />
+
+    </com.takisoft.preferencex.PreferenceCategory>
+
+</androidx.preference.PreferenceScreen>

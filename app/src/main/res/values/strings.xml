@@ -18,6 +18,8 @@
     <string name="error_fingerprint">Wystąpił problem z rozpoznaniem urządzenia</string>
     <string name="error_unknown">Nierozpoznany problem</string>
     <string name="action_help">Pomoc</string>
+
+    <!-- Strings related to registration -->
     <string name="title_activity_registration">Rejestracja konta</string>
     <string name="registration_complete">Sprawdź swoją skrzynkę pocztową, aby zakończyć rejestrację konta</string>
     <string name="snackbar_open">Otwórz</string>
@@ -43,11 +45,14 @@
 
     <!-- Backup and restore -->
     <string name="title_activity_backup">Kopie zapasowe</string>
-    <string name="backup_category">Kopie zapasowe</string>
-    <string name="backup_export_title">Zapisz kopie</string>
-    <string name="backup_export_desc">Zapisz kopie</string>
-    <string name="backup_import_title">Przywroc kopie</string>
-    <string name="backup_import_desc">Przywroc kopie</string>
+    <string name="backup_category_import">Przywróć kopie</string>
+    <string name="backup_category_export">Utwórz kopie</string>
+    <string name="backup_import_title">Przywróc z pliku</string>
+    <string name="backup_import_desc">Jeśli posiadasz plik JSON zawierający identyfikator urządzenia, mobileKKM może przywrócić przypisane do niego bilety</string>
+    <string name="backup_restore_title">Przywróć z przeglądarki</string>
+    <string name="backup_restore_desc">Wybierz tą opcję jeśli posiadasz identyfikator urządzenia z przeglądarki</string>
+    <string name="backup_export_title">Zapisz do pliku</string>
+    <string name="backup_export_desc">Eksportuj identyfikator aplikacji do pliku JSON</string>
 
     <!-- Strings related to settings -->
     <string name="title_activity_settings">Ustawienia</string>
