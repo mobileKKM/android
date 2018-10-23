@@ -45,14 +45,16 @@
 
     <!-- Backup and restore -->
     <string name="title_activity_backup">Kopie zapasowe</string>
+    <string name="backup_howto_title">Jak to działa?</string>
+    <string name="backup_howto_description">Każdy powiązany z urządzeniem bilet zostaje przypisany do tzw. identyfikatora urządzenia, który mobileKKM tworzy na podstawie identyfikatora Android z systemu urządzenia.</string>
     <string name="backup_category_import">Przywróć kopie</string>
     <string name="backup_category_export">Utwórz kopie</string>
     <string name="backup_import_title">Przywróc z pliku</string>
-    <string name="backup_import_desc">Jeśli posiadasz poprzednią kopię zapasową, mobileKKM może zaimportować ją z pliku JSON.</string>
+    <string name="backup_import_desc">Jeśli posiadasz poprzednią kopię zapasową, mobileKKM może zaimportować ją z pliku JSON</string>
     <string name="backup_restore_title">Przywróć z przeglądarki</string>
-    <string name="backup_restore_desc">Wybierz tą opcję jeśli posiadasz identyfikator urządzenia z przeglądarki na której wcześniej powiązałeś bilet.</string>
+    <string name="backup_restore_desc">Wybierz tą opcję jeśli posiadasz identyfikator urządzenia z przeglądarki na której wcześniej powiązałeś bilet</string>
     <string name="backup_export_title">Zapisz do pliku</string>
-    <string name="backup_export_desc">Wyeksportuj identyfikator urządzenia do pliku JSON.</string>
+    <string name="backup_export_desc">Wyeksportuj identyfikator urządzenia do pliku JSON</string>
 
     <!-- Strings related to settings -->
     <string name="title_activity_settings">Ustawienia</string>

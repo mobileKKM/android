@@ -1,6 +1,14 @@
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <androidx.preference.Preference
+        android:key="description"
+        android:title="@string/backup_howto_title"
+        android:summary="@string/backup_howto_description"
+        android:selectable="false"
+        android:persistent="false"
+        app:iconSpaceReserved="false" />
+
     <com.takisoft.preferencex.PreferenceCategory
         android:key="category_import"
         android:title="@string/backup_category_import"
