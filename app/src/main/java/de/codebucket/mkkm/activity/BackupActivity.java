@@ -4,9 +4,6 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.ViewStub;
 
-import androidx.fragment.app.FragmentManager;
-
-import com.takisoft.preferencex.PreferenceCategory;
 import com.takisoft.preferencex.PreferenceFragmentCompat;
 
 import de.codebucket.mkkm.R;
@@ -16,7 +13,7 @@ public class BackupActivity extends ToolbarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings);
+        setContentView(R.layout.activity_container);
 
         // Set up action bar
         setupToolbar();
