@@ -48,7 +48,7 @@
     <string name="backup_category_import">Przywróć kopie</string>
     <string name="backup_category_export">Utwórz kopie</string>
     <string name="backup_import_title">Przywróc z pliku</string>
-    <string name="backup_import_desc">Jeśli posiadasz poprzednią kopię zapasową, mobileKKKM może zaimportować ją z pliku JSON.</string>
+    <string name="backup_import_desc">Jeśli posiadasz poprzednią kopię zapasową, mobileKKM może zaimportować ją z pliku JSON.</string>
     <string name="backup_restore_title">Przywróć z przeglądarki</string>
     <string name="backup_restore_desc">Wybierz tą opcję jeśli posiadasz identyfikator urządzenia z przeglądarki na której wcześniej powiązałeś bilet.</string>
     <string name="backup_export_title">Zapisz do pliku</string>
