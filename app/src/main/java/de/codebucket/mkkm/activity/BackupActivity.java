@@ -5,8 +5,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewStub;
-import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -27,7 +27,7 @@ public class BackupActivity extends ToolbarActivity {
     private static final int REQUEST_WRITE_PERMISSION_CODE = 199;
 
 
-    private ViewStub mContainer;
+    private View mContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +38,10 @@ public class BackupActivity extends ToolbarActivity {
         setupToolbar();
         setTitle(R.string.title_activity_backup);
 
-        mContainer = findViewById(R.id.container_stub);
-        mContainer.inflate();
+        ViewStub stub = findViewById(R.id.container_stub);
+        stub.inflate();
+
+        mContainer = stub.getRootView();
 
         if (savedInstanceState == null) {
             // Display the fragment as the main content.
@@ -67,13 +69,13 @@ public class BackupActivity extends ToolbarActivity {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 showOpenFileSelector();
             } else {
-                Snackbar.make(mContainer, R.string.backup_storage_unreadable, Toast.LENGTH_SHORT).show();
+                Snackbar.make(mContainer, R.string.backup_storage_unreadable, Snackbar.LENGTH_SHORT).show();
             }
         } else if (requestCode == REQUEST_WRITE_PERMISSION_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 showSaveFileSelector();
             } else {
-                Snackbar.make(mContainer, R.string.backup_storage_unwritable, Toast.LENGTH_SHORT).show();
+                Snackbar.make(mContainer, R.string.backup_storage_unwritable, Snackbar.LENGTH_SHORT).show();
             }
         }
 
