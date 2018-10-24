@@ -1,6 +1,7 @@
 package de.codebucket.mkkm.activity;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewStub;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.preference.Preference;
@@ -26,7 +28,6 @@ public class BackupActivity extends ToolbarActivity {
     private static final int REQUEST_READ_PERMISSION_CODE = 198;
     private static final int REQUEST_WRITE_PERMISSION_CODE = 199;
 
-
     private View mContainer;
 
     @Override
@@ -39,9 +40,7 @@ public class BackupActivity extends ToolbarActivity {
         setTitle(R.string.title_activity_backup);
 
         ViewStub stub = findViewById(R.id.container_stub);
-        stub.inflate();
-
-        mContainer = stub.getRootView();
+        mContainer = stub.inflate();
 
         if (savedInstanceState == null) {
             // Display the fragment as the main content.
@@ -64,22 +63,52 @@ public class BackupActivity extends ToolbarActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == REQUEST_READ_PERMISSION_CODE) {
+            // Check if user has granted read permission
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 showOpenFileSelector();
             } else {
-                Snackbar.make(mContainer, R.string.backup_storage_unreadable, Snackbar.LENGTH_SHORT).show();
+                // Show error about missing permissions
+                Snackbar.make(mContainer, R.string.backup_permissions_not_granted, Snackbar.LENGTH_LONG).show();
             }
         } else if (requestCode == REQUEST_WRITE_PERMISSION_CODE) {
+            // Check if user has granted read permission
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 showSaveFileSelector();
             } else {
-                Snackbar.make(mContainer, R.string.backup_storage_unwritable, Snackbar.LENGTH_SHORT).show();
+                // Show error about missing permissions
+                Snackbar.make(mContainer, R.string.backup_permissions_not_granted, Snackbar.LENGTH_LONG).show();
             }
+        } else {
+            // Handle it elsewhere lol
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
+    }
 
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Ignore if the result isn't OK
+        if (resultCode != Activity.RESULT_OK) {
+            super.onActivityResult(requestCode, resultCode, data);
+            return;
+        }
+    }
+
+    private void showOpenFileSelector() {
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("application/octet-stream");
+        startActivityForResult(intent, OPEN_FILE_RESULT_CODE);
+    }
+
+    private void showSaveFileSelector() {
+        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("application/octet-stream");
+        intent.putExtra(Intent.EXTRA_TITLE, FileHelper.generateBackupFilename());
+        startActivityForResult(intent, SAVE_FILE_RESULT_CODE);
     }
 
     private void openFileWithPermissions() {
@@ -96,26 +125,6 @@ public class BackupActivity extends ToolbarActivity {
         } else {
             ActivityCompat.requestPermissions(this, new String[]{ Manifest.permission.WRITE_EXTERNAL_STORAGE }, REQUEST_WRITE_PERMISSION_CODE);
         }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    private void showOpenFileSelector() {
-        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("application/octet-stream");
-        startActivityForResult(intent, OPEN_FILE_RESULT_CODE);
-    }
-
-    private void showSaveFileSelector() {
-        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("application/octet-stream");
-        intent.putExtra(Intent.EXTRA_TITLE, FileHelper.generateBackupFilename());
-        startActivityForResult(intent, SAVE_FILE_RESULT_CODE);
     }
 
     public static class BackupFragment extends PreferenceFragmentCompat {

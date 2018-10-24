@@ -55,8 +55,7 @@
     <string name="backup_restore_desc">Wybierz tą opcję jeśli posiadasz identyfikator urządzenia z przeglądarki na której wcześniej powiązałeś bilet</string>
     <string name="backup_export_title">Zapisz do pliku</string>
     <string name="backup_export_desc">Wyeksportuj identyfikator urządzenia do pliku JSON</string>
-    <string name="backup_storage_unreadable">Pamięć zewnętrzna nie jest do odczytu (udziel uprawnień w ustawieniach)</string>
-    <string name="backup_storage_unwritable">Pamięć zewnętrzna nie jest zapisywalna (udziel uprawnień w ustawieniach)</string>
+    <string name="backup_permissions_not_granted">Brak wystarczających uprawnień do zapisu/odczytu</string>
 
     <!-- Strings related to settings -->
     <string name="title_activity_settings">Ustawienia</string>
