@@ -12,6 +12,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.preference.Preference;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.takisoft.preferencex.PreferenceFragmentCompat;
 
 import de.codebucket.mkkm.R;
@@ -63,13 +64,13 @@ public class BackupActivity extends ToolbarActivity {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 showOpenFileSelector();
             } else {
-                Toast.makeText(this, R.string.backup_storage_unreadable, Toast.LENGTH_LONG).show();
+                Snackbar.make(findViewById(R.id.container_stub), R.string.backup_storage_unreadable, Toast.LENGTH_SHORT).show();
             }
         } else if (requestCode == REQUEST_WRITE_PERMISSION_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 showSaveFileSelector();
             } else {
-                Toast.makeText(this, R.string.backup_storage_unwritable, Toast.LENGTH_LONG).show();
+                Snackbar.make(findViewById(R.id.container_stub), R.string.backup_storage_unwritable, Toast.LENGTH_SHORT).show();
             }
         }
 
