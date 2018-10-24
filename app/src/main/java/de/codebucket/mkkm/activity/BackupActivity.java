@@ -62,13 +62,13 @@ public class BackupActivity extends ToolbarActivity {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 showOpenFileSelector();
             } else {
-                Toast.makeText(this, "no permission", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, R.string.backup_storage_unreadable, Toast.LENGTH_LONG).show();
             }
         } else if (requestCode == REQUEST_WRITE_PERMISSION_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 showSaveFileSelector();
             } else {
-                Toast.makeText(this, "no permission", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, R.string.backup_storage_unwritable, Toast.LENGTH_LONG).show();
             }
         }
 
