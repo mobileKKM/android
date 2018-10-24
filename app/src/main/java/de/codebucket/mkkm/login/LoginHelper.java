@@ -10,6 +10,8 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -39,6 +41,9 @@ public class LoginHelper {
     // mKKM endpoint URLs
     private static final String PROFILE_URL = "https://m.kkm.krakow.pl/profile/%s/%s";
     private static final String PHOTO_URL = "https://m.kkm.krakow.pl/photo/%s";
+
+    // a4cb5007c5f08dd06f618558d41d8473
+    private static final Pattern DASHLESS_PATTERN = Pattern.compile("^([A-Fa-f0-9]{8})([A-Fa-f0-9]{4})([A-Fa-f0-9]{4})([A-Fa-f0-9]{4})([A-Fa-f0-9]{12})$");
 
     // JSON stuff
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
@@ -174,11 +179,6 @@ public class LoginHelper {
         return null;
     }
 
-    public void updateFingerprint(String fingerprint) {
-        mFingerprint = fingerprint;
-        mSessionToken = null;
-    }
-
     public boolean hasSessionExpired() {
         if (mSessionToken == null) {
             return true;
@@ -200,8 +200,13 @@ public class LoginHelper {
         return true;
     }
 
+    public void updateFingerprint(String fingerprint) {
+        mFingerprint = fingerprint;
+        mSessionToken = null;
+    }
+
     public boolean isFingerprintValid() {
-        return mFingerprint != null && mFingerprint.length() == 32;
+        return mFingerprint != null && mFingerprint.length() == 32 && isValidUUID(mFingerprint);
     }
 
     public String getFingerprint() {
@@ -218,5 +223,10 @@ public class LoginHelper {
 
     private String getPhotoUrl(String photoId) {
         return String.format(PHOTO_URL, photoId);
+    }
+
+    public static boolean isValidUUID(String uuid) {
+        Matcher matcher = DASHLESS_PATTERN.matcher(uuid);
+        return matcher.matches();
     }
 }
