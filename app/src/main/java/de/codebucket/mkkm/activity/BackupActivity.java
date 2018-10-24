@@ -15,6 +15,7 @@ import androidx.preference.Preference;
 import com.takisoft.preferencex.PreferenceFragmentCompat;
 
 import de.codebucket.mkkm.R;
+import de.codebucket.mkkm.util.FileHelper;
 
 public class BackupActivity extends ToolbarActivity {
 
@@ -99,14 +100,15 @@ public class BackupActivity extends ToolbarActivity {
     private void showOpenFileSelector() {
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("application/json");
+        intent.setType("application/octet-stream");
         startActivityForResult(intent, OPEN_FILE_RESULT_CODE);
     }
 
     private void showSaveFileSelector() {
         Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("application/json");
+        intent.setType("application/octet-stream");
+        intent.putExtra(Intent.EXTRA_TITLE, FileHelper.generateBackupFilename());
         startActivityForResult(intent, SAVE_FILE_RESULT_CODE);
     }
 

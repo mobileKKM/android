@@ -58,4 +58,6 @@ public class Const {
                 return fallback;
         }
     }
+
+    public static final String BACKUP_FILENAME_JSON = "mobilekkm_backup_%s.json";
 }
