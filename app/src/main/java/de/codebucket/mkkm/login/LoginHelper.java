@@ -48,8 +48,7 @@ public class LoginHelper {
             .create();
 
     // Login related variables
-    private final String mFingerprint;
-    private String mSessionToken;
+    private String mFingerprint, mSessionToken;
     private OkHttpClient mHttpClient = new OkHttpClient();
 
     public LoginHelper(String fingerprint) {
@@ -173,6 +172,11 @@ public class LoginHelper {
         }
 
         return null;
+    }
+
+    public void updateFingerprint(String fingerprint) {
+        mFingerprint = fingerprint;
+        mSessionToken = null;
     }
 
     public boolean hasSessionExpired() {

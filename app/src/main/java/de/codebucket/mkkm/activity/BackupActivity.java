@@ -4,10 +4,12 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewStub;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -17,7 +19,13 @@ import androidx.preference.Preference;
 import com.google.android.material.snackbar.Snackbar;
 import com.takisoft.preferencex.PreferenceFragmentCompat;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+
+import de.codebucket.mkkm.MobileKKM;
 import de.codebucket.mkkm.R;
+import de.codebucket.mkkm.login.AccountUtils;
 import de.codebucket.mkkm.util.FileHelper;
 
 public class BackupActivity extends ToolbarActivity {
@@ -62,6 +70,49 @@ public class BackupActivity extends ToolbarActivity {
         return true;
     }
 
+    public void finishWithResult(boolean reload) {
+        Intent data = new Intent();
+        data.putExtra("reload", reload);
+        setResult(RESULT_OK, data);
+        finish();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        // Ignore if the result isn't OK or data intent is null
+        if (resultCode != Activity.RESULT_OK || intent == null) {
+            super.onActivityResult(requestCode, resultCode, intent);
+            return;
+        }
+
+        // Handle file chooser
+        switch (requestCode) {
+            case OPEN_FILE_RESULT_CODE:
+                doRestore(intent.getData());
+                return;
+            case SAVE_FILE_RESULT_CODE:
+                doBackup(intent.getData());
+                return;
+            default:
+                break;
+        }
+    }
+
+    private void showOpenFileSelector() {
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("application/octet-stream");
+        startActivityForResult(intent, OPEN_FILE_RESULT_CODE);
+    }
+
+    private void showSaveFileSelector() {
+        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("application/octet-stream");
+        intent.putExtra(Intent.EXTRA_TITLE, FileHelper.generateBackupFilename());
+        startActivityForResult(intent, SAVE_FILE_RESULT_CODE);
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == REQUEST_READ_PERMISSION_CODE) {
@@ -86,31 +137,6 @@ public class BackupActivity extends ToolbarActivity {
         }
     }
 
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // Ignore if the result isn't OK
-        if (resultCode != Activity.RESULT_OK) {
-            super.onActivityResult(requestCode, resultCode, data);
-            return;
-        }
-    }
-
-    private void showOpenFileSelector() {
-        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("application/octet-stream");
-        startActivityForResult(intent, OPEN_FILE_RESULT_CODE);
-    }
-
-    private void showSaveFileSelector() {
-        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("application/octet-stream");
-        intent.putExtra(Intent.EXTRA_TITLE, FileHelper.generateBackupFilename());
-        startActivityForResult(intent, SAVE_FILE_RESULT_CODE);
-    }
-
     private void openFileWithPermissions() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
             showOpenFileSelector();
@@ -127,11 +153,69 @@ public class BackupActivity extends ToolbarActivity {
         }
     }
 
+    private void doRestore(Uri uri) {
+        if (FileHelper.isExternalStorageReadable()) {
+            try {
+                JSONObject json = new JSONObject(FileHelper.readFileToString(this, uri));
+                String account = json.getString("account");
+                String fingerprint = json.getString("fingerprint");
+
+                // Check if associated account is currently logged in
+                if (AccountUtils.getPassengerId(AccountUtils.getAccount()).equals(account)) {
+                    MobileKKM.getLoginHelper().updateFingerprint(fingerprint);
+                    Toast.makeText(this, R.string.backup_import_success, Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, R.string.backup_wrong_account, Toast.LENGTH_SHORT).show();
+                }
+            } catch (JSONException ex) {
+                // Something unknown went wrong
+                Toast.makeText(this, R.string.backup_json_error, Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            // Show error about missing permissions
+            Toast.makeText(this, R.string.backup_permissions_not_granted, Toast.LENGTH_SHORT).show();
+        }
+
+        finishWithResult(true);
+    }
+
+    private void doBackup(Uri uri) {
+        if (FileHelper.isExternalStorageWritable()) {
+            try {
+                JSONObject json = new JSONObject();
+                json.put("account", AccountUtils.getPassengerId(AccountUtils.getAccount()));
+                json.put("fingerprint", MobileKKM.getLoginHelper().getFingerprint());
+
+                // Save backup to file and show response
+                if (FileHelper.writeStringToFile(this, uri, json.toString())) {
+                    Toast.makeText(this, R.string.backup_export_success, Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, R.string.backup_export_failed, Toast.LENGTH_SHORT).show();
+                }
+            } catch (JSONException ex) {
+                // Something unknown went wrong
+                Toast.makeText(this, R.string.backup_json_error, Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            // Show error about missing permissions
+            Toast.makeText(this, R.string.backup_permissions_not_granted, Toast.LENGTH_SHORT).show();
+        }
+
+        finishWithResult(false);
+    }
+
+    private void showRestoreDialog() {
+
+    }
+
     public static class BackupFragment extends PreferenceFragmentCompat {
+
+        private BackupActivity mContext;
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
+            mContext = (BackupActivity) getActivity();
 
             // Import options
             Preference backupImport = findPreference("backup_import");
@@ -140,7 +224,15 @@ public class BackupActivity extends ToolbarActivity {
             backupImport.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    ((BackupActivity) getActivity()).openFileWithPermissions();
+                    mContext.openFileWithPermissions();
+                    return true;
+                }
+            });
+
+            backupRestore.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    mContext.showRestoreDialog();
                     return true;
                 }
             });
@@ -151,7 +243,7 @@ public class BackupActivity extends ToolbarActivity {
             backupExport.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    ((BackupActivity) getActivity()).saveFileWithPermissions();
+                    mContext.saveFileWithPermissions();
                     return true;
                 }
             });
