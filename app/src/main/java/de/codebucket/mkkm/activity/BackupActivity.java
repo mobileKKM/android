@@ -26,6 +26,9 @@ public class BackupActivity extends ToolbarActivity {
     private static final int REQUEST_READ_PERMISSION_CODE = 198;
     private static final int REQUEST_WRITE_PERMISSION_CODE = 199;
 
+
+    private ViewStub mContainer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,8 +38,8 @@ public class BackupActivity extends ToolbarActivity {
         setupToolbar();
         setTitle(R.string.title_activity_backup);
 
-        ViewStub stub = findViewById(R.id.container_stub);
-        stub.inflate();
+        mContainer = findViewById(R.id.container_stub);
+        mContainer.inflate();
 
         if (savedInstanceState == null) {
             // Display the fragment as the main content.
@@ -64,13 +67,13 @@ public class BackupActivity extends ToolbarActivity {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 showOpenFileSelector();
             } else {
-                Snackbar.make(findViewById(R.id.container_stub), R.string.backup_storage_unreadable, Toast.LENGTH_SHORT).show();
+                Snackbar.make(mContainer, R.string.backup_storage_unreadable, Toast.LENGTH_SHORT).show();
             }
         } else if (requestCode == REQUEST_WRITE_PERMISSION_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 showSaveFileSelector();
             } else {
-                Snackbar.make(findViewById(R.id.container_stub), R.string.backup_storage_unwritable, Toast.LENGTH_SHORT).show();
+                Snackbar.make(mContainer, R.string.backup_storage_unwritable, Toast.LENGTH_SHORT).show();
             }
         }
 
