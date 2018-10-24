@@ -57,7 +57,11 @@
     <string name="backup_export_desc">Wyeksportuj identyfikator urządzenia do pliku JSON</string>
     <string name="backup_permissions_not_granted">Brak wystarczających uprawnień do zapisu/odczytu</string>
     <string name="backup_restore_dialog_title">Instrukcja przywracania</string>
-    <string name="backup_restore_dialog_body">coming soon</string>
+    <string name="backup_restore_dialog_body">1. Skopiuj polecenie do wyeksportowania identyfikatora z przeglądarki
+    \n\n2. Otwórz przeglądarkę na której wcześniej powiązałeś bilety
+    \n\n3. Wpisz adres <a href="">https://m.kkm.krakow.pl</a> i poczekaj aż stona się załaduje
+    \n\n4. Wklej skopiowane polecenie w pole adresu strony
+    \n\n5. Skopiuj identyfikator z dialogu</string>
     <string name="backup_restore_command">Skopiuj do schowka</string>
     <string name="backup_restore_fingerprint">Wprowadź identyfikator</string>
     <string name="backup_invalid_fingerprint">Wprowadzony identyfikator urządzenia jest nieprawidłowy</string>
