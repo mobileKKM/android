@@ -56,8 +56,11 @@
     <string name="backup_export_title">Zapisz do pliku</string>
     <string name="backup_export_desc">Wyeksportuj identyfikator urządzenia do pliku JSON</string>
     <string name="backup_permissions_not_granted">Brak wystarczających uprawnień do zapisu/odczytu</string>
-    <string name="backup_restore_dialog">coming soon</string>
-    <string name="backup_invalid_fingerprint">Wprowadzony identyfikator jest nieprawidłowy</string>
+    <string name="backup_restore_dialog_title">Instrukcja przywracania</string>
+    <string name="backup_restore_dialog_body">coming soon</string>
+    <string name="backup_restore_command">Skopiuj do schowka</string>
+    <string name="backup_restore_fingerprint">Wprowadź identyfikator</string>
+    <string name="backup_invalid_fingerprint">Wprowadzony identyfikator urządzenia jest nieprawidłowy</string>
     <string name="backup_json_error">Nastąpił problem z kopią zapasową</string>
     <string name="backup_import_success">Importowanie zakończone</string>
     <string name="backup_wrong_account">Wybrano nieprawidłową kopię zapasową</string>
@@ -135,6 +138,7 @@
     <string name="dialog_ok">Ok</string>
     <string name="dialog_cancel">Anuluj</string>
     <string name="dialog_close">Zamknij</string>
+    <string name="dialog_continue">Kontynuuj</string>
     <string name="dialog_yes">Tak</string>
     <string name="dialog_no">Nie</string>
 

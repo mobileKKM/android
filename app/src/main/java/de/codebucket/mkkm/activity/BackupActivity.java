@@ -2,13 +2,22 @@ package de.codebucket.mkkm.activity;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewStub;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -22,10 +31,10 @@ import com.takisoft.preferencex.PreferenceFragmentCompat;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-
 import de.codebucket.mkkm.MobileKKM;
 import de.codebucket.mkkm.R;
 import de.codebucket.mkkm.login.AccountUtils;
+import de.codebucket.mkkm.login.LoginHelper;
 import de.codebucket.mkkm.util.FileHelper;
 
 public class BackupActivity extends ToolbarActivity {
@@ -205,7 +214,60 @@ public class BackupActivity extends ToolbarActivity {
     }
 
     private void showRestoreDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.backup_restore_dialog_title)
+                .setMessage(R.string.backup_restore_dialog_body)
+                .setNegativeButton(R.string.dialog_cancel, null)
+                .setNeutralButton(R.string.backup_restore_command, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+                        ClipData clip = ClipData.newPlainText("label", "javascript:prompt(\"Skopiuj to i wklej do mobileKKM:\", localStorage.fingerprint)");
+                        clipboard.setPrimaryClip(clip);
+                    }
+                })
+                .setPositiveButton(R.string.dialog_continue, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        showInputDialog();
+                    }
+                })
+                .show();
+    }
 
+    private void showInputDialog() {
+        int marginSmall = getResources().getDimensionPixelSize(R.dimen.activity_margin_small);
+        int marginMedium = getResources().getDimensionPixelSize(R.dimen.activity_margin_medium);
+
+        final EditText input = new EditText(this);
+        input.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        input.setTypeface(Typeface.MONOSPACE);
+        input.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        input.setSingleLine();
+
+        FrameLayout container = new FrameLayout(this);
+        container.setPaddingRelative(marginMedium, marginSmall, marginMedium, 0);
+        container.addView(input);
+
+        new AlertDialog.Builder(BackupActivity.this)
+                .setTitle(R.string.backup_restore_fingerprint)
+                .setView(container)
+                .setNegativeButton(R.string.dialog_cancel, null)
+                .setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String fingerprint = input.getText().toString();
+                        if (LoginHelper.isValidUUID(fingerprint)) {
+                            MobileKKM.getLoginHelper().updateFingerprint(fingerprint);
+                            Toast.makeText(BackupActivity.this, R.string.backup_import_success, Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(BackupActivity.this, R.string.backup_invalid_fingerprint, Toast.LENGTH_SHORT).show();
+                        }
+
+                        finishWithResult(true);
+                    }
+                })
+                .show();
     }
 
     public static class BackupFragment extends PreferenceFragmentCompat {
