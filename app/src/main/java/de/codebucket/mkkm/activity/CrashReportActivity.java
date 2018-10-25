@@ -16,8 +16,10 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import cat.ereza.customactivityoncrash.CustomActivityOnCrash;
 import cat.ereza.customactivityoncrash.config.CaocConfig;
@@ -29,6 +31,9 @@ public class CrashReportActivity extends ToolbarActivity {
 
     public static final String REPORT_EMAIL_ADDRESS = "mobilekkm@codebucket.de";
     public static final String REPORT_EMAIL_SUBJECT = "Błąd w mobileKKM " + BuildConfig.VERSION_NAME;
+
+    // German locale represents the same format as in Poland
+    private static final DateFormat LOCAL_DATEFORMAT = SimpleDateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM, Locale.GERMAN);
 
     private String mStacktrace;
 
@@ -125,7 +130,7 @@ public class CrashReportActivity extends ToolbarActivity {
         String versionName = BuildConfig.VERSION_NAME + " (" + BuildConfig.VERSION_CODE + ")";
         String details = "";
 
-        details += "mobileKKM bug report " + SimpleDateFormat.getDateTimeInstance().format(new Date()) + "\n";
+        details += "mobileKKM bug report " + LOCAL_DATEFORMAT.format(new Date()) + "\n";
         details += "\n";
         details += "Build version: " + versionName + "\n";
         details += "Device: " + Build.MODEL + " (" + Build.DEVICE + ") " + "[" + Build.FINGERPRINT + "]\n";
