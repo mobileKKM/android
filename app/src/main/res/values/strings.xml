@@ -143,6 +143,7 @@
     <string name="dialog_cancel">Anuluj</string>
     <string name="dialog_close">Zamknij</string>
     <string name="dialog_continue">Kontynuuj</string>
+    <string name="dialog_help">Pomoc</string>
     <string name="dialog_yes">Tak</string>
     <string name="dialog_no">Nie</string>
 

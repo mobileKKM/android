@@ -210,28 +210,6 @@ public class BackupActivity extends ToolbarActivity {
     }
 
     private void showRestoreDialog() {
-        new AlertDialog.Builder(this)
-                .setTitle(R.string.backup_restore_dialog_title)
-                .setMessage(R.string.backup_restore_dialog_body)
-                .setNegativeButton(R.string.dialog_cancel, null)
-                .setNeutralButton(R.string.backup_restore_command, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-                        ClipData clip = ClipData.newPlainText("label", "javascript:prompt(\"Skopiuj to i wklej do mobileKKM:\", localStorage.fingerprint)");
-                        clipboard.setPrimaryClip(clip);
-                    }
-                })
-                .setPositiveButton(R.string.dialog_continue, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        showInputDialog();
-                    }
-                })
-                .show();
-    }
-
-    private void showInputDialog() {
         int marginSmall = getResources().getDimensionPixelSize(R.dimen.activity_margin_small);
         int marginMedium = getResources().getDimensionPixelSize(R.dimen.activity_margin_medium);
 
@@ -249,6 +227,7 @@ public class BackupActivity extends ToolbarActivity {
                 .setTitle(R.string.backup_restore_fingerprint)
                 .setView(container)
                 .setNegativeButton(R.string.dialog_cancel, null)
+                .setNeutralButton(R.string.dialog_help, null)
                 .setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
