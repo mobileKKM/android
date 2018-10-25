@@ -57,7 +57,7 @@ public class LoginActivity extends ToolbarActivity implements UserLoginTask.OnCa
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);;
+        setContentView(R.layout.activity_login);
 
         // Setup action bar
         setupToolbar();
