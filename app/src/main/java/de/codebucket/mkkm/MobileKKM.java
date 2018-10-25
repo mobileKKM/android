@@ -111,7 +111,7 @@ public class MobileKKM extends Application {
             if (scheduler.getAllPendingJobs().isEmpty()) {
                 ComponentName service = new ComponentName(this, TicketExpiryCheckService.class);
                 JobInfo info = new JobInfo.Builder(11, service)
-                        .setPeriodic(2 * 60 * 60 * 1000)
+                        .setPeriodic(6 * 60 * 60 * 1000) // every 6 hours, 4 times a day
                         .setPersisted(true)
                         .build();
                 scheduler.schedule(info);
