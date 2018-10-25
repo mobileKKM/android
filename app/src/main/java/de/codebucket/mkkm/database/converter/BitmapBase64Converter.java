@@ -20,7 +20,7 @@ public class BitmapBase64Converter {
     public static String toString(Bitmap value) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         value.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-        byte[] byteArray = byteArrayOutputStream .toByteArray();
+        byte[] byteArray = byteArrayOutputStream.toByteArray();
         return Base64.encodeToString(byteArray, Base64.DEFAULT);
     }
 }

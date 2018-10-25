@@ -1,3 +1,7 @@
+# Configure ProGuard to retain line numbers in stacktraces
+-renamesourcefileattribute SourceFile
+-keepattributes SourceFile,LineNumberTable
+
 # JSR 305 annotations are for embedding nullability information.
 -dontwarn javax.annotation.**
 
