@@ -93,6 +93,8 @@
     <string name="expiration_onemonth">1 miesiąc</string>
 
     <!-- Notification -->
+    <string name="notification_channel_expiry">Ważność biletów</string>
+    <string name="notification_channel_expiry_desc">Informacje o upływie ważności biletu</string>
     <string name="expiration_notification_title">Twój bilet wkrótce straci ważność</string>
     <string name="expiration_notification_msg">Termin ważności od %s do %s</string>
 
@@ -157,7 +159,6 @@
     <string name="not_implemented">Funkcja jeszcze niedostępna!</string>
     <string name="session_expired">Twoja sesja wygasła, zaloguj się ponownie</string>
     <string name="state_loading">Restartowanie aplikacji…</string>
-    <string name="expiry_notification">Informacje o upływie ważności biletu</string>
     <string name="tickets_provider_name">Zapisane bilety</string>
     <string name="intent_chooser_file">Wybierz plik</string>
     <string name="intent_chooser_email">Wyślij e-mail</string>

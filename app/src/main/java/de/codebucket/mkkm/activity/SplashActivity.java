@@ -1,10 +1,7 @@
 package de.codebucket.mkkm.activity;
 
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -41,12 +38,6 @@ public class SplashActivity extends AppCompatActivity {
                     Log.e(TAG, "Failed to encrypt existing password", ex);
                 }
             }
-        }
-
-        // Create notification channel on Android O
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel("expiry_notification", getString(R.string.expiry_notification), NotificationManager.IMPORTANCE_HIGH);
-            MobileKKM.getInstance().getSystemService(NotificationManager.class).createNotificationChannel(channel);
         }
 
         Handler handler = new Handler();
