@@ -18,6 +18,8 @@
     <string name="error_fingerprint">Wystąpił problem z rozpoznaniem urządzenia</string>
     <string name="error_unknown">Nierozpoznany problem</string>
     <string name="action_help">Pomoc</string>
+
+    <!-- Strings related to registration -->
     <string name="title_activity_registration">Rejestracja konta</string>
     <string name="registration_complete">Sprawdź swoją skrzynkę pocztową, aby zakończyć rejestrację konta</string>
     <string name="snackbar_open">Otwórz</string>
@@ -40,6 +42,27 @@
     <string name="nav_backup">Kopie zapasowe</string>
     <string name="nav_logout">Wyloguj się</string>
     <string name="nav_settings">Ustawienia</string>
+
+    <!-- Backup and restore -->
+    <string name="title_activity_backup">Kopie zapasowe</string>
+    <string name="backup_howto_title">Jak to działa?</string>
+    <string name="backup_howto_description">Każdy powiązany z urządzeniem bilet zostaje przypisany do tzw. identyfikatora urządzenia, który mobileKKM tworzy na podstawie identyfikatora Android z systemu urządzenia.</string>
+    <string name="backup_category_import">Przywróć kopie</string>
+    <string name="backup_category_export">Utwórz kopie</string>
+    <string name="backup_import_title">Przywróc z pliku</string>
+    <string name="backup_import_desc">Jeśli posiadasz poprzednią kopię zapasową, mobileKKM może zaimportować ją z pliku JSON</string>
+    <string name="backup_restore_title">Przywróć z przeglądarki</string>
+    <string name="backup_restore_desc">Wybierz tą opcję jeśli posiadasz identyfikator urządzenia z przeglądarki na której wcześniej powiązałeś bilet</string>
+    <string name="backup_export_title">Zapisz do pliku</string>
+    <string name="backup_export_desc">Wyeksportuj identyfikator urządzenia do pliku JSON</string>
+    <string name="backup_permissions_not_granted">Brak wystarczających uprawnień do zapisu/odczytu</string>
+    <string name="backup_restore_fingerprint">Wprowadź identyfikator</string>
+    <string name="backup_invalid_fingerprint">Wprowadzony identyfikator urządzenia jest nieprawidłowy</string>
+    <string name="backup_json_error">Nastąpił problem z kopią zapasową</string>
+    <string name="backup_import_success">Importowanie zakończone</string>
+    <string name="backup_wrong_account">Wybrano nieprawidłową kopię zapasową</string>
+    <string name="backup_export_success">Eksportowanie zakończone</string>
+    <string name="backup_export_failed">Eksportowanie nie powiodło się</string>
 
     <!-- Strings related to settings -->
     <string name="title_activity_settings">Ustawienia</string>
@@ -112,6 +135,8 @@
     <string name="dialog_ok">Ok</string>
     <string name="dialog_cancel">Anuluj</string>
     <string name="dialog_close">Zamknij</string>
+    <string name="dialog_continue">Kontynuuj</string>
+    <string name="dialog_help">Pomoc</string>
     <string name="dialog_yes">Tak</string>
     <string name="dialog_no">Nie</string>
 

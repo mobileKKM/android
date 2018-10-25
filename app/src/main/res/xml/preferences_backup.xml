@@ -1,0 +1,44 @@
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.preference.Preference
+        android:key="backup_howto"
+        android:title="@string/backup_howto_title"
+        android:summary="@string/backup_howto_description"
+        android:selectable="false"
+        android:persistent="false"
+        app:iconSpaceReserved="false" />
+
+    <com.takisoft.preferencex.PreferenceCategory
+        android:key="category_import"
+        android:title="@string/backup_category_import"
+        app:iconSpaceReserved="false">
+
+        <androidx.preference.Preference
+            android:key="backup_import"
+            android:title="@string/backup_import_title"
+            android:summary="@string/backup_import_desc"
+            app:iconSpaceReserved="false" />
+
+        <androidx.preference.Preference
+            android:key="backup_restore"
+            android:title="@string/backup_restore_title"
+            android:summary="@string/backup_restore_desc"
+            app:iconSpaceReserved="false" />
+
+    </com.takisoft.preferencex.PreferenceCategory>
+
+    <com.takisoft.preferencex.PreferenceCategory
+        android:key="category_export"
+        android:title="@string/backup_category_export"
+        app:iconSpaceReserved="false">
+
+        <androidx.preference.Preference
+            android:key="backup_export"
+            android:title="@string/backup_export_title"
+            android:summary="@string/backup_export_desc"
+            app:iconSpaceReserved="false" />
+
+    </com.takisoft.preferencex.PreferenceCategory>
+
+</androidx.preference.PreferenceScreen>

@@ -100,7 +100,7 @@ public abstract class DrawerActivity extends WebViewActivity implements Navigati
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
@@ -131,7 +131,7 @@ public abstract class DrawerActivity extends WebViewActivity implements Navigati
                 mWebview.loadUrl("https://www.codebucket.de/mkkm/pricing.php");
                 break;
             case R.id.nav_backup:
-                Toast.makeText(this, R.string.not_implemented, Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(DrawerActivity.this, BackupActivity.class));
                 break;
             case R.id.nav_logout:
                 new AlertDialog.Builder(this)
