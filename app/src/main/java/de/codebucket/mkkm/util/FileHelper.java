@@ -10,11 +10,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
 
 public class FileHelper {
 
@@ -63,11 +58,5 @@ public class FileHelper {
         }
 
         return false;
-    }
-
-    public static String generateBackupFilename() {
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-        Date now = Calendar.getInstance().getTime();
-        return String.format(Const.BACKUP_FILENAME_JSON, df.format(now));
     }
 }

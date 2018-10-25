@@ -44,6 +44,7 @@ public class BackupActivity extends ToolbarActivity {
     private static final int REQUEST_READ_PERMISSION_CODE = 198;
     private static final int REQUEST_WRITE_PERMISSION_CODE = 199;
 
+    private static final String BACKUP_FILENAME = "mobilekkm_backup.json";
     private static final String RESTORE_TUTORIAL_URL = "https://goo.gl/gisUoy";
 
     private View mContainer;
@@ -112,7 +113,7 @@ public class BackupActivity extends ToolbarActivity {
         Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("application/octet-stream");
-        intent.putExtra(Intent.EXTRA_TITLE, FileHelper.generateBackupFilename());
+        intent.putExtra(Intent.EXTRA_TITLE, BACKUP_FILENAME);
         startActivityForResult(intent, SAVE_FILE_RESULT_CODE);
     }
 
