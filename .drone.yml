@@ -20,7 +20,12 @@ pipeline:
     commands:
       - bash ./gradlew app:assembleOptimized
 
-  # Step 3: Upload to Telegram or Transfer.sh, depending on the event
+  # Step 3: Create coverage report on Codacy
+  codacy:
+    image: plugins/codacy
+    secrets: [ codacy_token ]
+
+  # Step 4: Upload to Telegram or Transfer.sh, depending on the event
   deploy:
     image: lawnchairlauncher/drone-telegram:latest
     secrets: [ bot_token, channel_id, dev_channel_id ]
