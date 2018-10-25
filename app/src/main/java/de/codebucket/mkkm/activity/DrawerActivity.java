@@ -65,11 +65,15 @@ public abstract class DrawerActivity extends WebViewActivity implements Navigati
         drawerEmail.setText(account.getEmail());
     }
 
-    public void setupDrawerBackground(Bitmap bitmap) {
-        ImageView drawerBackground = mNavigationView.getHeaderView(0).findViewById(R.id.drawer_header_background);
-
-        PicassoDrawable drawable = new PicassoDrawable(DrawerActivity.this, bitmap, drawerBackground.getDrawable(), false);
-        drawerBackground.setImageDrawable(drawable);
+    public void setupDrawerBackground(final Bitmap bitmap) {
+        final ImageView drawerBackground = mNavigationView.getHeaderView(0).findViewById(R.id.drawer_header_background);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                PicassoDrawable drawable = new PicassoDrawable(DrawerActivity.this, bitmap, drawerBackground.getDrawable(), false);
+                drawerBackground.setImageDrawable(drawable);
+            }
+        });
     }
 
     @Override

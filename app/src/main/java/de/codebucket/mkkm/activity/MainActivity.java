@@ -140,18 +140,18 @@ public class MainActivity extends DrawerActivity implements UserLoginTask.OnCall
         PhotoDao photoDao = MobileKKM.getDatabase().photoDao();
         String photoId = account.getPhotoId();
 
-        // Dummy reference with null bitmap
-        Photo photo = null;
-
         if (!mAccount.getPhotoId().equals(photoId) || photoDao.getById(photoId) == null) {
             // Fetch photo from website and store in database
-            photo = MobileKKM.getLoginHelper().getPhoto(account);
+            Photo photo = MobileKKM.getLoginHelper().getPhoto(account);
             photoDao.insert(photo);
 
             // Remove old photo from database
             if (!photo.getPhotoId().equals(mAccount.getPhotoId())) {
                 photoDao.deleteById(mAccount.getPhotoId()); // we can safely delete that photo
             }
+
+            // Update drawer background
+            setupDrawerBackground(photo.getBitmap());
         }
 
         // Now we can update our local instance
@@ -159,7 +159,7 @@ public class MainActivity extends DrawerActivity implements UserLoginTask.OnCall
 
         // This should be always set to false after first sync
         firstSetup = false;
-        return photo; // return photo to update drawer header in onSuccess
+        return account;
     }
 
     @Override
@@ -167,13 +167,8 @@ public class MainActivity extends DrawerActivity implements UserLoginTask.OnCall
         mAuthTask = null;
 
         // Update drawer header
-        setupDrawerHeader(mAccount);
-
-        // Check if photo has changed and update
-        if (result != null) {
-            Photo photo = (Photo) result;
-            setupDrawerBackground(photo.getBitmap());
-        }
+        Account account = (Account) result;
+        setupDrawerHeader(account);
 
         // First inject session data into webview local storage, then load the webapp
         String startUrl = mWebview.getUrl() == null ? WEBAPP_URL : mWebview.getUrl();
