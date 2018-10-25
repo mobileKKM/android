@@ -184,8 +184,6 @@ public class BackupActivity extends ToolbarActivity {
             // Show error about missing permissions
             Toast.makeText(this, R.string.backup_permissions_not_granted, Toast.LENGTH_SHORT).show();
         }
-
-        finishWithResult(true);
     }
 
     private void doBackup(Uri uri) {
@@ -209,8 +207,6 @@ public class BackupActivity extends ToolbarActivity {
             // Show error about missing permissions
             Toast.makeText(this, R.string.backup_permissions_not_granted, Toast.LENGTH_SHORT).show();
         }
-
-        finishWithResult(false);
     }
 
     private void showRestoreDialog() {
@@ -263,8 +259,6 @@ public class BackupActivity extends ToolbarActivity {
                         } else {
                             Toast.makeText(BackupActivity.this, R.string.backup_invalid_fingerprint, Toast.LENGTH_SHORT).show();
                         }
-
-                        finishWithResult(true);
                     }
                 })
                 .show();
