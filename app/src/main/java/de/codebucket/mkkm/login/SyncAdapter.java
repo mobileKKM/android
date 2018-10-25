@@ -9,6 +9,9 @@ import android.content.SyncResult;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonParseException;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -41,7 +44,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
         try {
             if (loginHelper.login() != Const.ErrorCode.SUCCESS) {
-                syncResult.stats.numParseExceptions++;
+                syncResult.stats.numConflictDetectedExceptions++;
                 return;
             }
 
@@ -65,6 +68,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             syncResult.stats.numAuthExceptions++;
         } catch (IOException ex) {
             syncResult.stats.numIoExceptions++;
+        } catch (JsonParseException ex) {
+            syncResult.stats.numParseExceptions++;
         }
 
         Log.d(TAG, "Sync finished!");
