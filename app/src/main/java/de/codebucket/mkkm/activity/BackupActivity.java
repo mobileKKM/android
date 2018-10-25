@@ -3,6 +3,7 @@ package de.codebucket.mkkm.activity;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.DialogInterface;
@@ -45,6 +46,8 @@ public class BackupActivity extends ToolbarActivity {
     private static final int REQUEST_READ_PERMISSION_CODE = 198;
     private static final int REQUEST_WRITE_PERMISSION_CODE = 199;
 
+    private static final String RESTORE_TUTORIAL_URL = "https://goo.gl/gisUoy";
+
     private View mContainer;
 
     @Override
@@ -77,13 +80,6 @@ public class BackupActivity extends ToolbarActivity {
         }
 
         return true;
-    }
-
-    public void finishWithResult(boolean reload) {
-        Intent data = new Intent();
-        data.putExtra("reload", reload);
-        setResult(RESULT_OK, data);
-        finish();
     }
 
     @Override
@@ -146,7 +142,7 @@ public class BackupActivity extends ToolbarActivity {
         }
     }
 
-    private void openFileWithPermissions() {
+    public void openFileWithPermissions() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
             showOpenFileSelector();
         } else {
@@ -154,7 +150,7 @@ public class BackupActivity extends ToolbarActivity {
         }
     }
 
-    private void saveFileWithPermissions() {
+    public void saveFileWithPermissions() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
             showSaveFileSelector();
         } else {
@@ -209,7 +205,7 @@ public class BackupActivity extends ToolbarActivity {
         }
     }
 
-    private void showRestoreDialog() {
+    public void showRestoreDialog() {
         int marginSmall = getResources().getDimensionPixelSize(R.dimen.activity_margin_small);
         int marginMedium = getResources().getDimensionPixelSize(R.dimen.activity_margin_medium);
 
@@ -223,11 +219,23 @@ public class BackupActivity extends ToolbarActivity {
         container.setPaddingRelative(marginMedium, marginSmall, marginMedium, 0);
         container.addView(input);
 
-        new AlertDialog.Builder(BackupActivity.this)
+        new AlertDialog.Builder(this)
                 .setTitle(R.string.backup_restore_fingerprint)
                 .setView(container)
                 .setNegativeButton(R.string.dialog_cancel, null)
-                .setNeutralButton(R.string.dialog_help, null)
+                .setNeutralButton(R.string.dialog_help, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        try {
+                            // Open website with privacy policy
+                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(RESTORE_TUTORIAL_URL));
+                            startActivity(intent);
+                        } catch (ActivityNotFoundException exc) {
+                            // Believe me, this actually happens.
+                            Toast.makeText(BackupActivity.this, R.string.no_browser_activity, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                })
                 .setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
