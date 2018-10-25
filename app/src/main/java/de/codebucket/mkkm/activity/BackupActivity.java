@@ -240,12 +240,15 @@ public class BackupActivity extends ToolbarActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String fingerprint = input.getText().toString();
-                        if (LoginHelper.isValidUUID(fingerprint)) {
-                            MobileKKM.getLoginHelper().updateFingerprint(fingerprint);
-                            Toast.makeText(BackupActivity.this, R.string.backup_import_success, Toast.LENGTH_SHORT).show();
-                        } else {
+
+                        // Check if entered fingerprint is a valid uuid
+                        if (!LoginHelper.isValidUUID(fingerprint)) {
                             Toast.makeText(BackupActivity.this, R.string.backup_invalid_fingerprint, Toast.LENGTH_SHORT).show();
+                            return;
                         }
+
+                        MobileKKM.getLoginHelper().updateFingerprint(fingerprint);
+                        Toast.makeText(BackupActivity.this, R.string.backup_import_success, Toast.LENGTH_SHORT).show();
                     }
                 })
                 .show();
