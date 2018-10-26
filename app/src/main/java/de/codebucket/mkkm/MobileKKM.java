@@ -93,6 +93,11 @@ public class MobileKKM extends Application {
         return UUID.nameUUIDFromBytes(deviceId.getBytes()).toString().replaceAll("-", "");
     }
 
+    public void updateFingerprint(String fingerprint) {
+        preferences.edit().putString("fingerprint", fingerprint).apply();
+        loginHelper.updateFingerprint(fingerprint);
+    }
+
     public boolean isNetworkConnectivity() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         if (cm != null) {

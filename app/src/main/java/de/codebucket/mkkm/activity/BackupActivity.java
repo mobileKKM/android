@@ -166,7 +166,7 @@ public class BackupActivity extends ToolbarActivity {
 
                 // Check if associated account is currently logged in
                 if (AccountUtils.getPassengerId(AccountUtils.getAccount()).equals(account)) {
-                    MobileKKM.getLoginHelper().updateFingerprint(fingerprint);
+                    MobileKKM.getInstance().updateFingerprint(fingerprint);
                     Toast.makeText(this, R.string.backup_import_success, Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(this, R.string.backup_wrong_account, Toast.LENGTH_SHORT).show();
@@ -246,7 +246,7 @@ public class BackupActivity extends ToolbarActivity {
                             return;
                         }
 
-                        MobileKKM.getLoginHelper().updateFingerprint(fingerprint);
+                        MobileKKM.getInstance().updateFingerprint(fingerprint);
                         Toast.makeText(BackupActivity.this, R.string.backup_import_success, Toast.LENGTH_SHORT).show();
                     }
                 })
