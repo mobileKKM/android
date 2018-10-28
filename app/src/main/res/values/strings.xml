@@ -5,10 +5,13 @@
 
     <!-- Strings related to login -->
     <string name="title_activity_login">Zaloguj się do mKKM</string>
-    <string name="login_title" translatable="false">Krakowska Karta Miejska</string>
+    <string name="provider_title_kkm" translatable="false">Krakowska Karta Miejska</string>
+    <string name="provider_title_kk" translatable="false">Karta Krakowska</string>
     <string name="prompt_email">Adres e-mail</string>
     <string name="prompt_password">Hasło</string>
     <string name="action_login">Zaloguj się</string>
+    <string name="action_use_kk">Zaloguj się za pomocą Karty Krakowskiej</string>
+    <string name="action_use_kkm">Zaloguj się za pomocą Krakowskiej Karty Miejskiej</string>
     <string name="action_register">Nie masz konta? Zarejestruj się.</string>
     <string name="error_field_required">Pole wymagane</string>
     <string name="error_invalid_email">Nieprawidłowy adres e-mail</string>

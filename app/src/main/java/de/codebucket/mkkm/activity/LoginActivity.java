@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,7 +50,10 @@ public class LoginActivity extends ToolbarActivity implements UserLoginTask.OnCa
     private UserLoginTask mAuthTask;
 
     // UI references
+    private boolean mLoginUsingKk = false;
     private ProgressDialog mProgressDialog;
+    private ImageView mProviderLogo;
+    private TextView mProviderTitle, mChangeProviderLink;
     private TextInputEditText mEmailView, mPasswordView;
     private Button mLoginButton;
     private View mLoginForm;
@@ -62,6 +66,10 @@ public class LoginActivity extends ToolbarActivity implements UserLoginTask.OnCa
         // Setup action bar
         setupToolbar();
         setTitle(R.string.title_activity_login);
+
+        // Provider views
+        mProviderLogo = (ImageView) findViewById(R.id.provider_logo);
+        mProviderTitle = (TextView) findViewById(R.id.provider_title);
 
         // Set up the login form.
         mEmailView = (TextInputEditText) findViewById(R.id.input_email);
@@ -91,6 +99,14 @@ public class LoginActivity extends ToolbarActivity implements UserLoginTask.OnCa
             @Override
             public void onClick(View view) {
                 startActivityForResult(new Intent(LoginActivity.this, RegistrationActivity.class), REGISTRATION_RESULT_CODE);
+            }
+        });
+
+        mChangeProviderLink = (TextView) findViewById(R.id.link_change_provider);
+        mChangeProviderLink.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeProvider();
             }
         });
 
@@ -164,6 +180,13 @@ public class LoginActivity extends ToolbarActivity implements UserLoginTask.OnCa
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void changeProvider() {
+        mLoginUsingKk = !mLoginUsingKk;
+        mProviderLogo.setImageDrawable(mLoginUsingKk ? getDrawable(R.drawable.ic_kk_logo) : getDrawable(R.drawable.ic_kkm_logo));
+        mProviderTitle.setText(mLoginUsingKk ? getString(R.string.provider_title_kk) : getString(R.string.provider_title_kkm));
+        mChangeProviderLink.setText(!mLoginUsingKk ? getString(R.string.action_use_kk) : getString(R.string.action_use_kkm));
     }
 
     private void attemptLogin() {

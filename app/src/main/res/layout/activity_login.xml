@@ -34,6 +34,7 @@
                 android:layout_marginBottom="24dp">
 
                 <ImageView
+                    android:id="@+id/provider_logo"
                     android:src="@drawable/ic_kkm_logo"
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
@@ -42,10 +43,11 @@
                     android:importantForAccessibility="no" />
 
                 <TextView
+                    android:id="@+id/provider_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="@string/login_title"
+                    android:text="@string/provider_title_kkm"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="24sp" />
 
@@ -92,6 +94,16 @@
                 android:layout_marginBottom="24dp"
                 android:padding="12dp"
                 android:text="@string/action_login"/>
+
+            <!-- Login using KK/KKM -->
+            <TextView
+                android:id="@+id/link_change_provider"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:text="@string/action_use_kk"
+                android:gravity="center"
+                android:textSize="16sp"/>
 
             <!-- Register link -->
             <TextView
