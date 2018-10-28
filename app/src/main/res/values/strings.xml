@@ -103,6 +103,7 @@
 
     <!-- Attribouter screen -->
     <string name="about_twitter" translatable="false">Twitter</string>
+    <string name="about_facebook_like">Polub nas</string>
     <string name="title_attribouter_about">O aplikacji</string>
     <string name="title_attribouter_licenses">Licencje open-source</string>
     <string name="title_attribouter_email">Adres e-mail</string>
