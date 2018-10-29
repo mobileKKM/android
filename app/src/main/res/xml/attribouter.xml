@@ -9,7 +9,7 @@
             name="@string/about_facebook_like"
             icon="@drawable/ic_facebook_box"
             priority="-1"
-            url="https://facebook.com/getmobilekkm" />
+            url="https://m.facebook.com/getmobilekkm" />
     </me.jfenn.attribouter.wedges.AppWedge>
 
     <me.jfenn.attribouter.wedges.ContributorsWedge
