@@ -53,7 +53,7 @@ public class LoginActivity extends ToolbarActivity implements UserLoginTask.OnCa
     private boolean mLoginUsingKk = false;
     private ProgressDialog mProgressDialog;
     private ImageView mProviderLogo;
-    private TextView mProviderTitle, mChangeProviderLink;
+    private TextView mProviderTitle, mChangeProviderLink, mRegisterLink;
     private TextInputEditText mEmailView, mPasswordView;
     private Button mLoginButton;
     private View mLoginForm;
@@ -94,7 +94,7 @@ public class LoginActivity extends ToolbarActivity implements UserLoginTask.OnCa
             }
         });
 
-        TextView mRegisterLink = (TextView) findViewById(R.id.link_register);
+        mRegisterLink = (TextView) findViewById(R.id.link_register);
         mRegisterLink.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -187,6 +187,7 @@ public class LoginActivity extends ToolbarActivity implements UserLoginTask.OnCa
         mProviderLogo.setImageDrawable(mLoginUsingKk ? getDrawable(R.drawable.ic_kk_logo) : getDrawable(R.drawable.ic_kkm_logo));
         mProviderTitle.setText(mLoginUsingKk ? getString(R.string.provider_title_kk) : getString(R.string.provider_title_kkm));
         mChangeProviderLink.setText(!mLoginUsingKk ? getString(R.string.action_use_kk) : getString(R.string.action_use_kkm));
+        mRegisterLink.setVisibility(mLoginUsingKk ? View.GONE : View.VISIBLE);
     }
 
     private void attemptLogin() {
