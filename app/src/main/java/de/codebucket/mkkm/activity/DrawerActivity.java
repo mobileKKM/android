@@ -132,7 +132,7 @@ public abstract class DrawerActivity extends WebViewActivity implements Navigati
                 mWebview.loadUrl(getPageUrl("account"));
                 break;
             case R.id.nav_pricing:
-                mWebview.loadUrl("https://www.codebucket.de/mkkm/pricing.php");
+                mWebview.loadUrl("https://www.codebucket.de/mobilekkm/cennik.html");
                 break;
             case R.id.nav_backup:
                 startActivity(new Intent(DrawerActivity.this, BackupActivity.class));
