@@ -90,7 +90,23 @@ public class LoginActivity extends ToolbarActivity implements UserLoginTask.OnCa
         mLoginUsingKkLink.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(LoginActivity.this, R.string.not_implemented, Toast.LENGTH_SHORT).show();
+                Snackbar.make(mLoginForm, R.string.login_using_kk_unavailable, Snackbar.LENGTH_LONG)
+                        .setAction(R.string.about_facebook_like, new OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                try {
+                                    // Open app page in facebook app
+                                    String facebookUrl = Const.getFacebookPageUrl(LoginActivity.this);
+                                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(facebookUrl));
+                                    startActivity(intent);
+                                } catch (ActivityNotFoundException exc) {
+                                    // Believe me, this actually happens.
+                                    Toast.makeText(LoginActivity.this, R.string.no_browser_activity, Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        })
+                        .setActionTextColor(Color.CYAN)
+                        .show();
             }
         });
 
