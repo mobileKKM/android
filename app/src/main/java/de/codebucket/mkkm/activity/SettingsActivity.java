@@ -24,6 +24,7 @@ import de.codebucket.mkkm.BuildConfig;
 import de.codebucket.mkkm.MobileKKM;
 import de.codebucket.mkkm.R;
 
+import de.codebucket.mkkm.util.Const;
 import me.jfenn.attribouter.Attribouter;
 
 public class SettingsActivity extends ToolbarActivity implements
@@ -172,7 +173,7 @@ public class SettingsActivity extends ToolbarActivity implements
         private void openNotificationSettings() {
             Intent intent = new Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS)
                     .putExtra(Settings.EXTRA_APP_PACKAGE, getContext().getPackageName())
-                    .putExtra(Settings.EXTRA_CHANNEL_ID, "expiry_notification");
+                    .putExtra(Settings.EXTRA_CHANNEL_ID, Const.ID.EXPIRY_NOTIFICATION_CHANNEL);
             startActivity(intent);
         }
     }

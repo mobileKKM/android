@@ -28,6 +28,16 @@ public class Const {
         return FACEBOOK_URL;
     }
 
+    public static class ID {
+        public static final int EXPIRY_CHECK_SERVICE_ID = 1;
+        public static final int LOGIN_TASK = 2;
+        public static final int SYNC_ACCOUNT = 3;
+
+        // notifications
+        public static final int EXPIRY_NOTIFICATION_ID = 4;
+        public static final String EXPIRY_NOTIFICATION_CHANNEL = "expiry_notification";
+    }
+
     public static final class ErrorCode {
         public static final int SUCCESS = 0;
         public static final int NO_NETWORK = 1;

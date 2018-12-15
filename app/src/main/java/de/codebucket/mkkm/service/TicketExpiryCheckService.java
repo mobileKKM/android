@@ -21,6 +21,7 @@ import de.codebucket.mkkm.R;
 import de.codebucket.mkkm.database.model.Ticket;
 import de.codebucket.mkkm.database.model.TicketDao;
 import de.codebucket.mkkm.login.AccountUtils;
+import de.codebucket.mkkm.util.Const;
 
 public class TicketExpiryCheckService extends JobService {
 
@@ -46,7 +47,7 @@ public class TicketExpiryCheckService extends JobService {
                     String dateFrom = DATE_FORMAT.format(ticket.getPurchaseDate());
                     String dateTo = DATE_FORMAT.format(ticket.getExpireDate());
 
-                    NotificationCompat.Builder builder = new NotificationCompat.Builder(MobileKKM.getInstance(), "expiry_notification");
+                    NotificationCompat.Builder builder = new NotificationCompat.Builder(MobileKKM.getInstance(), Const.ID.EXPIRY_NOTIFICATION_CHANNEL);
                     builder.setSmallIcon(R.drawable.ic_bus_alert)
                             .setContentTitle(getString(R.string.expiration_notification_title))
                             .setContentText(getString(R.string.expiration_notification_msg, dateFrom, dateTo))
@@ -74,6 +75,6 @@ public class TicketExpiryCheckService extends JobService {
     }
 
     private int getNotificationId(String ticketId) {
-        return (int) UUID.nameUUIDFromBytes(ticketId.getBytes()).getMostSignificantBits();
+        return (int) UUID.nameUUIDFromBytes(ticketId.getBytes()).getMostSignificantBits() * Const.ID.EXPIRY_NOTIFICATION_ID;
     }
 }

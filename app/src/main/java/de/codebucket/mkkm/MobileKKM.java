@@ -28,6 +28,7 @@ import de.codebucket.mkkm.activity.CrashReportActivity;
 import de.codebucket.mkkm.database.AppDatabase;
 import de.codebucket.mkkm.login.LoginHelper;
 import de.codebucket.mkkm.service.TicketExpiryCheckService;
+import de.codebucket.mkkm.util.Const;
 import de.codebucket.mkkm.util.RuntimeHelper;
 
 public class MobileKKM extends Application {
@@ -82,7 +83,7 @@ public class MobileKKM extends Application {
     @TargetApi(Build.VERSION_CODES.O)
     private void createNotificationChannel() {
         NotificationManager notificationManager = (NotificationManager) getSystemService(NotificationManager.class);
-        NotificationChannel expiryChannel = new NotificationChannel("expiry_notification", getString(R.string.notification_channel_expiry), NotificationManager.IMPORTANCE_HIGH);
+        NotificationChannel expiryChannel = new NotificationChannel(Const.ID.EXPIRY_NOTIFICATION_CHANNEL, getString(R.string.notification_channel_expiry), NotificationManager.IMPORTANCE_HIGH);
         expiryChannel.setDescription(getString(R.string.notification_channel_expiry_desc));
         expiryChannel.setVibrationPattern(new long[]{0, 100, 100, 100});
         notificationManager.createNotificationChannel(expiryChannel);
@@ -115,14 +116,14 @@ public class MobileKKM extends Application {
         if (preferences.getBoolean("enable_notifications", false)) {
             if (scheduler.getAllPendingJobs().isEmpty()) {
                 ComponentName service = new ComponentName(this, TicketExpiryCheckService.class);
-                JobInfo info = new JobInfo.Builder(11, service)
+                JobInfo info = new JobInfo.Builder(Const.ID.EXPIRY_CHECK_SERVICE_ID, service)
                         .setPeriodic(6 * 60 * 60 * 1000) // every 6 hours, 4 times a day
                         .setPersisted(true)
                         .build();
                 scheduler.schedule(info);
             }
         } else {
-            scheduler.cancel(11);
+            scheduler.cancel(Const.ID.EXPIRY_CHECK_SERVICE_ID);
         }
     }
 
