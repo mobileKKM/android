@@ -76,7 +76,7 @@ public class CrashReportActivity extends ToolbarActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 try {
                                     // Open website with privacy policy
-                                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.codebucket.de/privacy-policy.html"));
+                                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.codebucket.de/mobilekkm/privacy-policy.html"));
                                     startActivity(intent);
                                 } catch (ActivityNotFoundException exc) {
                                     // Believe me, this actually happens.
