@@ -10,10 +10,6 @@
             android:icon="@drawable/ic_menu_ticket"
             android:title="@string/nav_tickets" />
         <item
-            android:id="@+id/nav_purchase"
-            android:icon="@drawable/ic_menu_purchase"
-            android:title="@string/nav_purchase" />
-        <item
             android:id="@+id/nav_account"
             android:icon="@drawable/ic_menu_account"
             android:title="@string/nav_account" />
@@ -21,6 +17,11 @@
             android:id="@+id/nav_pricing"
             android:icon="@drawable/ic_menu_coin"
             android:title="@string/nav_prices" />
+        <item
+            android:id="@+id/nav_contact"
+            android:icon="@drawable/ic_menu_help"
+            android:title="@string/nav_help"
+            android:checkable="false" />
     </group>
 
     <group android:id="@+id/drawer_menu_others"
