@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <about>
     <me.jfenn.attribouter.wedges.AppWedge
-        repo="divadsn/mKKM-Webview"
+        repo="divadsn/mobileKKM"
         icon="@mipmap/ic_launcher"
         description="^@string/app_description"
-        websiteUrl="https://mkkm.codebucket.de">
+        websiteUrl="https://mobilekkm.codebucket.de">
         <me.jfenn.attribouter.wedges.link.LinkWedge
             name="@string/about_facebook_like"
             icon="@drawable/ic_facebook_box"
