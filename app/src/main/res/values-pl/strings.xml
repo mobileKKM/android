@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name" translatable="false">mobileKKM</string>
-    <string name="app_desc">Nieoficjalna aplikacja do obsługi mobilnej wersji KKM na urządzeniach mobilnych.</string>
+    <string name="app_name">mobileKKM</string>
+    <string name="app_description">Nieoficjalna aplikacja do obsługi mobilnej wersji KKM na urządzeniach mobilnych.</string>
 
     <!-- Strings related to login -->
-    <string name="title_activity_login">Zaloguj się do mKKM</string>
-    <string name="login_title" translatable="false">Krakowska Karta Miejska</string>
+    <string name="title_activity_login">Zaloguj się do mobileKKM</string>
     <string name="prompt_email">Adres e-mail</string>
     <string name="prompt_password">Hasło</string>
     <string name="action_login">Zaloguj się</string>
@@ -100,13 +99,11 @@
     <string name="expiration_notification_msg">Termin ważności od %s do %s</string>
 
     <!-- Attribouter screen -->
-    <string name="about_twitter" translatable="false">Twitter</string>
     <string name="about_facebook_like">Polub nas</string>
     <string name="title_attribouter_about">O aplikacji</string>
     <string name="title_attribouter_licenses">Licencje open-source</string>
     <string name="title_attribouter_email">Adres e-mail</string>
     <string name="title_attribouter_website">Strona internetowa</string>
-    <string name="title_attribouter_github">GitHub</string>
     <string name="title_attribouter_rate">Oceń</string>
     <string name="title_attribouter_version">Wersja %1$s</string>
     <string name="title_attribouter_contributors">Współtwórcy</string>

@@ -3,7 +3,7 @@
     <me.jfenn.attribouter.wedges.AppWedge
         repo="divadsn/mKKM-Webview"
         icon="@mipmap/ic_launcher"
-        description="^@string/app_desc"
+        description="^@string/app_description"
         websiteUrl="https://mkkm.codebucket.de">
         <me.jfenn.attribouter.wedges.link.LinkWedge
             name="@string/about_facebook_like"

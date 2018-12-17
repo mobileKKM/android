@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">mobileKKM</string>
-    <string name="app_desc">Unofficial Android app for the mobile KKM ticketing webapp.</string>
+    <string name="app_description">Unofficial Android app for the mobile KKM ticketing webapp.</string>
 
     <!-- Strings related to login -->
-    <string name="title_activity_login">Log in to continue</string>
-    <string name="login_title" translatable="false">Krakowska Karta Miejska</string>
+    <string name="title_activity_login">Log in to mobileKKM</string>
+    <string name="kkm_title" translatable="false">Krakowska Karta Miejska</string>
+    <string name="kk_title" translatable="false">Karta Krakowska</string>
     <string name="prompt_email">Email address</string>
     <string name="prompt_password">Password</string>
     <string name="action_login">Log in</string>
@@ -73,12 +74,12 @@
     <string name="pref_disclaimer_title">Do not show the message again</string>
     <string name="pref_disclaimer_description">Turn off to display the message after the first start of the application again</string>
     <string name="pref_enable_notifications">Enable notifications</string>
-    <string name="pref_expiration">Inform about the ticket expiration</string>
+    <string name="pref_expiration">Inform about ticket expiration</string>
     <string name="pref_expiration_summary">%s before</string>
     <string name="pref_notification_ringtone">Sound</string>
     <string name="pref_notification_vibrate">Vibrate</string>
     <string name="pref_notification_settings">Notification settings</string>
-    <string name="pref_notification_settings_summary">Select sound and other system settings</string>
+    <string name="pref_notification_settings_summary">Select sounds and other system settings</string>
     <string name="pref_about_title">Open-source licenses</string>
     <string name="pref_about_description">Get to know the contributors and libraries used</string>
     <string name="pref_version_title">mobileKKM app</string>
@@ -136,7 +137,7 @@
     <string name="dialog_facebook_title">Facebook</string>
     <string name="dialog_facebook_body">Like our app page on Facebook to receive the latest news, keep up to date with features and share your opinions!</string>
     <string name="dialog_dont_show_again">Don\'t show again</string>
-    <string name="dialog_ok">Ok</string>
+    <string name="dialog_ok">OK</string>
     <string name="dialog_cancel">Cancel</string>
     <string name="dialog_close">Close</string>
     <string name="dialog_continue">Continue</string>
