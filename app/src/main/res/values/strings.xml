@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name" translatable="false">mobileKKM</string>
+    <string name="app_name">mobileKKM</string>
     <string name="app_desc">Unofficial Android app for the mobile KKM ticketing webapp.</string>
 
     <!-- Strings related to login -->
@@ -14,7 +14,7 @@
     <string name="error_field_required">Field required</string>
     <string name="error_invalid_email">Invalid email address</string>
     <string name="error_invalid_password">Invalid password</string>
-    <string name="error_no_network">No connection to the Internet</string>
+    <string name="error_no_network">No Internet connection</string>
     <string name="error_account">Missing user account on the device</string>
     <string name="error_fingerprint">An error occurred while identifying the device</string>
     <string name="error_unknown">Unknown error</string>
@@ -47,22 +47,22 @@
     <!-- Backup and restore -->
     <string name="title_activity_backup">Backups</string>
     <string name="backup_howto_title">How does it work?</string>
-    <string name="backup_howto_description">Each ticket paired with the device is assigned to the so-called device identifier, which mobileKKM creates on the basis of the Android identifier from the system of the device.</string>
+    <string name="backup_howto_description">Each ticket paired with the device is assigned to the so-called device identifier, which mobileKKM creates on the basis of the Android identifier from the system of the device</string>
     <string name="backup_category_import">Restore</string>
     <string name="backup_category_export">Backup</string>
     <string name="backup_import_title">Restore from file</string>
-    <string name="backup_import_desc">If you have a previous backup, mobileKKM can import it from a JSON file.</string>
+    <string name="backup_import_desc">If you have a previous backup, mobileKKM can import it from a JSON file</string>
     <string name="backup_restore_title">Restore from browser</string>
-    <string name="backup_restore_desc">Select this option if you have a device identifier from the browser on which you have previously paired a ticket.</string>
+    <string name="backup_restore_desc">Select this option if you have a device identifier from the browser on which you have previously paired a ticket</string>
     <string name="backup_export_title">Backup to file</string>
-    <string name="backup_export_desc">Export the device identifier to a JSON file.</string>
-    <string name="backup_permissions_not_granted">No storage permissions granted</string>
+    <string name="backup_export_desc">Export the device identifier to a JSON file</string>
+    <string name="backup_permissions_not_granted">Storage permissions not granted</string>
     <string name="backup_restore_fingerprint">Enter device identifier</string>
     <string name="backup_invalid_fingerprint">The device identifier entered is incorrect</string>
     <string name="backup_json_error">An error occurred with the backup</string>
-    <string name="backup_import_success">Import complete</string>
+    <string name="backup_import_success">Import successful</string>
     <string name="backup_wrong_account">Incorrect backup selected</string>
-    <string name="backup_export_success">Export complete</string>
+    <string name="backup_export_success">Export successful</string>
     <string name="backup_export_failed">Export failed</string>
 
     <!-- Strings related to settings -->
@@ -71,14 +71,14 @@
     <string name="pref_group_notifications">Notifications</string>
     <string name="pref_group_about">About</string>
     <string name="pref_disclaimer_title">Do not show the message again</string>
-    <string name="pref_disclaimer_description">Turn off to display the message after the first start of the application again.</string>
-    <string name="pref_enable_notifications">Włącz powiadomienia</string>
-    <string name="pref_expiration">Informuj o upływie ważności biletu</string>
-    <string name="pref_expiration_summary">%s wcześniej</string>
-    <string name="pref_notification_ringtone">Dźwięk</string>
-    <string name="pref_notification_vibrate">Wibracje</string>
-    <string name="pref_notification_settings">Ustawienia powiadomień</string>
-    <string name="pref_notification_settings_summary">Wybierz dźwięki i inne ustawienia systemowe</string>
+    <string name="pref_disclaimer_description">Turn off to display the message after the first start of the application again</string>
+    <string name="pref_enable_notifications">Enable notifications</string>
+    <string name="pref_expiration">Inform about the ticket expiration</string>
+    <string name="pref_expiration_summary">%s before</string>
+    <string name="pref_notification_ringtone">Sound</string>
+    <string name="pref_notification_vibrate">Vibrate</string>
+    <string name="pref_notification_settings">Notification settings</string>
+    <string name="pref_notification_settings_summary">Select sound and other system settings</string>
     <string name="pref_about_title">Open-source licenses</string>
     <string name="pref_about_description">Get to know the contributors and libraries used</string>
     <string name="pref_version_title">mobileKKM app</string>
@@ -86,42 +86,42 @@
     <string name="pref_restart">Restart app</string>
 
     <!-- Expiration values -->
-    <string name="expiration_oneday">1 dzień</string>
-    <string name="expiration_threedays">3 dni</string>
-    <string name="expiration_fivedays">5 dni</string>
-    <string name="expiration_oneweek">1 tydzień</string>
-    <string name="expiration_twoweeks">2 tygodnie</string>
-    <string name="expiration_onemonth">1 miesiąc</string>
+    <string name="expiration_oneday">1 day</string>
+    <string name="expiration_threedays">3 days</string>
+    <string name="expiration_fivedays">5 days</string>
+    <string name="expiration_oneweek">1 week</string>
+    <string name="expiration_twoweeks">2 weeks</string>
+    <string name="expiration_onemonth">1 month</string>
 
     <!-- Notification -->
-    <string name="notification_channel_expiry">Ważność biletów</string>
-    <string name="notification_channel_expiry_desc">Informacje o upływie ważności biletu</string>
-    <string name="expiration_notification_title">Twój bilet wkrótce straci ważność</string>
-    <string name="expiration_notification_msg">Termin ważności od %s do %s</string>
+    <string name="notification_channel_expiry">Ticket expiration</string>
+    <string name="notification_channel_expiry_desc">Information about upcoming ticket expiration</string>
+    <string name="expiration_notification_title">Your ticket will soon expire</string>
+    <string name="expiration_notification_msg">Validity from %s to %s</string>
 
     <!-- Attribouter screen -->
     <string name="about_twitter" translatable="false">Twitter</string>
-    <string name="about_facebook_like">Polub nas</string>
-    <string name="title_attribouter_about">O aplikacji</string>
-    <string name="title_attribouter_licenses">Licencje open-source</string>
-    <string name="title_attribouter_email">Adres e-mail</string>
-    <string name="title_attribouter_website">Strona internetowa</string>
-    <string name="title_attribouter_github">GitHub</string>
-    <string name="title_attribouter_rate">Oceń</string>
-    <string name="title_attribouter_version">Wersja %1$s</string>
-    <string name="title_attribouter_contributors">Współtwórcy</string>
-    <string name="title_attribouter_license">Licencja</string>
-    <string name="title_attribouter_license_permissions">Uprawnienia</string>
-    <string name="title_attribouter_license_conditions">Warunki</string>
-    <string name="title_attribouter_license_limitations">Ograniczenia</string>
-    <string name="title_attribouter_more_info">Więcej informacji</string>
-    <string name="about_role_lead">Główny programista</string>
-    <string name="about_role_proofreader">Korektor tłumaczeń</string>
-    <string name="about_role_designer">Projektant</string>
-    <string name="about_role_contributor">Współtwórca</string>
-    <string name="about_bio_divadsn">Osiemnastolatek, zamienia kofeinę i pizzę w kod. Znany poprzednio jako Codebucket.</string>
-    <string name="about_bio_imintie">Druga połówka Davida Sn.</string>
-    <string name="about_bio_deletescape">Entuzjasta Androida oraz twórca aplikacji na niego, uwielbia memy (nawet za bardzo). Założyciel projektu Lawnchair.</string>
+    <string name="about_facebook_like">Like us</string>
+    <string name="title_attribouter_about">About app</string>
+    <string name="title_attribouter_licenses">Open-source licenses</string>
+    <string name="title_attribouter_email">Email address</string>
+    <string name="title_attribouter_website">Website</string>
+    <string name="title_attribouter_github" translatable="false">GitHub</string>
+    <string name="title_attribouter_rate">Rate</string>
+    <string name="title_attribouter_version">Version %1$s</string>
+    <string name="title_attribouter_contributors">Contributors</string>
+    <string name="title_attribouter_license">License</string>
+    <string name="title_attribouter_license_permissions">Permissions</string>
+    <string name="title_attribouter_license_conditions">Conditions</string>
+    <string name="title_attribouter_license_limitations">Limitations</string>
+    <string name="title_attribouter_more_info">More info</string>
+    <string name="about_role_lead">Lead Developer</string>
+    <string name="about_role_proofreader">Translation Proofreader</string>
+    <string name="about_role_designer">UI/UX Designer</string>
+    <string name="about_role_contributor">Contributor</string>
+    <string name="about_bio_divadsn">18 years old, turns caffeine and pizza into code. Also previously known as Codebucket.</string>
+    <string name="about_bio_imintie">Second half of David Sn.</string>
+    <string name="about_bio_deletescape">Android developer &amp; enthusiast, loves memes (a bit too much actually). Founder of the Lawnchair project.</string>
 
     <!-- Strings related to crash report -->
     <string name="title_activity_crash">Report bug</string>
