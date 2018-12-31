@@ -5,8 +5,9 @@
 *.apk
 *.ap_
 
-# Calculated md5 checksums
+# Drone CI plugin files
 *.md5sum
+changelog.txt
 
 # Files for the ART/Dalvik VM
 *.dex
