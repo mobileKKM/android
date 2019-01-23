@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">mobileKKM</string>
     <string name="app_description">Nieoficjalna aplikacja do obsługi mobilnej wersji KKM na urządzeniach mobilnych.</string>
 
     <!-- Strings related to login -->
@@ -28,8 +27,6 @@
     <string name="title_activity_main">Strona główna</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Janusz Kowalski</string>
-    <string name="nav_header_subtitle">janusz.kowalski@gmail.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="snackbar_retry">Spróbuj ponownie</string>
     <string name="action_refresh">Odśwież</string>
