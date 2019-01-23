@@ -125,6 +125,9 @@ public abstract class DrawerActivity extends WebViewActivity implements Navigati
             case R.id.nav_tickets:
                 mWebview.loadUrl(getPageUrl("home")); // TODO: Replace with TicketOverviewFragment
                 break;
+            case R.id.nav_purchase:
+                mWebview.loadUrl(getPageUrl("ticket/buy"));
+                break;
             case R.id.nav_account:
                 mWebview.loadUrl(getPageUrl("account")); // TODO: Replace with UserAccountFragment
                 break;
@@ -150,9 +153,6 @@ public abstract class DrawerActivity extends WebViewActivity implements Navigati
             case R.id.nav_settings:
                 startActivity(new Intent(DrawerActivity.this, SettingsActivity.class));
                 break;
-            default:
-                Toast.makeText(this, R.string.not_implemented, Toast.LENGTH_SHORT).show();
-                break;
         }
 
         // Change title only on checkable items
@@ -173,6 +173,9 @@ public abstract class DrawerActivity extends WebViewActivity implements Navigati
             case KKMWebViewClient.PAGE_OVERVIEW:
             case KKMWebViewClient.PAGE_CONTROL:
                 item = mNavigationView.getMenu().findItem(R.id.nav_tickets);
+                break;
+            case KKMWebViewClient.PAGE_PURCHASE:
+                item = mNavigationView.getMenu().findItem(R.id.nav_purchase);
                 break;
             case KKMWebViewClient.PAGE_ACCOUNT:
                 item = mNavigationView.getMenu().findItem(R.id.nav_account);

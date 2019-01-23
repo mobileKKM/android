@@ -38,9 +38,9 @@
 
     <!-- Navbar navigation drawer -->
     <string name="nav_tickets">Active tickets</string>
+    <string name="nav_purchase">Buy ticket</string>
     <string name="nav_account">My account</string>
     <string name="nav_prices">Pricing</string>
-    <string name="nav_help">Help &amp; feedback</string>
     <string name="nav_backup">Backups</string>
     <string name="nav_logout">Log out</string>
     <string name="nav_settings">Settings</string>
