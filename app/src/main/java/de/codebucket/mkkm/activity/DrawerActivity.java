@@ -126,7 +126,8 @@ public abstract class DrawerActivity extends WebViewActivity implements Navigati
                 mWebview.loadUrl(getPageUrl("home")); // TODO: Replace with TicketOverviewFragment
                 break;
             case R.id.nav_purchase:
-                mWebview.loadUrl(getPageUrl("ticket/buy"));
+                Toast.makeText(this, R.string.purchase_warning, Toast.LENGTH_LONG).show();
+                mWebview.loadUrl(getPageUrl("ticket/buy")); // TODO: Add custom webview handler for purchasing
                 break;
             case R.id.nav_account:
                 mWebview.loadUrl(getPageUrl("account")); // TODO: Replace with UserAccountFragment

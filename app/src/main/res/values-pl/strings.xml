@@ -163,4 +163,5 @@
     <string name="intent_chooser_file">Wybierz plik</string>
     <string name="intent_chooser_email">Wyślij e-mail</string>
     <string name="intent_chooser_share">Udostępnij przez</string>
+    <string name="purchase_warning">Polecamy zakup biletów za pośrednictwem strony internetowej na urządzeniu stacjonarnym</string>
 </resources>
