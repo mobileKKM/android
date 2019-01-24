@@ -59,7 +59,7 @@ public abstract class DrawerActivity extends WebViewActivity implements Navigati
         View headerView = mNavigationView.getHeaderView(0);
 
         TextView drawerProvider = (TextView) headerView.findViewById(R.id.drawer_header_provider);
-        drawerProvider.setText("Krakowska Karta Miejska"); // TODO: account.getProviderName();
+        drawerProvider.setText(getText(R.string.kkm_title)); // TODO: account.getProvider();
 
         TextView drawerEmail = (TextView) headerView.findViewById(R.id.drawer_header_email);
         drawerEmail.setText(account.getEmail());
