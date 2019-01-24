@@ -32,8 +32,8 @@ public class CrashReportActivity extends ToolbarActivity {
     public static final String REPORT_EMAIL_ADDRESS = "mobilekkm@codebucket.de";
     public static final String REPORT_EMAIL_SUBJECT = "Błąd w mobileKKM " + BuildConfig.VERSION_NAME;
 
-    // German locale represents the same format as in Poland
-    private static final DateFormat LOCAL_DATEFORMAT = SimpleDateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM, Locale.GERMAN);
+    // Always enforce proper date localization
+    private static final DateFormat LOCAL_DATEFORMAT = SimpleDateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM, Locale.forLanguageTag("pl-PL"));
 
     private String mStacktrace;
 
