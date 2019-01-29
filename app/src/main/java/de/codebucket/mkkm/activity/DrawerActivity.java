@@ -58,8 +58,8 @@ public abstract class DrawerActivity extends WebViewActivity implements Navigati
     public void setupDrawerHeader(Account account) {
         View headerView = mNavigationView.getHeaderView(0);
 
-        TextView drawerUsername = (TextView) headerView.findViewById(R.id.drawer_header_username);
-        drawerUsername.setText(String.format("%s %s", account.getFirstName(), account.getLastName()));
+        TextView drawerProvider = (TextView) headerView.findViewById(R.id.drawer_header_provider);
+        drawerProvider.setText(getText(R.string.kkm_title)); // TODO: account.getProvider();
 
         TextView drawerEmail = (TextView) headerView.findViewById(R.id.drawer_header_email);
         drawerEmail.setText(account.getEmail());
@@ -123,13 +123,14 @@ public abstract class DrawerActivity extends WebViewActivity implements Navigati
         // Handle navigation view item clicks here.
         switch (item.getItemId()) {
             case R.id.nav_tickets:
-                mWebview.loadUrl(getPageUrl("home"));
+                mWebview.loadUrl(getPageUrl("home")); // TODO: Replace with TicketOverviewFragment
                 break;
             case R.id.nav_purchase:
-                mWebview.loadUrl(getPageUrl("ticket/buy"));
+                Toast.makeText(this, R.string.purchase_warning, Toast.LENGTH_LONG).show();
+                mWebview.loadUrl(getPageUrl("ticket/buy")); // TODO: Add custom webview handler for purchasing
                 break;
             case R.id.nav_account:
-                mWebview.loadUrl(getPageUrl("account"));
+                mWebview.loadUrl(getPageUrl("account")); // TODO: Replace with UserAccountFragment
                 break;
             case R.id.nav_pricing:
                 mWebview.loadUrl("https://www.codebucket.de/mobilekkm/cennik.html");

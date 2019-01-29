@@ -45,7 +45,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="@string/login_title"
+                    android:text="@string/kkm_title"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="24sp" />
 

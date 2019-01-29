@@ -127,7 +127,7 @@ dependencies {
     implementation "cat.ereza:customactivityoncrash:2.2.0"
     implementation "me.jfenn:attribouter:0.1.3"
 
-    def room_version = '2.1.0-alpha01'
+    def room_version = '2.1.0-alpha03'
     implementation "androidx.room:room-runtime:${room_version}"
     annotationProcessor "android.arch.persistence.room:compiler:${room_version}"
 }
