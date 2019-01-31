@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Strings related to ticket types -->
+    <string name="ticket_network_first_zone">All lines first zone</string>
+    <string name="ticket_network_second_zone">All lines first and second zone</string>
+    <string name="ticket_selected_lines">Selected lines</string>
+
+    <!-- Strings related to ticket kinds -->
+    <string name="ticket_normal">Normal</string>
+    <string name="ticket_normal_citizen">Normal citizen</string>
+    <string name="ticket_half_price">Half price</string>
+    <string name="ticket_half_price_citizen">Half price citizen</string>
+    <string name="ticket_semester">Semester</string>
+    <string name="ticket_semester_citizen">Semester citizen</string>
+
+    <!-- Strings related to ticket periods -->
+    <plurals name="ticket_period_months">
+        <item quantity="one">%d month</item>
+        <item quantity="other">%d months</item>
+    </plurals>
+</resources>
