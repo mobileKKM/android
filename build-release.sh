@@ -11,7 +11,7 @@ export TRAVIS=true
 export TRAVIS_BUILD_NUMBER=$1
 export TRAVIS_EVENT_TYPE=push
 export MAJOR_MINOR=1.1.0
-export HOSTNAME=build.codebucket.de
+export DRONE_MACHINE=localhost
 
 bash ./gradlew app:assembleRelease
 status=$?

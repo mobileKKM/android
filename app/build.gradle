@@ -28,12 +28,17 @@ android {
         targetSdkVersion 28
         applicationId "de.codebucket.mkkm"
 
+        // These values are not intended to be shared public in repo!
         ext.githubToken = localProps.getProperty('githubToken') ?: '"' + System.getenv("GITHUB_TOKEN") + '"'
+        ext.encryptionKey = localProps.getProperty('encryptionKey') ?: '"' + System.getenv("ENCRYPTION_KEY") + '"'
+
         buildConfigField "String", "GITHUB_TOKEN", ext.githubToken
         buildConfigField "String", "GIT_VERSION", "\"${getGitVersion()}\""
-
-        ext.encryptionKey = localProps.getProperty('encryptionKey') ?: '"' + System.getenv("ENCRYPTION_KEY") + '"'
         buildConfigField "String", "ENCRYPTION_KEY", ext.encryptionKey
+
+        // Internal build info values
+        buildConfigField "String", "HOSTNAME", '"' + System.getenv("DRONE_REMOTE_URL") + '"'
+        buildConfigField "String", "CI_VERSION", '"' + System.getenv("DRONE_SYSTEM_VERSION") + '"'
 
         if (System.getenv("TRAVIS") == "true") {
             versionCode = Integer.valueOf(System.getenv("TRAVIS_BUILD_NUMBER"))
