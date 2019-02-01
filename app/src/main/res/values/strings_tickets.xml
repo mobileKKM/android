@@ -1,21 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Strings related to ticket status -->
+    <string name="ticket_status_active">Active</string>
+    <string name="ticket_status_future">Future</string>
+    <string name="ticket_status_pending">Waiting for payment</string>
+    <string name="ticket_is_assigned">Assigned</string>
+    <string name="ticket_is_not_assigned">Not assigned</string>
+    
     <!-- Strings related to ticket types -->
-    <string name="ticket_network_first_zone">All lines first zone</string>
-    <string name="ticket_network_second_zone">All lines first and second zone</string>
-    <string name="ticket_selected_lines">Selected lines</string>
+    <string name="ticket_type_network_first_zone">All lines first zone</string>
+    <string name="ticket_type_network_second_zone">All lines first and second zone</string>
+    <string name="ticket_type_selected_lines">Selected lines</string>
 
     <!-- Strings related to ticket kinds -->
-    <string name="ticket_normal">Normal</string>
-    <string name="ticket_normal_citizen">Normal citizen</string>
-    <string name="ticket_half_price">Half price</string>
-    <string name="ticket_half_price_citizen">Half price citizen</string>
-    <string name="ticket_semester">Semester</string>
-    <string name="ticket_semester_citizen">Semester citizen</string>
+    <string name="ticket_kind_normal">Normal</string>
+    <string name="ticket_kind_normal_citizen">Normal citizen</string>
+    <string name="ticket_kind_half_price">Half price</string>
+    <string name="ticket_kind_half_price_citizen">Half price citizen</string>
+    <string name="ticket_kind_semester">Semester</string>
+    <string name="ticket_kind_semester_citizen">Semester citizen</string>
 
     <!-- Strings related to ticket periods -->
     <plurals name="ticket_period_months">
         <item quantity="one">%d month</item>
         <item quantity="other">%d months</item>
     </plurals>
+
+    <!-- Strings related to ticket actions -->
+    <string name="ticket_action_assign">Assign to device</string>
+    <string name="ticket_action_control">Ticket control</string>
+    <string name="ticket_action_renew">Renew</string>
 </resources>

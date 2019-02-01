@@ -1,17 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Strings related to ticket status -->
+    <string name="ticket_status_active">Aktywny</string>
+    <string name="ticket_status_future">Przyszły</string>
+    <string name="ticket_status_pending">Oczekiwanie na płatność</string>
+    <string name="ticket_is_assigned">Powiązano</string>
+    <string name="ticket_is_not_assigned">Nie powiązano</string>
+
     <!-- Strings related to ticket types -->
-    <string name="ticket_network_first_zone">Wszystkie linie I strefa</string>
-    <string name="ticket_network_second_zone">Wszystkie linie I i II strefa</string>
-    <string name="ticket_selected_lines">Wybrane linie</string>
+    <string name="ticket_type_network_first_zone">Wszystkie linie I strefa</string>
+    <string name="ticket_type_network_second_zone">Wszystkie linie I i II strefa</string>
+    <string name="ticket_type_selected_lines">Wybrane linie</string>
 
     <!-- Strings related to ticket kinds -->
-    <string name="ticket_normal">Normalny</string>
-    <string name="ticket_normal_citizen">Normalny mieszkańca</string>
-    <string name="ticket_half_price">Ulgowy</string>
-    <string name="ticket_half_price_citizen">Ulgowy mieszkańca</string>
-    <string name="ticket_semester">Semestralny</string>
-    <string name="ticket_semester_citizen">Semestralny mieszkańca</string>
+    <string name="ticket_kind_normal">Normalny</string>
+    <string name="ticket_kind_normal_citizen">Normalny mieszkańca</string>
+    <string name="ticket_kind_half_price">Ulgowy</string>
+    <string name="ticket_kind_half_price_citizen">Ulgowy mieszkańca</string>
+    <string name="ticket_kind_semester">Semestralny</string>
+    <string name="ticket_kind_semester_citizen">Semestralny mieszkańca</string>
 
     <!-- Strings related to ticket periods -->
     <plurals name="ticket_period_months">
@@ -19,4 +26,9 @@
         <item quantity="few">%d miesiące</item>
         <item quantity="many">%d miesięcy</item>
     </plurals>
+
+    <!-- Strings related to ticket actions -->
+    <string name="ticket_action_assign">Powiąż z urządzeniem</string>
+    <string name="ticket_action_control">Kontrola biletów</string>
+    <string name="ticket_action_renew">Przedłuż</string>
 </resources>
