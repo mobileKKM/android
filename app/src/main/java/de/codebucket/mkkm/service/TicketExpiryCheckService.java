@@ -48,7 +48,7 @@ public class TicketExpiryCheckService extends JobService {
                     String dateTo = DATE_FORMAT.format(ticket.getExpireDate());
 
                     NotificationCompat.Builder builder = new NotificationCompat.Builder(MobileKKM.getInstance(), Const.ID.EXPIRY_NOTIFICATION_CHANNEL);
-                    builder.setSmallIcon(R.drawable.ic_bus_alert)
+                    builder.setSmallIcon(R.drawable.ic_notification_alert)
                             .setContentTitle(getString(R.string.expiration_notification_title))
                             .setContentText(getString(R.string.expiration_notification_msg, dateFrom, dateTo))
                             .setSound(Uri.parse(prefs.getString("notification_ringtone", null)))
