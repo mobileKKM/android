@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#283593</color>
+    <!-- Main colors -->
+    <color name="colorPrimary">#303F9F</color>
     <color name="colorPrimaryDark">#1A237E</color>
-    <color name="colorAccent">#303F9F</color>
+    <color name="colorAccent">#3F51B5</color>
+
+    <!-- Other UI elements -->
     <color name="colorAccentFallback">#FF4081</color>
     <color name="colorHeaderOverlay">#33000000</color>
 </resources>
