@@ -100,7 +100,7 @@ public class CrashReportActivity extends ToolbarActivity {
 
         // Set report to textview
         TextView errorView = findViewById(R.id.crash_error);
-        String report = getString(R.string.crash_apologise) +  ":( \n";
+        String report = getString(R.string.crash_apologise) +  " :(\n";
         report += "-------------------------------------\n";
         report += crashReport;
         errorView.setText(report);
