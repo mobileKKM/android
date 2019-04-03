@@ -35,7 +35,7 @@ public class AztecBitmap {
     }
 
     public Bitmap getBitmap() {
-        return aztec;
+        return bitmap;
     }
 
     public Date getCreatedAt() {
