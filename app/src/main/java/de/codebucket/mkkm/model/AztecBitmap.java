@@ -7,7 +7,7 @@ import java.util.Date;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "aztec_pictures")
+@Entity(tableName = "contracts")
 public class AztecBitmap {
 
     @PrimaryKey

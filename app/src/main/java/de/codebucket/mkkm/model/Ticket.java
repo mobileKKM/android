@@ -122,7 +122,7 @@ public class Ticket {
         NETWORK_FIRST_ZONE, NETWORK_SECOND_ZONE, SELECTED_LINES
     }
 
-    public class TicketLine {
+    public static class TicketLine {
 
         private int line;
 

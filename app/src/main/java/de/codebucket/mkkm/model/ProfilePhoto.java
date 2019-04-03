@@ -3,8 +3,8 @@ package de.codebucket.mkkm.model;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "profile_pictures")
-public class ProfilePicture {
+@Entity(tableName = "photos")
+public class ProfilePhoto {
 
     @PrimaryKey
     private String photoId;
@@ -13,7 +13,7 @@ public class ProfilePicture {
 
     private String filename;
 
-    public ProfilePicture(String photoId, String passengerId, String filename) {
+    public ProfilePhoto(String photoId, String passengerId, String filename) {
         this.photoId = photoId;
         this.passengerId = passengerId;
         this.filename = filename;
