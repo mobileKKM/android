@@ -2,6 +2,10 @@
 -renamesourcefileattribute SourceFile
 -keepattributes SourceFile,LineNumberTable
 
+# ----------------------
+# OkHttp3 ProGuard rules
+# ----------------------
+
 # JSR 305 annotations are for embedding nullability information.
 -dontwarn javax.annotation.**
 
@@ -13,6 +17,43 @@
 
 # OkHttp platform used only on JVM and when Conscrypt dependency is available.
 -dontwarn okhttp3.internal.platform.ConscryptPlatform
+
+# ------------------------
+# Retrofit2 ProGuard rules
+# ------------------------
+
+# Retrofit does reflection on generic parameters. InnerClasses is required to use Signature and
+# EnclosingMethod is required to use InnerClasses.
+-keepattributes Signature, InnerClasses, EnclosingMethod
+
+# Retrofit does reflection on method and parameter annotations.
+-keepattributes RuntimeVisibleAnnotations, RuntimeVisibleParameterAnnotations
+
+# Retain service method parameters when optimizing.
+-keepclassmembers,allowshrinking,allowobfuscation interface * {
+    @retrofit2.http.* <methods>;
+}
+
+# Ignore annotation used for build tooling.
+-dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
+
+# Ignore JSR 305 annotations for embedding nullability information.
+-dontwarn javax.annotation.**
+
+# Guarded by a NoClassDefFoundError try/catch and only used when on the classpath.
+-dontwarn kotlin.Unit
+
+# Top-level functions that can only be used by Kotlin.
+-dontwarn retrofit2.KotlinExtensions
+
+# With R8 full mode, it sees no subtypes of Retrofit interfaces since they are created with a Proxy
+# and replaces all potential values with null. Explicitly keeping the interfaces prevents this.
+-if interface * { @retrofit2.http.* <methods>; }
+-keep,allowobfuscation interface <1>
+
+# -------------------
+# Gson ProGuard rules
+# -------------------
 
 # Gson uses generic type information stored in a class file when working with fields. Proguard
 # removes such information by default, so configure it to keep all of it.
@@ -34,8 +75,16 @@
 -keep class * implements com.google.gson.JsonSerializer
 -keep class * implements com.google.gson.JsonDeserializer
 
+# --------------------------
+# Attribouter ProGuard rules
+# --------------------------
+
 # Attribouter containts required layouts for about page.
 -keep,allowshrinking,allowoptimization class me.jfenn.attribouter.** { *; }
+
+# --------------------
+# Other ProGuard rules
+# --------------------
 
 # Custom WebView JavaScript interfaces
 -keep class de.codebucket.mkkm.KKMWebViewClient.ScriptInjectorCallback { *; }
@@ -44,6 +93,7 @@
 -dontwarn android.arch.util.paging.CountedDataSource
 -dontwarn android.arch.persistence.room.paging.LimitOffsetDataSource
 
-# Database models and converters
--keep class de.codebucket.mkkm.database.converter.** { *; }
+# Data models
+-keep class de.codebucket.mkkm.api.model.** { *; }
 -keep class de.codebucket.mkkm.database.model.** { *; }
+-keep class de.codebucket.mkkm.model.** { *; }
