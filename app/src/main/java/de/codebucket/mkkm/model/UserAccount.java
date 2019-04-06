@@ -7,8 +7,8 @@ import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
 
-@Entity(tableName = "users")
-public class UserData {
+@Entity(tableName = "accounts")
+public class UserAccount {
 
     @PrimaryKey
     @SerializedName("passenger_id")
@@ -41,7 +41,7 @@ public class UserData {
     @SerializedName("create_date")
     private Date createDate;
 
-    public UserData(String passengerId, int passengerSequence, String firstName, String lastName, String pesel, Date birthDate, String email, String photoId, UserStatus status, Date createDate) {
+    public UserAccount(String passengerId, int passengerSequence, String firstName, String lastName, String pesel, Date birthDate, String email, String photoId, UserStatus status, Date createDate) {
         this.passengerId = passengerId;
         this.passengerSequence = passengerSequence;
         this.firstName = firstName;
