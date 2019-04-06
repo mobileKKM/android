@@ -82,11 +82,6 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:process=":runtime" />
 
-        <service
-            android:name=".service.TicketExpiryCheckService"
-            android:exported="true"
-            android:permission="android.permission.BIND_JOB_SERVICE" />
-
         <service android:name=".service.TicketSyncService">
             <intent-filter>
                 <action android:name="android.content.SyncAdapter" />
@@ -97,7 +92,7 @@
                 android:resource="@xml/syncadapter" />
         </service>
 
-        <service android:name=".login.AuthenticatorService">
+        <service android:name=".service.AuthenticatorService">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator" />
             </intent-filter>

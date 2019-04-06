@@ -9,8 +9,8 @@ import de.codebucket.mkkm.MobileKKM;
 import de.codebucket.mkkm.util.EncryptUtils;
 import de.codebucket.mkkm.util.StubContentProvider;
 
-import static de.codebucket.mkkm.login.AuthenticatorService.ACCOUNT_TYPE;
-import static de.codebucket.mkkm.login.AuthenticatorService.TOKEN_TYPE;
+import static de.codebucket.mkkm.service.AuthenticatorService.ACCOUNT_TYPE;
+import static de.codebucket.mkkm.service.AuthenticatorService.TOKEN_TYPE;
 
 public class AccountUtils {
 

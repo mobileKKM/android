@@ -1,4 +1,4 @@
-package de.codebucket.mkkm.login;
+package de.codebucket.mkkm.service;
 
 import android.accounts.AbstractAccountAuthenticator;
 import android.accounts.Account;
