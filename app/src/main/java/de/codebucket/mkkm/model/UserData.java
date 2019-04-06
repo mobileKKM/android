@@ -5,28 +5,40 @@ import java.util.Date;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.google.gson.annotations.SerializedName;
+
 @Entity(tableName = "users")
 public class UserData {
 
     @PrimaryKey
+    @SerializedName("passenger_id")
     private String passengerId;
 
+    @SerializedName("passenger_sequence")
     private int passengerSequence;
 
+    @SerializedName("first_name")
     private String firstName;
 
+    @SerializedName("last_name")
     private String lastName;
 
+    @SerializedName("pesel")
     private String pesel;
 
+    @SerializedName("birth_date")
     private Date birthDate;
 
+    @SerializedName("email")
     private String email;
 
+    @SerializedName("photo_id")
     private String photoId;
 
+    @SerializedName("status")
     private UserStatus status;
 
+    @SerializedName("create_date")
     private Date createDate;
 
     public UserData(String passengerId, int passengerSequence, String firstName, String lastName, String pesel, Date birthDate, String email, String photoId, UserStatus status, Date createDate) {
@@ -83,7 +95,14 @@ public class UserData {
     }
 
     public enum UserStatus {
-        APPROVED, PENDING, UNDEFINED
+        @SerializedName("approved")
+        APPROVED,
+
+        @SerializedName("pending")
+        PENDING,
+
+        @SerializedName("undefined")
+        UNDEFINED
     }
 }
 
