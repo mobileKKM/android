@@ -16,7 +16,7 @@ public class AuthenticatorService extends Service {
     private static final String TAG = "AuthenticatorService";
 
     public static final String ACCOUNT_TYPE = "de.codebucket.mkkm.login";
-    public static final String TOKEN_TYPE = "passengerId";
+    public static final String TOKEN_TYPE = "authToken";
 
     private Authenticator mAuthenticator;
 

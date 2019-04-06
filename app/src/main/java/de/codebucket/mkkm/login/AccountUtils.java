@@ -38,16 +38,20 @@ public class AccountUtils {
         sAccountManager.setPassword(account, password);
     }
 
-    public static String getPassengerId(Account account) {
-        String passengerId = null;
+    public static String getAuthToken(Account account) {
+        String authToken = null;
 
         try {
-            passengerId = sAccountManager.peekAuthToken(account, TOKEN_TYPE);
+            authToken = sAccountManager.peekAuthToken(account, TOKEN_TYPE);
         } catch (Exception ignored) {}
-        return passengerId;
+        return authToken;
     }
 
-    public static void createAccount(String username, String password, String passengerId) {
+    public static void setAuthToken(Account account, String authToken) {
+        sAccountManager.setAuthToken(account, TOKEN_TYPE, authToken);
+    }
+
+    public static void createAccount(String username, String password, String authToken) {
         // Flag to determine if this is a new account or not
         boolean created = false;
 
@@ -56,8 +60,8 @@ public class AccountUtils {
 
         // Add new account and save encrypted credentials
         if (sAccountManager.addAccountExplicitly(account, encryptedPassword, null)) {
-            // Set passengerId as auth token for easier access
-            sAccountManager.setAuthToken(account, TOKEN_TYPE, passengerId);
+            // Set current token as auth token for easier access
+            sAccountManager.setAuthToken(account, TOKEN_TYPE, authToken);
 
             final String AUTHORITY = StubContentProvider.CONTENT_AUTHORITY;
             final long SYNC_FREQUENCY = 3 * 60 * 60; // 3 hours (seconds)
