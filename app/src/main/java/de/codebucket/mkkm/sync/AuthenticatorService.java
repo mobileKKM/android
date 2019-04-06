@@ -1,4 +1,4 @@
-package de.codebucket.mkkm.service;
+package de.codebucket.mkkm.sync;
 
 import android.accounts.AbstractAccountAuthenticator;
 import android.accounts.Account;

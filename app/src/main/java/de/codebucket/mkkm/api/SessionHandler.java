@@ -18,7 +18,7 @@ import de.codebucket.mkkm.api.service.AuthClient;
 import de.codebucket.mkkm.api.service.KKMRestClient;
 import de.codebucket.mkkm.api.util.AuthInterceptor;
 import de.codebucket.mkkm.api.util.TokenAuthenticator;
-import de.codebucket.mkkm.login.AccountUtils;
+import de.codebucket.mkkm.sync.AccountUtils;
 import de.codebucket.mkkm.model.Ticket;
 import de.codebucket.mkkm.model.UserAccount;
 
@@ -29,7 +29,7 @@ import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class SessionHandler {
+public class  SessionHandler {
 
     private static final String BASE_URL = "https://m.kkm.krakow.pl/";
 

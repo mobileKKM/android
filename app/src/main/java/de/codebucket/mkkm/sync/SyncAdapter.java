@@ -1,4 +1,4 @@
-package de.codebucket.mkkm.login;
+package de.codebucket.mkkm.sync;
 
 import android.accounts.Account;
 import android.content.AbstractThreadedSyncAdapter;
@@ -9,7 +9,6 @@ import android.content.SyncResult;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.google.gson.JsonIOException;
 import com.google.gson.JsonParseException;
 
 import java.io.IOException;
@@ -18,6 +17,8 @@ import java.util.List;
 import de.codebucket.mkkm.MobileKKM;
 import de.codebucket.mkkm.database.model.Ticket;
 import de.codebucket.mkkm.database.model.TicketDao;
+import de.codebucket.mkkm.login.LoginFailedException;
+import de.codebucket.mkkm.login.LoginHelper;
 import de.codebucket.mkkm.util.Const;
 import de.codebucket.mkkm.util.StubContentProvider;
 

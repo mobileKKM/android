@@ -1,4 +1,4 @@
-package de.codebucket.mkkm.login;
+package de.codebucket.mkkm.sync;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
@@ -9,8 +9,8 @@ import de.codebucket.mkkm.MobileKKM;
 import de.codebucket.mkkm.util.EncryptUtils;
 import de.codebucket.mkkm.util.StubContentProvider;
 
-import static de.codebucket.mkkm.service.AuthenticatorService.ACCOUNT_TYPE;
-import static de.codebucket.mkkm.service.AuthenticatorService.TOKEN_TYPE;
+import static de.codebucket.mkkm.sync.AuthenticatorService.ACCOUNT_TYPE;
+import static de.codebucket.mkkm.sync.AuthenticatorService.TOKEN_TYPE;
 
 public class AccountUtils {
 

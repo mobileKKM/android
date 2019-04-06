@@ -82,7 +82,7 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:process=":runtime" />
 
-        <service android:name=".service.TicketSyncService">
+        <service android:name=".sync.TicketSyncService">
             <intent-filter>
                 <action android:name="android.content.SyncAdapter" />
             </intent-filter>
@@ -92,7 +92,7 @@
                 android:resource="@xml/syncadapter" />
         </service>
 
-        <service android:name=".service.AuthenticatorService">
+        <service android:name=".sync.AuthenticatorService">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator" />
             </intent-filter>
