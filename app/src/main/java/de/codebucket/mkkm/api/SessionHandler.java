@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
@@ -12,11 +13,13 @@ import java.util.Date;
 import java.util.List;
 
 import de.codebucket.mkkm.api.adapter.DateLongFormatTypeAdapter;
+import de.codebucket.mkkm.api.adapter.TicketTypeTypeAdapter;
 import de.codebucket.mkkm.api.model.AuthToken;
 import de.codebucket.mkkm.api.model.LoginRequest;
 import de.codebucket.mkkm.api.service.AuthClient;
 import de.codebucket.mkkm.api.service.KKMRestClient;
 import de.codebucket.mkkm.api.util.AuthInterceptor;
+import de.codebucket.mkkm.api.util.LoggingInterceptor;
 import de.codebucket.mkkm.api.util.TokenAuthenticator;
 import de.codebucket.mkkm.sync.AccountUtils;
 import de.codebucket.mkkm.model.Ticket;
@@ -33,6 +36,12 @@ public class  SessionHandler {
 
     private static final String BASE_URL = "https://m.kkm.krakow.pl/";
 
+    // Gson instance with type adapters registered
+    private static final Gson sGson = new GsonBuilder()
+            .registerTypeAdapter(Date.class, new DateLongFormatTypeAdapter())
+            .registerTypeAdapter(Ticket.TicketType.class, new TicketTypeTypeAdapter())
+            .create();
+
     // these values aren't stored here anymore:
     // private String fingerprint; => stored in SharedPrefs
     // private String authToken; => stored as Account authToken
@@ -43,25 +52,26 @@ public class  SessionHandler {
     public SessionHandler(Context context) {
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
-        // Retrofit with Gson adapters
+        // Retrofit builder
         Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create(new GsonBuilder()
-                        .registerTypeAdapter(Date.class, new DateLongFormatTypeAdapter())
-                        .create()));
+                .addConverterFactory(GsonConverterFactory.create(sGson))
+                .baseUrl(BASE_URL);
 
-        // this is our basic retrofit instance for authentication
-        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+        // Simple client for authentication only
+        OkHttpClient httpClient = new OkHttpClient.Builder()
+                .addInterceptor(new LoggingInterceptor())
+                .build();
 
-        Retrofit retrofit = builder.client(httpClient.build()).build();
+        // Authenticated client for other endpoints
+        OkHttpClient authHttpClient = new OkHttpClient.Builder()
+                .authenticator(new TokenAuthenticator(this))
+                .addInterceptor(new AuthInterceptor(this))
+                .build();
+
+        Retrofit retrofit = builder.client(httpClient).build();
         authClient = retrofit.create(AuthClient.class);
 
-        // this instance is for all endpoints with auth required
-        OkHttpClient.Builder authHttpClient = new OkHttpClient.Builder()
-                .authenticator(new TokenAuthenticator(this))
-                .addInterceptor(new AuthInterceptor(this));
-
-        Retrofit authRetrofit = builder.client(authHttpClient.build()).build();
+        Retrofit authRetrofit = builder.client(authHttpClient).build();
         kkmClient = authRetrofit.create(KKMRestClient.class);
     }
 
