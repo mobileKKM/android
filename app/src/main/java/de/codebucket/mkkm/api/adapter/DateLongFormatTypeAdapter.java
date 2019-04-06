@@ -1,4 +1,4 @@
-package de.codebucket.mkkm.util.adapter;
+package de.codebucket.mkkm.api.adapter;
 
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
