@@ -1,28 +1,26 @@
 package de.codebucket.mkkm.model;
 
-import android.graphics.Bitmap;
-
 import java.util.Date;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "contracts")
-public class AztecBitmap {
+public class AztecBarcode {
 
     @PrimaryKey
     private String ticketId;
 
     private String passengerId;
 
-    private Bitmap bitmap;
+    private byte[] data;
 
     private Date createdAt;
 
-    public AztecBitmap(String ticketId, String passengerId, Bitmap bitmap, Date createdAt) {
+    public AztecBarcode(String ticketId, String passengerId, byte[] data, Date createdAt) {
         this.ticketId = ticketId;
         this.passengerId = passengerId;
-        this.bitmap = bitmap;
+        this.data = data;
         this.createdAt = createdAt;
     }
 
@@ -34,8 +32,8 @@ public class AztecBitmap {
         return passengerId;
     }
 
-    public Bitmap getBitmap() {
-        return bitmap;
+    public byte[] getData() {
+        return data;
     }
 
     public Date getCreatedAt() {
