@@ -148,7 +148,10 @@ public class Ticket {
         HALF_PRICE,
 
         @SerializedName("semester")
-        SEMESTER
+        SEMESTER,
+
+        @SerializedName("undefined")
+        UNDEFINED
     }
 
     public enum TicketType {

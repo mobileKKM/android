@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.List;
 
 import de.codebucket.mkkm.api.adapter.DateLongFormatTypeAdapter;
+import de.codebucket.mkkm.api.adapter.TicketKindTypeAdapter;
 import de.codebucket.mkkm.api.adapter.TicketTypeTypeAdapter;
 import de.codebucket.mkkm.api.model.AuthToken;
 import de.codebucket.mkkm.api.model.LoginRequest;
@@ -32,13 +33,14 @@ import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class  SessionHandler {
+public class SessionHandler {
 
     private static final String BASE_URL = "https://m.kkm.krakow.pl/";
 
     // Gson instance with type adapters registered
     private static final Gson sGson = new GsonBuilder()
             .registerTypeAdapter(Date.class, new DateLongFormatTypeAdapter())
+            .registerTypeAdapter(Ticket.TicketKind.class, new TicketKindTypeAdapter())
             .registerTypeAdapter(Ticket.TicketType.class, new TicketTypeTypeAdapter())
             .create();
 
