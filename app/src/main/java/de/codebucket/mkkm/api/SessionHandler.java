@@ -14,7 +14,9 @@ import java.util.List;
 
 import de.codebucket.mkkm.api.adapter.DateLongFormatTypeAdapter;
 import de.codebucket.mkkm.api.adapter.TicketKindTypeAdapter;
+import de.codebucket.mkkm.api.adapter.TicketStatusTypeAdapter;
 import de.codebucket.mkkm.api.adapter.TicketTypeTypeAdapter;
+import de.codebucket.mkkm.api.adapter.UserStatusTypeAdapter;
 import de.codebucket.mkkm.api.model.AuthToken;
 import de.codebucket.mkkm.api.model.LoginRequest;
 import de.codebucket.mkkm.api.service.AuthClient;
@@ -41,7 +43,9 @@ public class SessionHandler {
     private static final Gson sGson = new GsonBuilder()
             .registerTypeAdapter(Date.class, new DateLongFormatTypeAdapter())
             .registerTypeAdapter(Ticket.TicketKind.class, new TicketKindTypeAdapter())
+            .registerTypeAdapter(Ticket.TicketStatus.class, new TicketStatusTypeAdapter())
             .registerTypeAdapter(Ticket.TicketType.class, new TicketTypeTypeAdapter())
+            .registerTypeAdapter(UserAccount.UserStatus.class, new UserStatusTypeAdapter())
             .create();
 
     // these values aren't stored here anymore:
