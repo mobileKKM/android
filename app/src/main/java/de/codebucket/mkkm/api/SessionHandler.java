@@ -7,7 +7,6 @@ import android.preference.PreferenceManager;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
 
 import java.util.Date;
 import java.util.List;
@@ -19,6 +18,7 @@ import de.codebucket.mkkm.api.adapter.TicketTypeTypeAdapter;
 import de.codebucket.mkkm.api.adapter.UserStatusTypeAdapter;
 import de.codebucket.mkkm.api.model.AuthToken;
 import de.codebucket.mkkm.api.model.LoginRequest;
+import de.codebucket.mkkm.api.model.PasswordRequest;
 import de.codebucket.mkkm.api.service.AuthClient;
 import de.codebucket.mkkm.api.service.KKMRestClient;
 import de.codebucket.mkkm.api.util.AuthInterceptor;
@@ -81,19 +81,20 @@ public class SessionHandler {
         kkmClient = authRetrofit.create(KKMRestClient.class);
     }
 
+    // TODO: move to AuthHandler
     public Call<AuthToken> login() {
         Account account = AccountUtils.getAccount();
         return login(account.name, AccountUtils.getPassword(account));
     }
 
+    // TODO: move to AuthHandler
     public Call<AuthToken> login(String email, String password) {
         return authClient.authenticate(getFingerprint(), new LoginRequest(email, password));
     }
 
+    // TODO: move to AuthHandler
     public Call<ResponseBody> recoverPassword(String email) {
-        JsonObject body = new JsonObject();
-        body.addProperty("email", email);
-        return authClient.recoverPassword(getFingerprint(), body);
+        return authClient.recoverPassword(getFingerprint(), new PasswordRequest(email));
     }
 
     public Call<UserAccount> getUserAccount() {
