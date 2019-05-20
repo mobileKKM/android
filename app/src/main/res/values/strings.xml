@@ -102,6 +102,7 @@
 
     <!-- Attribouter screen -->
     <string name="about_twitter" translatable="false">Twitter</string>
+    <string name="about_contact_us">Contact us</string>
     <string name="about_facebook_like">Like us</string>
     <string name="title_attribouter_about">About app</string>
     <string name="title_attribouter_licenses">Open-source licenses</string>

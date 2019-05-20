@@ -96,6 +96,7 @@
     <string name="expiration_notification_msg">Termin ważności od %s do %s</string>
 
     <!-- Attribouter screen -->
+    <string name="about_contact_us">Napisz do nas</string>
     <string name="about_facebook_like">Polub nas</string>
     <string name="title_attribouter_about">O aplikacji</string>
     <string name="title_attribouter_licenses">Licencje open-source</string>

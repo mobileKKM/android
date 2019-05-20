@@ -10,6 +10,11 @@
             icon="@drawable/ic_facebook_box"
             priority="-1"
             url="https://m.facebook.com/getmobilekkm" />
+        <me.jfenn.attribouter.wedges.link.LinkWedge
+            name="@string/about_contact_us"
+            icon="@drawable/ic_messenger"
+            priority="-1"
+            url="https://m.me/getmobilekkm" />
     </me.jfenn.attribouter.wedges.AppWedge>
 
     <me.jfenn.attribouter.wedges.ContributorsWedge
