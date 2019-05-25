@@ -10,6 +10,8 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
+import android.webkit.WebView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -18,6 +20,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.io.IOException;
 
+import de.codebucket.mkkm.KKMWebViewClient;
 import de.codebucket.mkkm.MobileKKM;
 import de.codebucket.mkkm.R;
 import de.codebucket.mkkm.database.model.Account;
@@ -201,5 +204,22 @@ public class MainActivity extends DrawerActivity implements UserLoginTask.OnCall
                     .setActionTextColor(Color.YELLOW)
                     .show();
         }
+    }
+
+    @Override
+    public void onPageChanged(WebView view, String page) {
+        super.onPageChanged(view, page);
+        WindowManager.LayoutParams layout = getWindow().getAttributes();
+
+        switch (page) {
+            case KKMWebViewClient.PAGE_CONTROL:
+                layout.screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_FULL;
+                break;
+            default:
+                layout.screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_NONE;
+                break;
+        }
+
+        getWindow().setAttributes(layout);
     }
 }
