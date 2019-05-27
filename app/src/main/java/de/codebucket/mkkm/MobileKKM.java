@@ -19,6 +19,8 @@ import android.provider.Settings.Secure;
 import android.util.Log;
 
 import androidx.room.Room;
+import androidx.room.migration.Migration;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import java.util.UUID;
 
@@ -57,6 +59,12 @@ public class MobileKKM extends Application {
 
         // Init offline database (first step to native migration)
         database = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "appdata.db")
+                .addMigrations(new Migration(4, 5) {
+                    @Override
+                    public void migrate(SupportSQLiteDatabase database) {
+                        database.execSQL("UPDATE tickets SET lines = '[]'");
+                    }
+                })
                 .fallbackToDestructiveMigration()
                 .build();
 
