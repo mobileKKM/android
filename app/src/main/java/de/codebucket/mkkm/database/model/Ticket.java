@@ -62,7 +62,7 @@ public class Ticket implements Serializable {
 
     @ColumnInfo
     @SerializedName("lines")
-    private String[] lines;
+    private TicketLine[] lines;
 
     public String getTicketId() {
         return ticketId;
@@ -152,11 +152,11 @@ public class Ticket implements Serializable {
         this.price = price;
     }
 
-    public String[] getLines() {
+    public TicketLine[] getLines() {
         return lines;
     }
 
-    public void setLines(String[] lines) {
+    public void setLines(TicketLine[] lines) {
         this.lines = lines;
     }
 
@@ -174,6 +174,23 @@ public class Ticket implements Serializable {
 
         public boolean isActive() {
             return this == ACTIVE || this == FUTURE;
+        }
+    }
+
+    public static class TicketLine {
+
+        @SerializedName("line")
+        private int line;
+
+        @SerializedName("second_zone")
+        private boolean secondZone;
+
+        public int getLine() {
+            return line;
+        }
+
+        public boolean isSecondZone() {
+            return secondZone;
         }
     }
 }
