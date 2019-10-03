@@ -43,7 +43,15 @@ public class TicketExpiryCheckService extends JobService {
 
                 List<Ticket> tickets = ticketDao.getExpiredForPassenger(passengerId, cal.getTime());
 
-                for (Ticket ticket : tickets) {
+                for (final Ticket ticket : tickets) {
+                    cal.setTime(ticket.getExpireDate());
+                    cal.add(Calendar.SECOND, 1);
+
+                    List<Ticket> futureTickets = ticketDao.getFutureForPassenger(passengerId, cal.getTime());
+                    if (futureTickets.size() > 0) {
+                        continue;
+                    }
+
                     String dateFrom = DATE_FORMAT.format(ticket.getPurchaseDate());
                     String dateTo = DATE_FORMAT.format(ticket.getExpireDate());
 
