@@ -21,6 +21,9 @@ public interface TicketDao {
     @Query("SELECT * FROM tickets WHERE passengerId = :id AND status = 'active' AND expireDate < :expiration")
     List<Ticket> getExpiredForPassenger(String id, Date expiration);
 
+    @Query("SELECT * FROM tickets WHERE passengerId = :id AND status = 'future' AND validFrom  = :validFrom")
+    List<Ticket> getFutureForPassenger(String id, Date validFrom);
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(List<Ticket> tickets);
 
