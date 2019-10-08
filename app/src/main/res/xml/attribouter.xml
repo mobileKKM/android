@@ -27,12 +27,7 @@
             bio="^@string/about_bio_divadsn"
             blog="https://www.codebucket.de"
             login="divadsn"
-            task="@string/about_role_lead">
-            <me.jfenn.attribouter.wedges.link.LinkWedge
-                name="@string/about_twitter"
-                icon="@drawable/ic_twitter"
-                url="https://twitter.com/divadsn" />
-        </me.jfenn.attribouter.wedges.ContributorWedge>
+            task="@string/about_role_lead" />
 
         <!-- Proofreader: imintie -->
         <me.jfenn.attribouter.wedges.ContributorWedge
@@ -41,12 +36,7 @@
             bio="^@string/about_bio_imintie"
             blog="https://imintie.github.io"
             login="imintie"
-            task="@string/about_role_proofreader">
-            <me.jfenn.attribouter.wedges.link.LinkWedge
-                name="@string/about_twitter"
-                icon="@drawable/ic_twitter"
-                url="https://twitter.com/xmintiee" />
-        </me.jfenn.attribouter.wedges.ContributorWedge>
+            task="@string/about_role_proofreader" />
 
         <!-- Designer: lumiqcreative -->
         <me.jfenn.attribouter.wedges.ContributorWedge
@@ -54,12 +44,7 @@
             avatar="https://avatars.githubusercontent.com/u/30959743"
             blog="https://lumiqcreative.com"
             login="lumiqcreative"
-            task="@string/about_role_designer">
-            <me.jfenn.attribouter.wedges.link.LinkWedge
-                name="@string/about_twitter"
-                icon="@drawable/ic_twitter"
-                url="https://twitter.com/lumiqcreative" />
-        </me.jfenn.attribouter.wedges.ContributorWedge>
+            task="@string/about_role_designer" />
 
         <!-- Contributor: deletescape -->
         <me.jfenn.attribouter.wedges.ContributorWedge
@@ -68,12 +53,7 @@
             bio="^@string/about_bio_deletescape"
             blog="https://deletescape.ch"
             login="deletescape"
-            task="@string/about_role_contributor">
-            <me.jfenn.attribouter.wedges.link.LinkWedge
-                name="@string/about_twitter"
-                icon="@drawable/ic_twitter"
-                url="https://twitter.com/deletescape" />
-        </me.jfenn.attribouter.wedges.ContributorWedge>
+            task="@string/about_role_contributor" />
 
     </me.jfenn.attribouter.wedges.ContributorsWedge>
 

@@ -101,7 +101,6 @@
     <string name="expiration_notification_msg">Validity from %s to %s</string>
 
     <!-- Attribouter screen -->
-    <string name="about_twitter" translatable="false">Twitter</string>
     <string name="about_contact_us">Contact us</string>
     <string name="about_facebook_like">Like us</string>
     <string name="title_attribouter_about">About app</string>
