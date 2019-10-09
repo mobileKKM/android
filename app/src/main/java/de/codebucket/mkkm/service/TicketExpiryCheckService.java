@@ -1,9 +1,11 @@
 package de.codebucket.mkkm.service;
 
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.job.JobParameters;
 import android.app.job.JobService;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -19,6 +21,7 @@ import java.util.UUID;
 
 import de.codebucket.mkkm.MobileKKM;
 import de.codebucket.mkkm.R;
+import de.codebucket.mkkm.activity.SplashActivity;
 import de.codebucket.mkkm.database.model.Ticket;
 import de.codebucket.mkkm.database.model.TicketDao;
 import de.codebucket.mkkm.login.AccountUtils;
@@ -53,8 +56,12 @@ public class TicketExpiryCheckService extends JobService {
                         continue;
                     }
 
+                    Intent intent = new Intent(MobileKKM.getInstance(), SplashActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
                     NotificationCompat.Builder builder = new NotificationCompat.Builder(MobileKKM.getInstance(), Const.ID.EXPIRY_NOTIFICATION_CHANNEL);
                     builder.setSmallIcon(R.drawable.ic_notification_kkm)
+                            .setContentIntent(PendingIntent.getActivity(MobileKKM.getInstance(), 0, intent, 0))
                             .setContentTitle(getString(R.string.expiration_notification_title))
                             .setContentText(getString(R.string.expiration_notification_msg, DATE_FORMAT.format(ticket.getExpireDate())))
                             .setSound(Uri.parse(prefs.getString("notification_ringtone", null)))
