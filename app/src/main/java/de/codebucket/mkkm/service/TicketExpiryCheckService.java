@@ -11,6 +11,7 @@ import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
@@ -25,7 +26,7 @@ import de.codebucket.mkkm.util.Const;
 
 public class TicketExpiryCheckService extends JobService {
 
-    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
+    private static final DateFormat DATE_FORMAT = SimpleDateFormat.getDateInstance(DateFormat.LONG, MobileKKM.getSystemLocale());
 
     @Override
     public boolean onStartJob(final JobParameters params) {

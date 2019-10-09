@@ -19,12 +19,12 @@ import androidx.annotation.Nullable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
 import cat.ereza.customactivityoncrash.CustomActivityOnCrash;
 import cat.ereza.customactivityoncrash.config.CaocConfig;
 
 import de.codebucket.mkkm.BuildConfig;
+import de.codebucket.mkkm.MobileKKM;
 import de.codebucket.mkkm.R;
 
 public class CrashReportActivity extends ToolbarActivity {
@@ -33,7 +33,7 @@ public class CrashReportActivity extends ToolbarActivity {
     public static final String REPORT_EMAIL_SUBJECT = "Błąd w mobileKKM " + BuildConfig.VERSION_NAME;
 
     // Always enforce proper date localization
-    private static final DateFormat LOCAL_DATEFORMAT = SimpleDateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM, Locale.forLanguageTag("pl-PL"));
+    private static final DateFormat LOCAL_DATEFORMAT = SimpleDateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM, MobileKKM.getSystemLocale());
 
     private String mStacktrace;
 

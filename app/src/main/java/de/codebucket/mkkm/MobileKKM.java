@@ -22,6 +22,7 @@ import androidx.room.Room;
 import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import java.util.Locale;
 import java.util.UUID;
 
 import cat.ereza.customactivityoncrash.config.CaocConfig;
@@ -165,6 +166,15 @@ public class MobileKKM extends Application {
                 RuntimeHelper.triggerRestart(context);
             }
         });
+    }
+
+    public static Locale getSystemLocale() {
+        Locale locale = Locale.getDefault();
+        if (!locale.getCountry().equalsIgnoreCase("pl")) {
+            return Locale.forLanguageTag("en-US");
+        }
+
+        return locale;
     }
 
     public static boolean isDebug() {
