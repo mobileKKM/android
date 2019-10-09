@@ -93,7 +93,7 @@
     <string name="notification_channel_expiry">Ważność biletów</string>
     <string name="notification_channel_expiry_desc">Informacje o upływie ważności biletu</string>
     <string name="expiration_notification_title">Twój bilet wkrótce straci ważność</string>
-    <string name="expiration_notification_msg">Termin ważności od %s do %s</string>
+    <string name="expiration_notification_msg">Bilet jest ważny do końca dnia %s</string>
 
     <!-- Attribouter screen -->
     <string name="about_contact_us">Napisz do nas</string>

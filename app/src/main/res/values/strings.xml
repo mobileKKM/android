@@ -98,7 +98,7 @@
     <string name="notification_channel_expiry">Ticket expiration</string>
     <string name="notification_channel_expiry_desc">Information about upcoming ticket expiration</string>
     <string name="expiration_notification_title">Your ticket will soon expire</string>
-    <string name="expiration_notification_msg">Validity from %s to %s</string>
+    <string name="expiration_notification_msg">The ticket is valid until the end of %s</string>
 
     <!-- Attribouter screen -->
     <string name="about_contact_us">Contact us</string>
