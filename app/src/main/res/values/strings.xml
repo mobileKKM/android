@@ -160,7 +160,8 @@
     <string name="no_email_activity">No email app found</string>
     <string name="press_back_again">Press \"back\" again to exit</string>
     <string name="not_implemented">Feature not yet available!</string>
-    <string name="login_using_kk_unavailable">Feature not yet available, more details soon on Facebook.</string>
+    <string name="login_using_kk_title">No support for Karta Krakowska</string>
+    <string name="login_using_kk_body">Karta Krakowska has a separate ticket system with its own official app offered by MPK Kraków. We are unable to provide any functionality or support for these accounts.\n\nPlease uninstall our app and install the official app from the Google Play Store.</string>
     <string name="session_expired">Your session has expired, please log in</string>
     <string name="state_loading">Restarting app…</string>
     <string name="tickets_provider_name">Saved tickets</string>

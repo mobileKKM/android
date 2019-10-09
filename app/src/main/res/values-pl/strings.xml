@@ -154,7 +154,8 @@
     <string name="no_email_activity">Nie znaleziono żadnej aplikacji obsługującej skrzynki pocztowe</string>
     <string name="press_back_again">Naciśnij ponownie \"wstecz\", aby wyjść</string>
     <string name="not_implemented">Funkcja jeszcze niedostępna!</string>
-    <string name="login_using_kk_unavailable">Funkcja jeszcze niedostępna, więcej szczegółów wkrótce na Facebooku.</string>
+    <string name="login_using_kk_title">Brak wsparcia dla Karty Krakowskiej</string>
+    <string name="login_using_kk_body">Karta Krakowska posiada oddzielny system biletowy z własną oficjalną aplikacją oferowaną przez MPK Kraków. Nie jesteśmy w stanie zapewnić żadnej funkcjonalności ani wsparcia dla tych kont.\n\nProsimy o odinstalowanie naszej aplikacji i zainstalowanie oficjalnej aplikacji z sklepu Google Play.</string>
     <string name="session_expired">Twoja sesja wygasła, zaloguj się ponownie</string>
     <string name="state_loading">Restartowanie aplikacji…</string>
     <string name="tickets_provider_name">Zapisane bilety</string>

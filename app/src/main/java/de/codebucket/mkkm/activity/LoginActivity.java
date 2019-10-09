@@ -90,23 +90,7 @@ public class LoginActivity extends ToolbarActivity implements UserLoginTask.OnCa
         mLoginUsingKkLink.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Snackbar.make(mLoginForm, R.string.login_using_kk_unavailable, Snackbar.LENGTH_LONG)
-                        .setAction(R.string.about_facebook_like, new OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                try {
-                                    // Open app page in facebook app
-                                    String facebookUrl = Const.getFacebookPageUrl(LoginActivity.this);
-                                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(facebookUrl));
-                                    startActivity(intent);
-                                } catch (ActivityNotFoundException exc) {
-                                    // Believe me, this actually happens.
-                                    Toast.makeText(LoginActivity.this, R.string.no_browser_activity, Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        })
-                        .setActionTextColor(Color.CYAN)
-                        .show();
+                showLoginUnavailable();
             }
         });
 
@@ -307,6 +291,24 @@ public class LoginActivity extends ToolbarActivity implements UserLoginTask.OnCa
                     .setPositiveButton(R.string.dialog_close, null)
                     .show();
         }
+    }
+
+    private void showLoginUnavailable() {
+        mAlertDialog = new AlertDialog.Builder(this)
+            .setTitle(R.string.login_using_kk_title)
+            .setMessage(R.string.login_using_kk_body)
+            .setCancelable(false)
+            .setNegativeButton(R.string.dialog_close, null)
+            .setPositiveButton(R.string.dialog_continue, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    try {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=pl.karta.krakowska")));
+                    } catch (android.content.ActivityNotFoundException ex) {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=pl.karta.krakowska")));
+                    }
+                }
+            }).show();
     }
 
     private void showProgress(boolean show) {
