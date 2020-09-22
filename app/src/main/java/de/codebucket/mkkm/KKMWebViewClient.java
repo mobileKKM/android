@@ -87,7 +87,7 @@ public class KKMWebViewClient extends WebViewClient {
 
         // Don't continue if it's not our webapp
         final String baseUrl = getPageUrl("");
-        if (!url.startsWith(baseUrl)) {
+        if (!url.startsWith(WEBAPP_URL)) {
             return;
         }
 

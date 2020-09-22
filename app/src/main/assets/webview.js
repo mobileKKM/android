@@ -6,7 +6,7 @@ function removeNavbar() {
         navbar.remove(navbar);
 
         // remove logo and title
-        if (document.querySelector('div[layout-fill="layout-fill"]')) {
+        if (document.querySelector('img[src="img/kkm-logo.png"]')) {
             var form = document.querySelector('div[layout-fill="layout-fill"]');
             var logo = form.querySelector('img[src="img/kkm-logo.png"]');
             var title = form.querySelector('div[class="md-display-1"]');
