@@ -20,12 +20,12 @@ def getGitVersion = { ->
 }
 
 android {
-    compileSdkVersion 28
-    buildToolsVersion '28.0.3'
+    compileSdkVersion 30
+    buildToolsVersion '30.0.2'
 
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 28
+        targetSdkVersion 30
         applicationId "de.codebucket.mkkm"
 
         // These values are not intended to be shared public in repo!
