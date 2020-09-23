@@ -47,6 +47,7 @@ public abstract class WebViewActivity extends ToolbarActivity implements KKMWebV
         mWebview.setWebChromeClient(new UploadWebChromeClient());
 
         // Set webview settings for webapps
+        mWebview.getSettings().setDisplayZoomControls(false);
         mWebview.getSettings().setJavaScriptEnabled(true);
         mWebview.getSettings().setDomStorageEnabled(true);
         mWebview.getSettings().setAppCacheEnabled(true);

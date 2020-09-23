@@ -85,6 +85,9 @@ public class KKMWebViewClient extends WebViewClient {
         mSwipeLayout.setRefreshing(false);
         mSwipeLayout.setEnabled(false);
 
+        // Enable zoom controls if it's the pricing list
+        view.getSettings().setBuiltInZoomControls(url.endsWith("mobilekkm/cennik.html"));
+
         // Don't continue if it's not our webapp
         final String baseUrl = getPageUrl("");
         if (!url.startsWith(WEBAPP_URL)) {
