@@ -21,7 +21,7 @@
         android:paddingBottom="@dimen/nav_header_standard_padding">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/drawer_header_background"
+            android:id="@+id/drawer_header_avatar"
             android:layout_width="@dimen/nav_header_avatar_size"
             android:layout_height="@dimen/nav_header_avatar_size"
             android:elevation="@dimen/nav_header_avatar_elevation"
@@ -34,7 +34,7 @@
             android:layout_alignParentBottom="true">
 
             <TextView
-                android:id="@+id/drawer_header_provider"
+                android:id="@+id/drawer_header_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/nav_header_title"

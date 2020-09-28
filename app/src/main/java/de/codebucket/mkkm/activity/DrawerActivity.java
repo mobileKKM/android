@@ -55,23 +55,23 @@ public abstract class DrawerActivity extends WebViewActivity implements Navigati
         setTitle(mNavigationView.getMenu().getItem(0).getTitle());
     }
 
-    public void setupDrawerHeader(Account account) {
+    public void setupHeaderView(Account account) {
         View headerView = mNavigationView.getHeaderView(0);
 
-        TextView drawerProvider = (TextView) headerView.findViewById(R.id.drawer_header_provider);
-        drawerProvider.setText(getText(R.string.kkm_title)); // TODO: account.getProvider();
+        TextView headerNameView = headerView.findViewById(R.id.drawer_header_name);  // TODO: Show account name instead of app name
+        headerNameView.setText(getText(R.string.kkm_title));
 
-        TextView drawerEmail = (TextView) headerView.findViewById(R.id.drawer_header_email);
-        drawerEmail.setText(account.getEmail());
+        TextView headerEmailView = headerView.findViewById(R.id.drawer_header_email);
+        headerEmailView.setText(account.getEmail());
     }
 
-    public void setupDrawerBackground(final Bitmap bitmap) {
-        final ImageView drawerBackground = mNavigationView.getHeaderView(0).findViewById(R.id.drawer_header_background);
+    public void setupHeaderAvatar(final Bitmap bitmap) {
+        final ImageView headerAvatarView = mNavigationView.getHeaderView(0).findViewById(R.id.drawer_header_avatar);
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                PicassoDrawable drawable = new PicassoDrawable(DrawerActivity.this, bitmap, drawerBackground.getDrawable(), false);
-                drawerBackground.setImageDrawable(drawable);
+                PicassoDrawable drawable = new PicassoDrawable(DrawerActivity.this, bitmap, headerAvatarView.getDrawable(), false);
+                headerAvatarView.setImageDrawable(drawable);
             }
         });
     }
