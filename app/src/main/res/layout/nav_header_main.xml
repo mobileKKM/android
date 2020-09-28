@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_header_view"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/nav_header_height">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/nav_header_desc"
+        android:src="@drawable/background"
+        android:scaleType="centerCrop"/>
+
+    <RelativeLayout
+        android:id="@+id/drawer_header_relative"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingStart="@dimen/nav_header_standard_padding"
+        android:paddingEnd="@dimen/nav_header_standard_padding"
+        android:paddingTop="@dimen/nav_header_standard_padding"
+        android:paddingBottom="@dimen/nav_header_standard_padding">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/drawer_header_background"
+            android:layout_width="@dimen/nav_header_avatar_size"
+            android:layout_height="@dimen/nav_header_avatar_size"
+            android:elevation="@dimen/nav_header_avatar_elevation"
+            android:src="@drawable/ic_default_avatar" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true">
+
+            <TextView
+                android:id="@+id/drawer_header_provider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/nav_header_title"
+                android:textColor="@android:color/white"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+            <TextView
+                android:id="@+id/drawer_header_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/nav_header_subtitle"
+                android:textColor="@android:color/white" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</FrameLayout>
