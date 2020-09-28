@@ -24,7 +24,6 @@ import de.codebucket.mkkm.KKMWebViewClient;
 import de.codebucket.mkkm.R;
 import de.codebucket.mkkm.database.model.Account;
 import de.codebucket.mkkm.login.AccountUtils;
-import de.codebucket.mkkm.util.PicassoDrawable;
 
 import static de.codebucket.mkkm.KKMWebViewClient.getPageUrl;
 
@@ -66,12 +65,11 @@ public abstract class DrawerActivity extends WebViewActivity implements Navigati
     }
 
     public void setupHeaderAvatar(final Bitmap bitmap) {
-        final ImageView headerAvatarView = mNavigationView.getHeaderView(0).findViewById(R.id.drawer_header_avatar);
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                PicassoDrawable drawable = new PicassoDrawable(DrawerActivity.this, bitmap, headerAvatarView.getDrawable(), false);
-                headerAvatarView.setImageDrawable(drawable);
+                ImageView headerAvatarView = mNavigationView.getHeaderView(0).findViewById(R.id.drawer_header_avatar);
+                headerAvatarView.setImageBitmap(bitmap);
             }
         });
     }
