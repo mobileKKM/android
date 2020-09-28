@@ -58,11 +58,11 @@ public abstract class DrawerActivity extends WebViewActivity implements Navigati
     public void setupHeaderView(Account account) {
         View headerView = mNavigationView.getHeaderView(0);
 
-        TextView headerNameView = headerView.findViewById(R.id.drawer_header_name);  // TODO: Show account name instead of app name
-        headerNameView.setText(getText(R.string.kkm_title));
+        TextView headerNameView = headerView.findViewById(R.id.drawer_header_name);
+        headerNameView.setText(getString(R.string.nav_header_title, account.getFirstName(), account.getLastName()));
 
         TextView headerEmailView = headerView.findViewById(R.id.drawer_header_email);
-        headerEmailView.setText(account.getEmail());
+        headerEmailView.setText(getString(R.string.nav_header_subtitle, account.getEmail()));
     }
 
     public void setupHeaderAvatar(final Bitmap bitmap) {
