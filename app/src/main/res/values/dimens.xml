@@ -13,7 +13,7 @@
     <dimen name="nav_header_standard_padding">16dp</dimen>
     <dimen name="nav_header_avatar_size">62dp</dimen>
     <dimen name="nav_header_avatar_elevation">1dp</dimen>
-    <dimen name="nav_header_height">172dp</dimen>
+    <dimen name="nav_header_height">148dp</dimen>
 
     <!-- FAB Menu -->
     <dimen name="fab_margin">16dp</dimen>

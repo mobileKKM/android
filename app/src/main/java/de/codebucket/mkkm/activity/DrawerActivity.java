@@ -10,12 +10,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.view.GravityCompat;
+import androidx.core.view.OnApplyWindowInsetsListener;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
@@ -62,6 +66,28 @@ public abstract class DrawerActivity extends WebViewActivity implements Navigati
 
         TextView headerEmailView = headerView.findViewById(R.id.drawer_header_email);
         headerEmailView.setText(getString(R.string.nav_header_subtitle, account.getEmail()));
+
+        ViewCompat.setOnApplyWindowInsetsListener(headerView, new OnApplyWindowInsetsListener() {
+            @Override
+            public WindowInsetsCompat onApplyWindowInsets(View v, WindowInsetsCompat insets) {
+                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) v.getLayoutParams();
+                params.height = getResources().getDimensionPixelSize(R.dimen.nav_header_height) + insets.getSystemWindowInsetTop();
+                v.setLayoutParams(params);
+
+                // Get header padding from dimens.xml in pixels
+                int paddingSize = getResources().getDimensionPixelSize(R.dimen.nav_header_standard_padding);
+
+                View relative = v.findViewById(R.id.drawer_header_relative);
+                relative.setPadding(
+                        relative.getPaddingLeft(),
+                        paddingSize + insets.getSystemWindowInsetTop(),
+                        relative.getPaddingRight(),
+                        relative.getPaddingBottom()
+                );
+
+                return insets;
+            }
+        });
     }
 
     public void setupHeaderAvatar(final Bitmap bitmap) {
