@@ -10,8 +10,10 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
 
     <!-- Drawer header -->
-    <dimen name="nav_header_vertical_spacing">8dp</dimen>
-    <dimen name="nav_header_height">176dp</dimen>
+    <dimen name="nav_header_standard_padding">16dp</dimen>
+    <dimen name="nav_header_avatar_size">62dp</dimen>
+    <dimen name="nav_header_avatar_elevation">1dp</dimen>
+    <dimen name="nav_header_height">148dp</dimen>
 
     <!-- FAB Menu -->
     <dimen name="fab_margin">16dp</dimen>

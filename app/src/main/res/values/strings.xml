@@ -30,8 +30,8 @@
     <string name="title_activity_main">Main page</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title" translatable="false">Account Provider</string>
-    <string name="nav_header_subtitle" translatable="false">john.kowalski@gmail.com</string>
+    <string name="nav_header_title" translatable="false">%s %s</string>
+    <string name="nav_header_subtitle" translatable="false">%s</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="snackbar_retry">Try again</string>
     <string name="action_refresh">Refresh</string>

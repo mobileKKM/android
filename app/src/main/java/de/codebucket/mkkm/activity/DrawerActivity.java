@@ -10,12 +10,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.view.GravityCompat;
+import androidx.core.view.OnApplyWindowInsetsListener;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
@@ -24,7 +28,6 @@ import de.codebucket.mkkm.KKMWebViewClient;
 import de.codebucket.mkkm.R;
 import de.codebucket.mkkm.database.model.Account;
 import de.codebucket.mkkm.login.AccountUtils;
-import de.codebucket.mkkm.util.PicassoDrawable;
 
 import static de.codebucket.mkkm.KKMWebViewClient.getPageUrl;
 
@@ -55,23 +58,44 @@ public abstract class DrawerActivity extends WebViewActivity implements Navigati
         setTitle(mNavigationView.getMenu().getItem(0).getTitle());
     }
 
-    public void setupDrawerHeader(Account account) {
+    public void setupHeaderView(Account account) {
         View headerView = mNavigationView.getHeaderView(0);
 
-        TextView drawerProvider = (TextView) headerView.findViewById(R.id.drawer_header_provider);
-        drawerProvider.setText(getText(R.string.kkm_title)); // TODO: account.getProvider();
+        TextView headerNameView = headerView.findViewById(R.id.drawer_header_name);
+        headerNameView.setText(getString(R.string.nav_header_title, account.getFirstName(), account.getLastName()));
 
-        TextView drawerEmail = (TextView) headerView.findViewById(R.id.drawer_header_email);
-        drawerEmail.setText(account.getEmail());
+        TextView headerEmailView = headerView.findViewById(R.id.drawer_header_email);
+        headerEmailView.setText(getString(R.string.nav_header_subtitle, account.getEmail()));
+
+        ViewCompat.setOnApplyWindowInsetsListener(headerView, new OnApplyWindowInsetsListener() {
+            @Override
+            public WindowInsetsCompat onApplyWindowInsets(View v, WindowInsetsCompat insets) {
+                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) v.getLayoutParams();
+                params.height = getResources().getDimensionPixelSize(R.dimen.nav_header_height) + insets.getSystemWindowInsetTop();
+                v.setLayoutParams(params);
+
+                // Get header padding from dimens.xml in pixels
+                int paddingSize = getResources().getDimensionPixelSize(R.dimen.nav_header_standard_padding);
+
+                View relative = v.findViewById(R.id.drawer_header_relative);
+                relative.setPadding(
+                        relative.getPaddingLeft(),
+                        paddingSize + insets.getSystemWindowInsetTop(),
+                        relative.getPaddingRight(),
+                        relative.getPaddingBottom()
+                );
+
+                return insets;
+            }
+        });
     }
 
-    public void setupDrawerBackground(final Bitmap bitmap) {
-        final ImageView drawerBackground = mNavigationView.getHeaderView(0).findViewById(R.id.drawer_header_background);
+    public void setupHeaderAvatar(final Bitmap bitmap) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                PicassoDrawable drawable = new PicassoDrawable(DrawerActivity.this, bitmap, drawerBackground.getDrawable(), false);
-                drawerBackground.setImageDrawable(drawable);
+                ImageView headerAvatarView = mNavigationView.getHeaderView(0).findViewById(R.id.drawer_header_avatar);
+                headerAvatarView.setImageBitmap(bitmap);
             }
         });
     }

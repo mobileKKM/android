@@ -57,7 +57,7 @@ public class MainActivity extends DrawerActivity implements UserLoginTask.OnCall
         // Get user account from login
         mAccount = (Account) getIntent().getSerializableExtra("account");
         firstSetup = getIntent().getBooleanExtra("firstSetup", false);
-        setupDrawerHeader(mAccount);
+        setupHeaderView(mAccount);
 
         // Set up webview layout
         setupWebView();
@@ -97,7 +97,7 @@ public class MainActivity extends DrawerActivity implements UserLoginTask.OnCall
 
                 // Set drawer header background if photo exists
                 if (photo != null) {
-                    setupDrawerBackground(photo.getBitmap());
+                    setupHeaderAvatar(photo.getBitmap());
                 }
 
                 // Execute login and inject webapp
@@ -154,7 +154,7 @@ public class MainActivity extends DrawerActivity implements UserLoginTask.OnCall
             }
 
             // Update drawer background
-            setupDrawerBackground(photo.getBitmap());
+            setupHeaderAvatar(photo.getBitmap());
         }
 
         // Now we can update our local instance
@@ -171,7 +171,7 @@ public class MainActivity extends DrawerActivity implements UserLoginTask.OnCall
 
         // Update drawer header
         Account account = (Account) result;
-        setupDrawerHeader(account);
+        setupHeaderView(account);
 
         // First inject session data into webview local storage, then load the webapp
         String startUrl = mWebview.getUrl() == null ? WEBAPP_URL : mWebview.getUrl();
