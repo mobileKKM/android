@@ -7,5 +7,5 @@
 
     <!-- Other UI elements -->
     <color name="colorAccentFallback">#FF4081</color>
-    <color name="colorHeaderOverlay">#33000000</color>
+    <color name="colorHeaderOverlay">#4D000000</color>
 </resources>
