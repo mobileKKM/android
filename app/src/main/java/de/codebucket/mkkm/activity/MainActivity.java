@@ -9,6 +9,8 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.view.WindowManager;
 import android.webkit.WebView;
@@ -131,6 +133,41 @@ public class MainActivity extends DrawerActivity implements UserLoginTask.OnCall
         }
 
         MobileKKM.getInstance().setupTicketService();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        // Don't continue if someone tried to call activity without url
+        if (intent.getData() == null) {
+            return;
+        }
+
+        final Uri data = intent.getData();
+        final SharedPreferences preferences = MobileKKM.getPreferences();
+
+        // Check if it contains both id and result parameters and if there is an ongoing payment
+        if (data.getQueryParameter("id") == null || data.getQueryParameter("result") == null || !preferences.contains("last_payment_url")) {
+            Toast.makeText(this, R.string.no_payment, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Uri paymentUrl = Uri.parse(preferences.getString("last_payment_url", null));
+
+        // Check if payment id is matching crc from ongoing payment url
+        if (data.getQueryParameter("id").equals(paymentUrl.getQueryParameter("crc"))) {
+            if (data.getQueryParameter("result").equals("ok")) {
+                preferences.edit().remove("last_payment_url").apply();
+            }
+        }
+
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mWebview.reload();
+            }
+        }, 500);
     }
 
     @Override
