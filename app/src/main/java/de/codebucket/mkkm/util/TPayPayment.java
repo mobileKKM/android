@@ -3,74 +3,66 @@ package de.codebucket.mkkm.util;
 import android.net.Uri;
 import android.text.TextUtils;
 
-import java.util.LinkedHashMap;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 public class TPayPayment {
 
     public static class Builder {
 
-        private final Map<String, String> params = new LinkedHashMap<>();
+        private static final Map<String, String> TRANSLATIONS;
 
+        static {
+            Map<String, String> translationsMap = new HashMap<>();
+            translationsMap.put("amount", "kwota");
+            translationsMap.put("description", "opis");
+            translationsMap.put("return_url", "pow_url");
+            translationsMap.put("return_error_url", "pow_url_blad");
+            translationsMap.put("name", "nazwisko");
+
+            TRANSLATIONS = Collections.unmodifiableMap(translationsMap);
+        }
+
+        private final Map<String, String> params = new HashMap<>();
+        private final String[] allowedFields = new String[] {
+                "id", "amount", "description", "crc", "md5sum", "online", "return_url", "return_error_url", "email", "name"
+        };
+
+        /**
+         * Default empty constructor.
+         */
         public Builder() {
 
         }
 
         public Builder fromPaymentLink(String url) {
-            Uri paymentUrl = Uri.parse(url);
+            final Uri data = Uri.parse(url);
 
-            // Numeric identifier assigned to the merchant during the registration
-            setId(paymentUrl.getQueryParameter("id"));
-
-            // Transaction amount with dot as decimal separator
-            if (!TextUtils.isEmpty(paymentUrl.getQueryParameter("amount"))) {
-                setAmount(paymentUrl.getQueryParameter("amount"));
-            } else {
-                setAmount(paymentUrl.getQueryParameter("kwota"));
+            if (!data.getEncodedAuthority().equalsIgnoreCase("secure.transferuj.pl") && !data.getEncodedAuthority().equalsIgnoreCase("secure.tpay.com")) {
+                throw new IllegalArgumentException("URL is not a TPay payment link");
             }
 
-            // Transaction description
-            if (!TextUtils.isEmpty(paymentUrl.getQueryParameter("description"))) {
-                setDescription(paymentUrl.getQueryParameter("description"));
-            } else {
-                setDescription(paymentUrl.getQueryParameter("opis"));
+            if (data.getQueryParameter("id") == null) {
+                throw new IllegalArgumentException("Merchant id cannot be null");
             }
 
-            // Auxiliary parameter to identify the transaction on the merchant side
-            setCrc(paymentUrl.getQueryParameter("crc"));
+            boolean useEnglishParams = true;
 
-            // The checksum used to verify the parameters received from the merchant
-            setMd5Sum(paymentUrl.getQueryParameter("md5sum"));
-
-            // Allow online payments only – disallows selection of channels, which at this time, cannot process the payment in real time
-            if (!TextUtils.isEmpty(paymentUrl.getQueryParameter("online"))) {
-                setOnline(paymentUrl.getQueryParameter("online"));
+            // Figure out which parameter names are being used, english or polish
+            if (data.getQueryParameter("kwota") != null) {
+                useEnglishParams = false;
             }
 
-            // The URL to which the client will be redirected after the correct transaction processing
-            if (!TextUtils.isEmpty(paymentUrl.getQueryParameter("return_url"))) {
-                setReturnUrl(paymentUrl.getQueryParameter("return_url"));
-            } else if (!TextUtils.isEmpty(paymentUrl.getQueryParameter("pow_url"))) {
-                setReturnUrl(paymentUrl.getQueryParameter("pow_url"));
-            }
+            for (int i = 0; i < allowedFields.length; i++) {
+                String field = allowedFields[i];
+                if (!useEnglishParams && TRANSLATIONS.containsKey(field)) {
+                    field = TRANSLATIONS.get(field);
+                }
 
-            // The URL to which the client will be redirected in case transaction error occurs
-            if (!TextUtils.isEmpty(paymentUrl.getQueryParameter("return_error_url"))) {
-                setReturnErrorUrl(paymentUrl.getQueryParameter("return_error_url"));
-            } else if (!TextUtils.isEmpty(paymentUrl.getQueryParameter("pow_url_blad"))) {
-                setReturnErrorUrl(paymentUrl.getQueryParameter("pow_url_blad"));
-            }
-
-            // Customer email
-            if (!TextUtils.isEmpty(paymentUrl.getQueryParameter("email"))) {
-                setClientEmail(paymentUrl.getQueryParameter("email"));
-            }
-
-            // Customer name
-            if (!TextUtils.isEmpty(paymentUrl.getQueryParameter("name"))) {
-                setClientName(paymentUrl.getQueryParameter("name"));
-            } else if (!TextUtils.isEmpty(paymentUrl.getQueryParameter("nazwisko"))) {
-                setClientName(paymentUrl.getQueryParameter("nazwisko"));
+                if (!TextUtils.isEmpty(data.getQueryParameter(field))) {
+                    params.put(allowedFields[i], data.getQueryParameter(field));
+                }
             }
 
             return this;
@@ -172,9 +164,9 @@ public class TPayPayment {
                     .encodedAuthority("secure.tpay.com")
                     .encodedPath("/");
 
-            for (Map.Entry<String, String> param : params.entrySet()) {
-                if (param.getValue() != null) {
-                    uriBuilder.appendQueryParameter(param.getKey(), param.getValue());
+            for (String field : allowedFields) {
+                if (!TextUtils.isEmpty(params.get(field))) {
+                    uriBuilder.appendQueryParameter(field, params.get(field));
                 }
             }
 
