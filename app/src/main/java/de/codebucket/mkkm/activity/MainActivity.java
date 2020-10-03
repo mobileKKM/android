@@ -162,6 +162,15 @@ public class MainActivity extends DrawerActivity implements UserLoginTask.OnCall
             }
         }
 
+        switch (data.getQueryParameter("result")) {
+            case "ok":
+                Snackbar.make(findViewById(R.id.swipe), R.string.payment_complete, Snackbar.LENGTH_LONG).show();
+                break;
+            case "error":
+                Snackbar.make(findViewById(R.id.swipe), R.string.payment_error, Snackbar.LENGTH_LONG).show();
+                break;
+        }
+
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
