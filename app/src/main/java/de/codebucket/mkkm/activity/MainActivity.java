@@ -49,6 +49,13 @@ public class MainActivity extends DrawerActivity implements UserLoginTask.OnCall
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Check if user is logged in
+        if (!getIntent().hasExtra("account")) {
+            startActivity(new Intent(this, SplashActivity.class));
+            finish();
+            return;
+        }
+
         // Set up action bar
         setupToolbar();
         setTitle(R.string.title_activity_main);
