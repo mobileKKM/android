@@ -3,6 +3,7 @@ package de.codebucket.mkkm.activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.Menu;
@@ -25,6 +26,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.google.android.material.navigation.NavigationView;
 
 import de.codebucket.mkkm.KKMWebViewClient;
+import de.codebucket.mkkm.MobileKKM;
 import de.codebucket.mkkm.R;
 import de.codebucket.mkkm.database.model.Account;
 import de.codebucket.mkkm.login.AccountUtils;
@@ -215,6 +217,12 @@ public abstract class DrawerActivity extends WebViewActivity implements Navigati
 
     protected void doLogout() {
         AccountUtils.removeAccount(AccountUtils.getAccount());
+
+        // Remove saved payment if there is ongoing
+        SharedPreferences prefs = MobileKKM.getPreferences();
+        if (prefs.contains("last_payment_url")) {
+            prefs.edit().remove("last_payment_url").apply();
+        }
 
         // Return back to login screen
         startActivity(new Intent(DrawerActivity.this, LoginActivity.class));
