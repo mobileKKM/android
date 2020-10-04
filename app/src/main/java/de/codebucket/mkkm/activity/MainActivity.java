@@ -51,7 +51,13 @@ public class MainActivity extends DrawerActivity implements UserLoginTask.OnCall
 
         // Check if user is logged in
         if (!getIntent().hasExtra("account")) {
-            startActivity(new Intent(this, SplashActivity.class));
+            // Pass over intent data if activity was opened by an app link
+            Intent intent = new Intent(this, SplashActivity.class);
+            if (getIntent().getData() != null) {
+                intent.setData(getIntent().getData());
+            }
+
+            startActivity(intent);
             finish();
             return;
         }
@@ -95,6 +101,11 @@ public class MainActivity extends DrawerActivity implements UserLoginTask.OnCall
                         }
                     })
                     .show();
+        }
+
+        // Show payment result from intent data
+        if (getIntent().getData() != null) {
+            this.onNewIntent(getIntent());
         }
 
         // Load additional data from database and inject webapp
@@ -156,7 +167,7 @@ public class MainActivity extends DrawerActivity implements UserLoginTask.OnCall
 
         // Check if it contains both id and result parameters and if there is an ongoing payment
         if (data.getQueryParameter("id") == null || data.getQueryParameter("result") == null || !preferences.contains("last_payment_url")) {
-            Toast.makeText(this, R.string.no_payment, Toast.LENGTH_SHORT).show();
+            Snackbar.make(findViewById(R.id.swipe), R.string.no_payment, Snackbar.LENGTH_LONG).show();
             return;
         }
 
@@ -176,6 +187,12 @@ public class MainActivity extends DrawerActivity implements UserLoginTask.OnCall
             case "error":
                 Snackbar.make(findViewById(R.id.swipe), R.string.payment_error, Snackbar.LENGTH_LONG).show();
                 break;
+        }
+
+        // Delete intent data if the activity was created
+        if (intent.hasExtra("account")) {
+            intent.setData(null);
+            return;
         }
 
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
