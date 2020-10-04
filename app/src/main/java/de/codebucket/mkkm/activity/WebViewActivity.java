@@ -35,8 +35,8 @@ public abstract class WebViewActivity extends ToolbarActivity implements KKMWebV
         // Load webview layout
         SwipeRefreshLayout swipe = findViewById(R.id.swipe);
         swipe.setColorSchemeColors(getResources().getColor(R.color.colorAccentFallback));
-        swipe.setEnabled(true);
-        swipe.setRefreshing(true);
+        swipe.setEnabled(false);
+        swipe.setRefreshing(false);
 
         if (BuildConfig.DEBUG) {
             WebView.setWebContentsDebuggingEnabled(true);
