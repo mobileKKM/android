@@ -169,4 +169,7 @@
     <string name="intent_chooser_email">Send email</string>
     <string name="intent_chooser_share">Share via</string>
     <string name="purchase_warning">We recommend buying tickets using the website on a desktop device</string>
+    <string name="no_payment">This payment cannot be recognized</string>
+    <string name="payment_complete">Payment has been completed</string>
+    <string name="payment_error">Payment failed or was cancelled</string>
 </resources>

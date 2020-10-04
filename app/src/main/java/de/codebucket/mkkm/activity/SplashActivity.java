@@ -80,6 +80,12 @@ public class SplashActivity extends AppCompatActivity {
                         // Open MainActivity with signed in user
                         Intent intent = new Intent(SplashActivity.this, MainActivity.class);
                         intent.putExtra("account", account);
+
+                        // Pass back intent data from previous activity
+                        if (getIntent().getData() != null) {
+                            intent.setData(getIntent().getData());
+                        }
+
                         launch(intent);
                     }
                 });

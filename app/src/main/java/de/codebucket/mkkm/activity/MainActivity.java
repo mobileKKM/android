@@ -9,6 +9,8 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.view.WindowManager;
 import android.webkit.WebView;
@@ -46,6 +48,19 @@ public class MainActivity extends DrawerActivity implements UserLoginTask.OnCall
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Check if user is logged in
+        if (!getIntent().hasExtra("account")) {
+            // Pass over intent data if activity was opened by an app link
+            Intent intent = new Intent(this, SplashActivity.class);
+            if (getIntent().getData() != null) {
+                intent.setData(getIntent().getData());
+            }
+
+            startActivity(intent);
+            finish();
+            return;
+        }
 
         // Set up action bar
         setupToolbar();
@@ -86,6 +101,11 @@ public class MainActivity extends DrawerActivity implements UserLoginTask.OnCall
                         }
                     })
                     .show();
+        }
+
+        // Show payment result from intent data
+        if (getIntent().getData() != null) {
+            this.onNewIntent(getIntent());
         }
 
         // Load additional data from database and inject webapp
@@ -131,6 +151,56 @@ public class MainActivity extends DrawerActivity implements UserLoginTask.OnCall
         }
 
         MobileKKM.getInstance().setupTicketService();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        // Don't continue if someone tried to call activity without url
+        if (intent.getData() == null) {
+            return;
+        }
+
+        final Uri data = intent.getData();
+        final SharedPreferences preferences = MobileKKM.getPreferences();
+
+        // Check if it contains both id and result parameters and if there is an ongoing payment
+        if (data.getQueryParameter("id") == null || data.getQueryParameter("result") == null || !preferences.contains("last_payment_url")) {
+            Snackbar.make(findViewById(R.id.swipe), R.string.no_payment, Snackbar.LENGTH_LONG).show();
+            return;
+        }
+
+        Uri paymentUrl = Uri.parse(preferences.getString("last_payment_url", null));
+
+        // Check if payment id is matching crc from ongoing payment url
+        if (data.getQueryParameter("id").equals(paymentUrl.getQueryParameter("crc"))) {
+            if (data.getQueryParameter("result").equals("ok")) {
+                preferences.edit().remove("last_payment_url").apply();
+            }
+        }
+
+        switch (data.getQueryParameter("result")) {
+            case "ok":
+                Snackbar.make(findViewById(R.id.swipe), R.string.payment_complete, Snackbar.LENGTH_LONG).show();
+                break;
+            case "error":
+                Snackbar.make(findViewById(R.id.swipe), R.string.payment_error, Snackbar.LENGTH_LONG).show();
+                break;
+        }
+
+        // Delete intent data if the activity was created
+        if (intent.hasExtra("account")) {
+            intent.setData(null);
+            return;
+        }
+
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mWebview.reload();
+            }
+        }, 500);
     }
 
     @Override

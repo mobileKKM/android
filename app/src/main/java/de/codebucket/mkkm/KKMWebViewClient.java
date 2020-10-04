@@ -1,10 +1,13 @@
 package de.codebucket.mkkm;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.net.Uri;
 import android.util.Log;
 import android.view.View;
 import android.webkit.JavascriptInterface;
@@ -12,7 +15,9 @@ import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
+import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -21,10 +26,14 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import de.codebucket.mkkm.util.TPayPayment;
+
 public class KKMWebViewClient extends WebViewClient {
 
     private static final String TAG = "WebviewClient";
+
     private static final String WEBAPP_URL = "https://m.kkm.krakow.pl";
+    private static final String PAYMENT_URL = "https://secure.transferuj.pl/?id=27659";
 
     public static final String PAGE_OVERVIEW = "home";
     public static final String PAGE_CONTROL = "control";
@@ -53,6 +62,44 @@ public class KKMWebViewClient extends WebViewClient {
         if (url.startsWith(WEBAPP_URL)) {
             view.addJavascriptInterface(new ScriptInjectorCallback(), "ScriptInjector");
             hasInjected = false;
+        }
+    }
+
+    @Override
+    public void onLoadResource(WebView view, String url) {
+        super.onLoadResource(view, url);
+
+        if (url.startsWith(PAYMENT_URL)) {
+            view.stopLoading();
+
+            String returnUrl = "mobilekkm://payment?id=%s&result=%s";
+            TPayPayment.Builder paymentBuilder = new TPayPayment.Builder().fromPaymentLink(url);
+            paymentBuilder.setReturnUrl(String.format(returnUrl, paymentBuilder.getCrc(), "ok"));
+            paymentBuilder.setReturnErrorUrl(String.format(returnUrl, paymentBuilder.getCrc(), "error"));
+            paymentBuilder.setOnline(String.valueOf(1));
+
+            Uri paymentUrl = paymentBuilder.build();
+
+            // Save the payment if the user wants to try again
+            SharedPreferences prefs = MobileKKM.getPreferences();
+            prefs.edit().putString("last_payment_url", paymentUrl.toString()).apply();
+
+            try {
+                // Open payment link in Chrome Custom Tab
+                CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+                builder.setToolbarColor(mContext.getResources().getColor(R.color.colorPrimary));
+                builder.setSecondaryToolbarColor(mContext.getResources().getColor(R.color.colorPrimaryDark));
+                builder.setNavigationBarColor(Color.BLACK);
+                builder.setShowTitle(false);
+
+                CustomTabsIntent intent = builder.build();
+                intent.launchUrl(mContext, paymentUrl);
+            } catch (ActivityNotFoundException ex) {
+                Log.e(TAG, "No browser found!");
+                Toast.makeText(mContext, R.string.no_browser_activity, Toast.LENGTH_SHORT).show();
+            }
+
+            view.loadUrl(getPageUrl("home"));
         }
     }
 

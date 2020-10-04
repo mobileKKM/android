@@ -163,4 +163,7 @@
     <string name="intent_chooser_email">Wyślij e-mail</string>
     <string name="intent_chooser_share">Udostępnij przez</string>
     <string name="purchase_warning">Zachęcamy do zakupu biletów używając strony na urządzeniu stacjonarnym</string>
+    <string name="no_payment">Nie można rozpoznać tej płatności</string>
+    <string name="payment_complete">Płatność została ukończona</string>
+    <string name="payment_error">Płatność nie powiodła się lub została anulowana</string>
 </resources>
