@@ -112,8 +112,8 @@ public abstract class DrawerActivity extends WebViewActivity implements Navigati
 
         // Check if current page is not home
         String homeUrl = getPageUrl("home");
-        if (!homeUrl.equals(mWebview.getUrl())) {
-            mWebview.loadUrl(homeUrl);
+        if (!homeUrl.equals(mWebView.getUrl())) {
+            mWebView.loadUrl(homeUrl);
             return;
         }
 
@@ -137,7 +137,7 @@ public abstract class DrawerActivity extends WebViewActivity implements Navigati
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_refresh) {
-            mWebview.reload();
+            mWebView.reload();
             return true;
         }
 
@@ -149,17 +149,17 @@ public abstract class DrawerActivity extends WebViewActivity implements Navigati
         // Handle navigation view item clicks here.
         switch (item.getItemId()) {
             case R.id.nav_tickets:
-                mWebview.loadUrl(getPageUrl("home")); // TODO: Replace with TicketOverviewFragment
+                mWebView.loadUrl(getPageUrl("home")); // TODO: Replace with TicketOverviewFragment
                 break;
             case R.id.nav_purchase:
                 Toast.makeText(this, R.string.purchase_warning, Toast.LENGTH_LONG).show();
-                mWebview.loadUrl(getPageUrl("ticket/buy")); // TODO: Add custom webview handler for purchasing
+                mWebView.loadUrl(getPageUrl("ticket/buy")); // TODO: Add custom webview handler for purchasing
                 break;
             case R.id.nav_account:
-                mWebview.loadUrl(getPageUrl("account")); // TODO: Replace with UserAccountFragment
+                mWebView.loadUrl(getPageUrl("account")); // TODO: Replace with UserAccountFragment
                 break;
             case R.id.nav_pricing:
-                mWebview.loadUrl("https://www.codebucket.de/mobilekkm/cennik.html");
+                mWebView.loadUrl("https://www.codebucket.de/mobilekkm/cennik.html");
                 break;
             case R.id.nav_backup:
                 startActivity(new Intent(DrawerActivity.this, BackupActivity.class));

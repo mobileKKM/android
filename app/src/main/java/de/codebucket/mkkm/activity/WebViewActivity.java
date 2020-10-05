@@ -19,7 +19,7 @@ import de.codebucket.mkkm.R;
 
 public abstract class WebViewActivity extends ToolbarActivity implements KKMWebViewClient.OnPageChangedListener {
 
-    protected WebView mWebview;
+    protected WebView mWebView;
 
     // for file uploading
     private static final int FILE_CHOOSER_RESULT_CODE = 100;
@@ -42,16 +42,16 @@ public abstract class WebViewActivity extends ToolbarActivity implements KKMWebV
             WebView.setWebContentsDebuggingEnabled(true);
         }
 
-        mWebview = findViewById(R.id.webview);
-        mWebview.setWebViewClient(new KKMWebViewClient(this, this));
-        mWebview.setWebChromeClient(new UploadWebChromeClient());
+        mWebView = findViewById(R.id.webview);
+        mWebView.setWebViewClient(new KKMWebViewClient(this, this));
+        mWebView.setWebChromeClient(new UploadWebChromeClient());
 
         // Set webview settings for webapps
-        mWebview.getSettings().setDisplayZoomControls(false);
-        mWebview.getSettings().setJavaScriptEnabled(true);
-        mWebview.getSettings().setDomStorageEnabled(true);
-        mWebview.getSettings().setAppCacheEnabled(true);
-        mWebview.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+        mWebView.getSettings().setDisplayZoomControls(false);
+        mWebView.getSettings().setJavaScriptEnabled(true);
+        mWebView.getSettings().setDomStorageEnabled(true);
+        mWebView.getSettings().setAppCacheEnabled(true);
+        mWebView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
     }
 
     @Override
@@ -78,25 +78,25 @@ public abstract class WebViewActivity extends ToolbarActivity implements KKMWebV
     @Override
     protected void onResume() {
         super.onResume();
-        mWebview.onResume();
+        mWebView.onResume();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        mWebview.onPause();
+        mWebView.onPause();
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        mWebview.saveState(outState);
+        mWebView.saveState(outState);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        mWebview.restoreState(savedInstanceState);
+        mWebView.restoreState(savedInstanceState);
     }
 
     private class UploadWebChromeClient extends WebChromeClient {

@@ -198,7 +198,7 @@ public class MainActivity extends DrawerActivity implements UserLoginTask.OnCall
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
-                mWebview.reload();
+                mWebView.reload();
             }
         }, 500);
     }
@@ -244,7 +244,7 @@ public class MainActivity extends DrawerActivity implements UserLoginTask.OnCall
         setupHeaderView(account);
 
         // First inject session data into webview local storage, then load the webapp
-        String startUrl = mWebview.getUrl() == null ? WEBAPP_URL : mWebview.getUrl();
+        String startUrl = mWebView.getUrl() == null ? WEBAPP_URL : mWebView.getUrl();
         String inject = "<script type='text/javascript'>" +
                 "localStorage.setItem('fingerprint', '" + MobileKKM.getLoginHelper().getFingerprint() + "');" +
                 "localStorage.setItem('token', '" + MobileKKM.getLoginHelper().getSessionToken() + "');" +
@@ -252,7 +252,7 @@ public class MainActivity extends DrawerActivity implements UserLoginTask.OnCall
                 "</script>";
 
         // Load the app
-        mWebview.loadDataWithBaseURL("https://m.kkm.krakow.pl/inject", inject, "text/html", "utf-8", null);
+        mWebView.loadDataWithBaseURL("https://m.kkm.krakow.pl/inject", inject, "text/html", "utf-8", null);
     }
 
     @Override

@@ -30,7 +30,7 @@ import de.codebucket.mkkm.util.TPayPayment;
 
 public class KKMWebViewClient extends WebViewClient {
 
-    private static final String TAG = "WebviewClient";
+    private static final String TAG = "WebViewClient";
 
     private static final String WEBAPP_URL = "https://m.kkm.krakow.pl";
     private static final String PAYMENT_URL = "https://secure.transferuj.pl/?id=27659";

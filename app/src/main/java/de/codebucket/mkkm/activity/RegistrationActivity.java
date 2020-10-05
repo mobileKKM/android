@@ -28,7 +28,7 @@ public class RegistrationActivity extends WebViewActivity {
         setupWebView();
 
         // Load registration form
-        mWebview.loadUrl(KKMWebViewClient.getPageUrl("register"));
+        mWebView.loadUrl(KKMWebViewClient.getPageUrl("register"));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 

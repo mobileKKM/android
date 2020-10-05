@@ -9,7 +9,6 @@ import android.content.SyncResult;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.google.gson.JsonIOException;
 import com.google.gson.JsonParseException;
 
 import java.io.IOException;

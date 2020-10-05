@@ -23,8 +23,8 @@ import com.takisoft.preferencex.PreferenceFragmentCompat;
 import de.codebucket.mkkm.BuildConfig;
 import de.codebucket.mkkm.MobileKKM;
 import de.codebucket.mkkm.R;
-
 import de.codebucket.mkkm.util.Const;
+
 import me.jfenn.attribouter.Attribouter;
 
 public class SettingsActivity extends ToolbarActivity implements
