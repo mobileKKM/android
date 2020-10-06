@@ -4,18 +4,10 @@ import androidx.room.Database;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
-import de.codebucket.mkkm.database.converter.BitmapBase64Converter;
-import de.codebucket.mkkm.database.converter.DateTypeConverter;
-import de.codebucket.mkkm.database.converter.TicketLineConverter;
-import de.codebucket.mkkm.database.converter.TicketStatusConverter;
-import de.codebucket.mkkm.database.model.Account;
-import de.codebucket.mkkm.database.model.AccountDao;
-import de.codebucket.mkkm.database.model.Photo;
-import de.codebucket.mkkm.database.model.PhotoDao;
-import de.codebucket.mkkm.database.model.Ticket;
-import de.codebucket.mkkm.database.model.TicketDao;
+import de.codebucket.mkkm.database.converter.*;
+import de.codebucket.mkkm.database.model.*;
 
-@Database(entities = {Account.class, Photo.class, Ticket.class }, version = 5, exportSchema = false)
+@Database(entities = {Account.class, Photo.class, Ticket.class }, version = 6, exportSchema = false)
 @TypeConverters({ BitmapBase64Converter.class, DateTypeConverter.class, TicketLineConverter.class, TicketStatusConverter.class })
 public abstract class AppDatabase extends RoomDatabase {
 
