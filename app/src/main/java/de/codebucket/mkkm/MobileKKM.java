@@ -65,6 +65,11 @@ public class MobileKKM extends Application {
                     public void migrate(SupportSQLiteDatabase database) {
                         database.execSQL("UPDATE tickets SET lines = '[]'");
                     }
+                }, new Migration(5, 6) {
+                    @Override
+                    public void migrate(SupportSQLiteDatabase database) {
+                        database.execSQL("ALTER TABLE accounts ADD COLUMN `citizenGuid` TEXT");
+                    }
                 })
                 .fallbackToDestructiveMigration()
                 .build();
