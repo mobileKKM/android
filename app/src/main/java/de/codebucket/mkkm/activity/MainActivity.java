@@ -11,6 +11,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
 import android.webkit.WebView;
@@ -73,6 +74,11 @@ public class MainActivity extends DrawerActivity implements UserLoginTask.OnCall
         mAccount = (Account) getIntent().getSerializableExtra("account");
         firstSetup = getIntent().getBooleanExtra("firstSetup", false);
         setupHeaderView(mAccount);
+
+        // Hide citizen status if account does not have
+        if (TextUtils.isEmpty(mAccount.getCitizenGuid())) {
+            mNavigationView.getMenu().findItem(R.id.nav_citizen_status).setVisible(false);
+        }
 
         // Set up webview layout
         setupWebView();
