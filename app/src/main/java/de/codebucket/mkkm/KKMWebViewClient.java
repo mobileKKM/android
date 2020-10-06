@@ -39,6 +39,7 @@ public class KKMWebViewClient extends WebViewClient {
     public static final String PAGE_CONTROL = "control";
     public static final String PAGE_PURCHASE = "ticket";
     public static final String PAGE_ACCOUNT = "account";
+    public static final String PAGE_CITIZEN_STATUS = "citizen-status";
 
     private Context mContext;
     private SwipeRefreshLayout mSwipeLayout;

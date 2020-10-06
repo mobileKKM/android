@@ -40,6 +40,7 @@
     <string name="nav_tickets">Active tickets</string>
     <string name="nav_purchase">Buy ticket</string>
     <string name="nav_account">My account</string>
+    <string name="nav_citizen_status">Cracow Card status</string>
     <string name="nav_prices">Pricing list</string>
     <string name="nav_backup">Backups</string>
     <string name="nav_logout">Log out</string>

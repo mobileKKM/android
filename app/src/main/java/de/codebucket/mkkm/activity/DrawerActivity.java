@@ -158,6 +158,9 @@ public abstract class DrawerActivity extends WebViewActivity implements Navigati
             case R.id.nav_account:
                 mWebView.loadUrl(getPageUrl("account")); // TODO: Replace with UserAccountFragment
                 break;
+            case R.id.nav_citizen_status:
+                mWebView.loadUrl(getPageUrl("citizen-status"));
+                break;
             case R.id.nav_pricing:
                 mWebView.loadUrl("https://www.codebucket.de/mobilekkm/cennik.html");
                 break;
@@ -207,6 +210,8 @@ public abstract class DrawerActivity extends WebViewActivity implements Navigati
             case KKMWebViewClient.PAGE_ACCOUNT:
                 item = mNavigationView.getMenu().findItem(R.id.nav_account);
                 break;
+            case KKMWebViewClient.PAGE_CITIZEN_STATUS:
+                item = mNavigationView.getMenu().findItem(R.id.nav_citizen_status);
         }
 
         if (item != null && !item.isChecked()) {
