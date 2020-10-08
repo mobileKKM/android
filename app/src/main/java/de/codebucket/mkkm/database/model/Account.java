@@ -55,6 +55,10 @@ public class Account implements Serializable {
     @SerializedName("create_date")
     private Date createDate;
 
+    @ColumnInfo
+    @SerializedName("citizen_guid")
+    private String citizenGuid;
+
     public String getPassengerId() {
         return passengerId;
     }
@@ -133,5 +137,13 @@ public class Account implements Serializable {
 
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
+    }
+
+    public String getCitizenGuid() {
+        return citizenGuid;
+    }
+
+    public void setCitizenGuid(String citizenGuid) {
+        this.citizenGuid = citizenGuid;
     }
 }
