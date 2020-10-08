@@ -51,6 +51,9 @@ public class KKMWebViewClient extends WebViewClient {
         mContext = context;
         mSwipeLayout = context.findViewById(R.id.swipe);
         mPageListener = listener;
+
+        WebView view = context.findViewById(R.id.webview);
+        view.addJavascriptInterface(new ScriptInjectorCallback(), "ScriptInjector");
     }
 
     @Override
@@ -61,7 +64,6 @@ public class KKMWebViewClient extends WebViewClient {
 
         // Reset injection if url is webapp
         if (url.startsWith(WEBAPP_URL)) {
-            view.addJavascriptInterface(new ScriptInjectorCallback(), "ScriptInjector");
             hasInjected = false;
         }
     }
@@ -167,6 +169,11 @@ public class KKMWebViewClient extends WebViewClient {
             }
 
             view.evaluateJavascript(inject, null);
+        }
+
+        // Check if url is not a page inside webapp
+        if (!url.startsWith(baseUrl)) {
+            return;
         }
 
         String page = url.substring(baseUrl.length()).split("/")[0];
