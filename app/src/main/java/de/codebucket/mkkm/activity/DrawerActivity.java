@@ -197,10 +197,10 @@ public abstract class DrawerActivity extends WebViewActivity implements Navigati
 
     @Override
     public void onPageChanged(WebView view, String page) {
-        MenuItem item = null;
+        MenuItem item;
 
         switch (page) {
-            case KKMWebViewClient.PAGE_OVERVIEW:
+            case KKMWebViewClient.PAGE_HOME:
             case KKMWebViewClient.PAGE_CONTROL:
                 item = mNavigationView.getMenu().findItem(R.id.nav_tickets);
                 break;
@@ -212,9 +212,12 @@ public abstract class DrawerActivity extends WebViewActivity implements Navigati
                 break;
             case KKMWebViewClient.PAGE_CITIZEN_STATUS:
                 item = mNavigationView.getMenu().findItem(R.id.nav_citizen_status);
+                break;
+            default:
+                return;
         }
 
-        if (item != null && !item.isChecked()) {
+        if (!item.isChecked()) {
             mNavigationView.setCheckedItem(item);
             setTitle(item.getTitle());
         }

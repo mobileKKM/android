@@ -35,7 +35,7 @@ public class KKMWebViewClient extends WebViewClient {
     private static final String WEBAPP_URL = "https://m.kkm.krakow.pl";
     private static final String PAYMENT_URL = "https://secure.transferuj.pl/?id=27659";
 
-    public static final String PAGE_OVERVIEW = "home";
+    public static final String PAGE_HOME = "home";
     public static final String PAGE_CONTROL = "control";
     public static final String PAGE_PURCHASE = "ticket";
     public static final String PAGE_ACCOUNT = "account";
