@@ -39,7 +39,7 @@ public class TPayPayment {
         public Builder fromPaymentLink(String url) {
             final Uri data = Uri.parse(url);
 
-            if (!data.getEncodedAuthority().equalsIgnoreCase("secure.transferuj.pl") && !data.getEncodedAuthority().equalsIgnoreCase("secure.tpay.com")) {
+            if (!data.getHost().equalsIgnoreCase("secure.transferuj.pl") && !data.getHost().equalsIgnoreCase("secure.tpay.com")) {
                 throw new IllegalArgumentException("URL is not a TPay payment link");
             }
 
