@@ -25,7 +25,6 @@
             android:id="@+id/drawer_header_avatar"
             android:layout_width="@dimen/nav_header_avatar_size"
             android:layout_height="@dimen/nav_header_avatar_size"
-            android:elevation="@dimen/nav_header_avatar_elevation"
             android:src="@drawable/ic_default_avatar" />
 
         <LinearLayout
