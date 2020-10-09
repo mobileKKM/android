@@ -33,6 +33,7 @@
 
     <!-- Navbar navigation drawer -->
     <string name="nav_tickets">Aktywne bilety</string>
+    <string name="nav_control">Kontrola biletów</string>
     <string name="nav_purchase">Zakup bilet</string>
     <string name="nav_account">Moje konto</string>
     <string name="nav_citizen_status">Status Karty Krakowskiej</string>

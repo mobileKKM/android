@@ -217,7 +217,14 @@ public abstract class DrawerActivity extends WebViewActivity implements Navigati
                 return;
         }
 
-        if (!item.isChecked()) {
+        // Set different title for ticket control
+        if (page.equals(KKMWebViewClient.PAGE_CONTROL)) {
+            setTitle(R.string.nav_control);
+            return;
+        }
+
+        // Check if item is not checked or title is different than item's
+        if (!item.isChecked() || !getTitle().equals(item.getTitle())) {
             mNavigationView.setCheckedItem(item);
             setTitle(item.getTitle());
         }

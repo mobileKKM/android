@@ -38,6 +38,7 @@
 
     <!-- Navbar navigation drawer -->
     <string name="nav_tickets">Active tickets</string>
+    <string name="nav_control">Ticket control</string>
     <string name="nav_purchase">Buy ticket</string>
     <string name="nav_account">My account</string>
     <string name="nav_citizen_status">Cracow Card status</string>
