@@ -217,7 +217,7 @@ public abstract class DrawerActivity extends WebViewActivity implements Navigati
         }
 
         // Set different title for ticket control
-        if (page.equals(KKMWebViewClient.PAGE_CONTROL)) {
+        if (KKMWebViewClient.PAGE_CONTROL.equals(page)) {
             setTitle(R.string.nav_control);
             return;
         }
@@ -230,7 +230,7 @@ public abstract class DrawerActivity extends WebViewActivity implements Navigati
 
         // Show payment reminder dialog before purchasing new ticket
         final SharedPreferences prefs = MobileKKM.getPreferences();
-        if (page.equals(KKMWebViewClient.PAGE_PURCHASE) && prefs.contains("last_payment_url")) {
+        if (KKMWebViewClient.PAGE_PURCHASE.equals(page) && prefs.contains("last_payment_url")) {
             new AlertDialog.Builder(this)
                     .setCancelable(false)
                     .setTitle(R.string.dialog_payment_reminder_title)

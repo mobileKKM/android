@@ -43,7 +43,7 @@ public class RegistrationActivity extends WebViewActivity {
 
     @Override
     public void onPageChanged(WebView view, String page) {
-        if (page.equalsIgnoreCase("login")) {
+        if (KKMWebViewClient.PAGE_LOGIN.equals(page)) {
             Intent result = new Intent();
             result.putExtra(EXTRA_REGISTRATION_COMPLETE, true);
             setResult(Activity.RESULT_OK, result);

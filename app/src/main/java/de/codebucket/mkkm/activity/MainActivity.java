@@ -298,14 +298,14 @@ public class MainActivity extends DrawerActivity implements UserLoginTask.OnCall
         WindowManager.LayoutParams layout = getWindow().getAttributes();
 
         // Show floating action button on home page only
-        if (page.equals(KKMWebViewClient.PAGE_HOME)) {
+        if (KKMWebViewClient.PAGE_HOME.equals(page)) {
             mActionButton.show();
         } else {
             mActionButton.hide();
         }
 
         // Set display brightness to max during ticket control
-        if (page.equals(KKMWebViewClient.PAGE_CONTROL)) {
+        if (KKMWebViewClient.PAGE_CONTROL.equals(page)) {
             layout.screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_FULL;
         } else {
             layout.screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_NONE;
