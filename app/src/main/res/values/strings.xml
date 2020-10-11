@@ -138,6 +138,8 @@
     <string name="dialog_logout_warning">Do you want to log out? You will not lose the tickets paired with this device.</string>
     <string name="dialog_facebook_title">Facebook</string>
     <string name="dialog_facebook_body">Like our app page on Facebook to receive the latest news, keep up to date with features and share your opinions!</string>
+    <string name="dialog_payment_reminder_title">Payment reminder</string>
+    <string name="dialog_payment_reminder_body">It seems like you have an unfinished payment for the last ticket.\n\nDo you want to try again?</string>
     <string name="dialog_dont_show_again">Don\'t show again</string>
     <string name="dialog_ok">OK</string>
     <string name="dialog_cancel">Cancel</string>
