@@ -1,15 +1,11 @@
 package de.codebucket.mkkm.activity;
 
 import android.app.AlertDialog;
-import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,7 +17,6 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.core.view.GravityCompat;
 import androidx.core.view.OnApplyWindowInsetsListener;
 import androidx.core.view.ViewCompat;
@@ -234,9 +229,8 @@ public abstract class DrawerActivity extends WebViewActivity implements Navigati
         }
 
         // Show payment reminder dialog before purchasing new ticket
-        SharedPreferences prefs = MobileKKM.getPreferences();
+        final SharedPreferences prefs = MobileKKM.getPreferences();
         if (page.equals(KKMWebViewClient.PAGE_PURCHASE) && prefs.contains("last_payment_url")) {
-            final Uri paymentUrl = Uri.parse(prefs.getString("last_payment_url", null));
             new AlertDialog.Builder(this)
                     .setCancelable(false)
                     .setTitle(R.string.dialog_payment_reminder_title)
@@ -245,29 +239,13 @@ public abstract class DrawerActivity extends WebViewActivity implements Navigati
                     .setNegativeButton(R.string.dialog_no, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            SharedPreferences prefs = MobileKKM.getPreferences();
                             prefs.edit().remove("last_payment_url").apply();
                         }
                     })
                     .setPositiveButton(R.string.dialog_yes, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            try {
-                                // Open payment link in Chrome Custom Tab
-                                CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-                                builder.setToolbarColor(getResources().getColor(R.color.colorPrimary));
-                                builder.setSecondaryToolbarColor(getResources().getColor(R.color.colorPrimaryDark));
-                                builder.setNavigationBarColor(Color.BLACK);
-                                builder.setShowTitle(false);
-
-                                CustomTabsIntent intent = builder.build();
-                                intent.launchUrl(DrawerActivity.this, paymentUrl);
-                            } catch (ActivityNotFoundException ex) {
-                                Log.e("DrawerActivity", "No browser found!");
-                                Toast.makeText(DrawerActivity.this, R.string.no_browser_activity, Toast.LENGTH_SHORT).show();
-                            }
-
-                            mWebView.loadUrl(getPageUrl("home"));
+                            mWebView.loadUrl(prefs.getString("last_payment_url", null));
                         }
                     })
                     .show();
