@@ -93,9 +93,9 @@ public class MainActivity extends DrawerActivity implements UserLoginTask.OnCall
             }
         });
 
-        // Show facebook dialog on first run or if hasn't been shown
+        // Show facebook dialog on second run and only if it hasn't been shown yet
         final SharedPreferences preferences = MobileKKM.getPreferences();
-        if (firstSetup || !preferences.getBoolean("facebook_shown", false)) {
+        if (!firstSetup && !preferences.getBoolean("facebook_shown", false)) {
             // Always set this to true after showing the dialog
             preferences.edit().putBoolean("facebook_shown", true).apply();
             new AlertDialog.Builder(this)
