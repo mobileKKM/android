@@ -152,7 +152,6 @@ public abstract class DrawerActivity extends WebViewActivity implements Navigati
                 mWebView.loadUrl(getPageUrl("home")); // TODO: Replace with TicketOverviewFragment
                 break;
             case R.id.nav_purchase:
-                Toast.makeText(this, R.string.purchase_warning, Toast.LENGTH_LONG).show();
                 mWebView.loadUrl(getPageUrl("ticket/buy")); // TODO: Add custom webview handler for purchasing
                 break;
             case R.id.nav_account:
@@ -218,7 +217,7 @@ public abstract class DrawerActivity extends WebViewActivity implements Navigati
         }
 
         // Set different title for ticket control
-        if (page.equals(KKMWebViewClient.PAGE_CONTROL)) {
+        if (KKMWebViewClient.PAGE_CONTROL.equals(page)) {
             setTitle(R.string.nav_control);
             return;
         }
@@ -227,6 +226,29 @@ public abstract class DrawerActivity extends WebViewActivity implements Navigati
         if (!item.isChecked() || !getTitle().equals(item.getTitle())) {
             mNavigationView.setCheckedItem(item);
             setTitle(item.getTitle());
+        }
+
+        // Show payment reminder dialog before purchasing new ticket
+        final SharedPreferences prefs = MobileKKM.getPreferences();
+        if (KKMWebViewClient.PAGE_PURCHASE.equals(page) && prefs.contains("last_payment_url")) {
+            new AlertDialog.Builder(this)
+                    .setCancelable(false)
+                    .setTitle(R.string.dialog_payment_reminder_title)
+                    .setMessage(R.string.dialog_payment_reminder_body)
+                    .setNeutralButton(R.string.dialog_cancel, null)
+                    .setNegativeButton(R.string.dialog_no, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            prefs.edit().remove("last_payment_url").apply();
+                        }
+                    })
+                    .setPositiveButton(R.string.dialog_yes, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mWebView.loadUrl(prefs.getString("last_payment_url", null));
+                        }
+                    })
+                    .show();
         }
     }
 

@@ -17,6 +17,16 @@
 
         <include layout="@layout/webview" />
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/fab_margin"
+            android:contentDescription="@string/nav_purchase"
+            app:backgroundTint="@color/colorAccentFallback"
+            app:srcCompat="@drawable/ic_cart_plus" />
+
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <com.google.android.material.navigation.NavigationView

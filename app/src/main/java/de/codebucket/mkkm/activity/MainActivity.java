@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.IOException;
@@ -41,6 +42,7 @@ public class MainActivity extends DrawerActivity implements UserLoginTask.OnCall
 
     private Account mAccount;
     private UserLoginTask mAuthTask;
+    private FloatingActionButton mActionButton;
 
     // Based on that we skip fetching account on sync
     private boolean firstSetup = false;
@@ -65,7 +67,6 @@ public class MainActivity extends DrawerActivity implements UserLoginTask.OnCall
 
         // Set up action bar
         setupToolbar();
-        setTitle(R.string.title_activity_main);
 
         // Set up navigation drawer
         setupDrawer();
@@ -83,9 +84,18 @@ public class MainActivity extends DrawerActivity implements UserLoginTask.OnCall
         // Set up webview layout
         setupWebView();
 
-        // Show facebook dialog on first run or if hasn't been shown
+        // Set up floating action button
+        mActionButton = findViewById(R.id.fab);
+        mActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mWebView.loadUrl(getPageUrl("ticket/buy"));
+            }
+        });
+
+        // Show facebook dialog on second run and only if it hasn't been shown yet
         final SharedPreferences preferences = MobileKKM.getPreferences();
-        if (firstSetup || !preferences.getBoolean("facebook_shown", false)) {
+        if (!firstSetup && !preferences.getBoolean("facebook_shown", false)) {
             // Always set this to true after showing the dialog
             preferences.edit().putBoolean("facebook_shown", true).apply();
             new AlertDialog.Builder(this)
@@ -287,13 +297,18 @@ public class MainActivity extends DrawerActivity implements UserLoginTask.OnCall
         super.onPageChanged(view, page);
         WindowManager.LayoutParams layout = getWindow().getAttributes();
 
-        switch (page) {
-            case KKMWebViewClient.PAGE_CONTROL:
-                layout.screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_FULL;
-                break;
-            default:
-                layout.screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_NONE;
-                break;
+        // Show floating action button on home page only
+        if (KKMWebViewClient.PAGE_HOME.equals(page)) {
+            mActionButton.show();
+        } else {
+            mActionButton.hide();
+        }
+
+        // Set display brightness to max during ticket control
+        if (KKMWebViewClient.PAGE_CONTROL.equals(page)) {
+            layout.screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_FULL;
+        } else {
+            layout.screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_NONE;
         }
 
         getWindow().setAttributes(layout);

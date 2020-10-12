@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.net.Uri;
 import android.util.Log;
 import android.view.View;
 import android.webkit.JavascriptInterface;
@@ -35,6 +34,7 @@ public class KKMWebViewClient extends WebViewClient {
     private static final String WEBAPP_URL = "https://m.kkm.krakow.pl";
     private static final String PAYMENT_URL = "https://secure.transferuj.pl/?id=27659";
 
+    public static final String PAGE_LOGIN = "login";
     public static final String PAGE_HOME = "home";
     public static final String PAGE_CONTROL = "control";
     public static final String PAGE_PURCHASE = "ticket";
@@ -81,11 +81,9 @@ public class KKMWebViewClient extends WebViewClient {
             paymentBuilder.setReturnErrorUrl(String.format(returnUrl, paymentBuilder.getCrc(), "error"));
             paymentBuilder.setOnline(String.valueOf(1));
 
-            Uri paymentUrl = paymentBuilder.build();
-
             // Save the payment if the user wants to try again
             SharedPreferences prefs = MobileKKM.getPreferences();
-            prefs.edit().putString("last_payment_url", paymentUrl.toString()).apply();
+            prefs.edit().putString("last_payment_url", url).apply();
 
             try {
                 // Open payment link in Chrome Custom Tab
@@ -96,7 +94,7 @@ public class KKMWebViewClient extends WebViewClient {
                 builder.setShowTitle(false);
 
                 CustomTabsIntent intent = builder.build();
-                intent.launchUrl(mContext, paymentUrl);
+                intent.launchUrl(mContext, paymentBuilder.build());
             } catch (ActivityNotFoundException ex) {
                 Log.e(TAG, "No browser found!");
                 Toast.makeText(mContext, R.string.no_browser_activity, Toast.LENGTH_SHORT).show();
