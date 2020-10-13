@@ -22,9 +22,9 @@
             android:icon="@drawable/ic_menu_kk"
             android:title="@string/nav_citizen_status" />
         <item
-            android:id="@+id/nav_pricing"
+            android:id="@+id/nav_pricing_list"
             android:icon="@drawable/ic_menu_coins"
-            android:title="@string/nav_prices" />
+            android:title="@string/nav_pricing_list" />
     </group>
 
     <group android:id="@+id/drawer_menu_others"

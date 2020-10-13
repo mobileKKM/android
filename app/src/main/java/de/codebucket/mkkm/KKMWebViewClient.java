@@ -40,6 +40,7 @@ public class KKMWebViewClient extends WebViewClient {
     public static final String PAGE_PURCHASE = "ticket";
     public static final String PAGE_ACCOUNT = "account";
     public static final String PAGE_CITIZEN_STATUS = "citizen-status";
+    public static final String PAGE_PRICING_LIST = "mobilekkm/cennik.html";
 
     private Context mContext;
     private SwipeRefreshLayout mSwipeLayout;
@@ -133,11 +134,14 @@ public class KKMWebViewClient extends WebViewClient {
         mSwipeLayout.setRefreshing(false);
         mSwipeLayout.setEnabled(false);
 
+        view.getSettings().setBuiltInZoomControls(url.endsWith(PAGE_PRICING_LIST));
+
         // Enable zoom controls if it's the pricing list
-        view.getSettings().setBuiltInZoomControls(url.endsWith("mobilekkm/cennik.html"));
+        if (url.endsWith(PAGE_PRICING_LIST)) {
+            mPageListener.onPageChanged(view, "mobilekkm/cennik.html");
+        }
 
         // Don't continue if it's not our webapp
-        final String baseUrl = getPageUrl("");
         if (!url.startsWith(WEBAPP_URL)) {
             return;
         }
@@ -170,6 +174,7 @@ public class KKMWebViewClient extends WebViewClient {
         }
 
         // Check if url is not a page inside webapp
+        final String baseUrl = getPageUrl("");
         if (!url.startsWith(baseUrl)) {
             return;
         }

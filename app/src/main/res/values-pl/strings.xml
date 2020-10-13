@@ -37,10 +37,10 @@
     <string name="nav_purchase">Zakup bilet</string>
     <string name="nav_account">Moje konto</string>
     <string name="nav_citizen_status">Status Karty Krakowskiej</string>
-    <string name="nav_prices">Cennik</string>
+    <string name="nav_pricing_list">Cennik</string>
     <string name="nav_backup">Kopie zapasowe</string>
-    <string name="nav_logout">Wyloguj się</string>
     <string name="nav_settings">Ustawienia</string>
+    <string name="nav_logout">Wyloguj się</string>
 
     <!-- Backup and restore -->
     <string name="title_activity_backup">Kopie zapasowe</string>

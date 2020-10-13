@@ -42,10 +42,10 @@
     <string name="nav_purchase">Buy ticket</string>
     <string name="nav_account">My account</string>
     <string name="nav_citizen_status">Cracow Card status</string>
-    <string name="nav_prices">Pricing list</string>
+    <string name="nav_pricing_list">Pricing list</string>
     <string name="nav_backup">Backups</string>
-    <string name="nav_logout">Log out</string>
     <string name="nav_settings">Settings</string>
+    <string name="nav_logout">Log out</string>
 
     <!-- Backup and restore -->
     <string name="title_activity_backup">Backups</string>
