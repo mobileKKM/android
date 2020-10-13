@@ -111,9 +111,8 @@ public abstract class DrawerActivity extends WebViewActivity implements Navigati
         }
 
         // Check if current page is not home
-        String homeUrl = getPageUrl("home");
-        if (mWebView.getUrl() != null && !(mWebView.getUrl().equals(homeUrl) || mWebView.getUrl().equals("about:blank"))) {
-            mWebView.loadUrl(homeUrl);
+        if (mWebView.canGoBack()) {
+            mWebView.goBack();
             return;
         }
 
@@ -226,6 +225,11 @@ public abstract class DrawerActivity extends WebViewActivity implements Navigati
         if (!item.isChecked() || !getTitle().equals(item.getTitle())) {
             mNavigationView.setCheckedItem(item);
             setTitle(item.getTitle());
+        }
+
+        // Clear history on home page if list is not empty
+        if (KKMWebViewClient.PAGE_HOME.equals(page) && view.copyBackForwardList().getSize() > 1) {
+            view.clearHistory();
         }
 
         // Show payment reminder dialog before purchasing new ticket
