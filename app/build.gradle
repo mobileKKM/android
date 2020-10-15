@@ -36,10 +36,6 @@ android {
         buildConfigField "String", "GIT_VERSION", "\"${getGitVersion()}\""
         buildConfigField "String", "ENCRYPTION_KEY", ext.encryptionKey
 
-        // Internal build info values
-        buildConfigField "String", "REMOTE_URL", '"' + System.getenv("DRONE_REMOTE_URL") + '"'
-        buildConfigField "String", "DRONE_VERSION", '"' + System.getenv("DRONE_SYSTEM_VERSION") + '"'
-
         if (System.getenv("TRAVIS") == "true") {
             versionCode = Integer.valueOf(System.getenv("TRAVIS_BUILD_NUMBER"))
             versionName = System.getenv("MAJOR_MINOR") + "+" + System.getenv("TRAVIS_BUILD_NUMBER")

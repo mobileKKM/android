@@ -85,7 +85,7 @@
     <string name="pref_about_title">Open-source licenses</string>
     <string name="pref_about_description">Get to know the contributors and libraries used</string>
     <string name="pref_version_title">mobileKKM app</string>
-    <string name="pref_version_description">version %s-%s.%s\n%s</string>
+    <string name="pref_version_description">version %s-%s.%s</string>
     <string name="pref_restart">Restart app</string>
 
     <!-- Expiration values -->

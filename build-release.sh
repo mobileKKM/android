@@ -11,7 +11,6 @@ export TRAVIS=true
 export TRAVIS_BUILD_NUMBER=$1
 export TRAVIS_EVENT_TYPE=push
 export MAJOR_MINOR=1.2.0
-export DRONE_REMOTE_URL=https://github.com/divadsn/mobileKKM.git
 
 bash ./gradlew app:assembleRelease
 status=$?
