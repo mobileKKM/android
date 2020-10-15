@@ -101,7 +101,7 @@
     <string name="about_contact_us">Napisz do nas</string>
     <string name="about_facebook_like">Polub nas</string>
     <string name="title_attribouter_about">O aplikacji</string>
-    <string name="title_attribouter_licenses">Licencje open-source</string>
+    <string name="title_attribouter_licenses">Licencje open source</string>
     <string name="title_attribouter_email">Adres e-mail</string>
     <string name="title_attribouter_website">Strona internetowa</string>
     <string name="title_attribouter_rate">Oceń</string>
@@ -114,11 +114,12 @@
     <string name="title_attribouter_more_info">Więcej informacji</string>
     <string name="about_role_lead">Główny programista</string>
     <string name="about_role_proofreader">Korektor tłumaczeń</string>
-    <string name="about_role_designer">Projektant</string>
-    <string name="about_role_contributor">Współtwórca</string>
-    <string name="about_bio_divadsn">Dziewiętnastolatek, zamienia kofeinę i pizzę w kod. Znany poprzednio jako Codebucket.</string>
+    <string name="about_role_ui_designer">Projektant UI</string>
+    <string name="about_role_icon_designer">Projektant ikonki</string>
+    <string name="about_role_copyright">Wszystkie prawa zastrzeżone</string>
+    <string name="about_bio_divadsn">20 lat, zamienia kofeinę i pizzę w kod. Wcześniej znany również jako Codebucket.</string>
     <string name="about_bio_imintie">Druga połówka Davida Sn.</string>
-    <string name="about_bio_deletescape">Entuzjasta Androida oraz twórca aplikacji na niego, uwielbia memy (nawet za bardzo). Założyciel projektu Lawnchair.</string>
+    <string name="about_bio_lumiqcreative">Wyprodukowanie złego produktu właśnie stało się trudniejsze.</string>
 
     <!-- Strings related to crash report -->
     <string name="title_activity_crash">Raport błędu</string>

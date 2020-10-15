@@ -4,17 +4,21 @@
         repo="divadsn/mobileKKM"
         icon="@mipmap/ic_launcher"
         description="^@string/app_description"
+        playStoreUrl="https://play.google.com/store/apps/details?id=de.codebucket.mkkm"
         websiteUrl="https://mobilekkm.codebucket.de">
+
         <me.jfenn.attribouter.wedges.link.LinkWedge
             name="@string/about_facebook_like"
+            url="https://facebook.com/getmobilekkm"
             icon="@drawable/ic_facebook_box"
-            priority="-1"
-            url="https://facebook.com/getmobilekkm" />
+            priority="-1" />
+
         <me.jfenn.attribouter.wedges.link.LinkWedge
             name="@string/about_contact_us"
+            url="https://m.me/getmobilekkm"
             icon="@drawable/ic_messenger"
-            priority="-1"
-            url="https://m.me/getmobilekkm" />
+            priority="-1" />
+
     </me.jfenn.attribouter.wedges.AppWedge>
 
     <me.jfenn.attribouter.wedges.ContributorsWedge
@@ -22,42 +26,48 @@
 
         <!-- Lead developer: divadsn -->
         <me.jfenn.attribouter.wedges.ContributorWedge
+            login="divadsn"
             name="^David Sn"
             avatar="https://avatars.githubusercontent.com/u/28547847"
+            task="@string/about_role_lead"
             bio="^@string/about_bio_divadsn"
-            blog="https://www.codebucket.de"
-            login="divadsn"
-            task="@string/about_role_lead" />
+            websiteUrl="https://www.codebucket.de" />
 
         <!-- Proofreader: imintie -->
         <me.jfenn.attribouter.wedges.ContributorWedge
+            login="imintie"
             name="^Aga Jaszowska"
             avatar="https://avatars1.githubusercontent.com/u/43252015"
+            task="@string/about_role_proofreader"
             bio="^@string/about_bio_imintie"
-            blog="https://imintie.github.io"
-            login="imintie"
-            task="@string/about_role_proofreader" />
+            websiteUrl="https://imintie.github.io" />
 
-        <!-- Designer: lumiqcreative -->
+        <!-- UI Designer: lumiqcreative -->
         <me.jfenn.attribouter.wedges.ContributorWedge
+            login="lumiqcreative"
             name="^Lumiq Creative"
             avatar="https://avatars.githubusercontent.com/u/30959743"
-            blog="https://lumiqcreative.com"
-            login="lumiqcreative"
-            task="@string/about_role_designer" />
+            task="@string/about_role_ui_designer"
+            bio="^@string/about_bio_lumiqcreative"
+            websiteUrl="https://lumiqcreative.com" />
 
-        <!-- Contributor: deletescape -->
+        <!-- Icon Designer: Radek Bledowski -->
         <me.jfenn.attribouter.wedges.ContributorWedge
-            name="^Till Kottmann"
-            avatar="https://avatars.githubusercontent.com/u/13785669"
-            bio="^@string/about_bio_deletescape"
-            blog="https://deletescape.ch"
-            login="deletescape"
-            task="@string/about_role_contributor" />
+            name="^Radek Bledowski"
+            avatar="https://avatars.githubusercontent.com/u/22264125"
+            task="@string/about_role_icon_designer" />
+
+        <!-- Copyright: MPK Kraków -->
+        <me.jfenn.attribouter.wedges.ContributorWedge
+            name="^MPK S.A. w Krakowie"
+            avatar="https://www.codebucket.de/mobilekkm/logo_kolor_CMYK.jpg"
+            task="@string/about_role_copyright" />
 
     </me.jfenn.attribouter.wedges.ContributorsWedge>
 
-    <me.jfenn.attribouter.wedges.LicensesWedge>
+    <me.jfenn.attribouter.wedges.LicensesWedge
+        overflow="5"
+        showDefaults="true">
 
         <!-- OkHttp3 -->
         <me.jfenn.attribouter.wedges.LicenseWedge
@@ -65,25 +75,25 @@
             repo="square/okhttp"
             license="apache-2.0" />
 
-        <!-- ATTENTION: This repository is no longer being used for development, tracking issues, or accepting pull requests. -->
+        <!-- AndroidX Support Libraries -->
         <me.jfenn.attribouter.wedges.LicenseWedge
             title="^AndroidX"
             repo="android/android-ktx"
             license="apache-2.0" />
 
-        <!-- Part of AndroidX refactor -->
+        <!-- Material Design Components -->
         <me.jfenn.attribouter.wedges.LicenseWedge
             title="^Material Components for Android"
             repo="material-components/material-components-android"
             license="apache-2.0" />
 
-        <!-- Some files are released under the Apache License 2.0, see README.md for details! -->
+        <!-- Android Support Preference v7 Fix -->
         <me.jfenn.attribouter.wedges.LicenseWedge
             title="^Android Support Preference v7 Fix"
             repo="Gericop/Android-Support-Preference-V7-Fix"
-            license="unlicense" />
-        
-        <!-- Android library that allows launching a custom activity when your app crashes, instead of showing the hated "Unfortunately, X has stopped" dialog. -->
+            license="apache-2.0" />
+
+        <!-- Custom Activity On Crash -->
         <me.jfenn.attribouter.wedges.LicenseWedge
             title="^Custom Activity On Crash"
             repo="Ereza/CustomActivityOnCrash"

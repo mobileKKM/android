@@ -105,14 +105,14 @@ public class BackupActivity extends ToolbarActivity {
     private void showOpenFileSelector() {
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("application/octet-stream");
+        intent.setType("application/json");
         startActivityForResult(intent, OPEN_FILE_RESULT_CODE);
     }
 
     private void showSaveFileSelector() {
         Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("application/octet-stream");
+        intent.setType("application/json");
         intent.putExtra(Intent.EXTRA_TITLE, BACKUP_FILENAME);
         startActivityForResult(intent, SAVE_FILE_RESULT_CODE);
     }
