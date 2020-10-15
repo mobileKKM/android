@@ -106,8 +106,8 @@
     <string name="about_contact_us">Contact us</string>
     <string name="about_facebook_like">Like us</string>
     <string name="title_attribouter_about">About app</string>
-    <string name="title_attribouter_licenses">Open-source licenses</string>
-    <string name="title_attribouter_email">Email address</string>
+    <string name="title_attribouter_licenses">Open Source Licenses</string>
+    <string name="title_attribouter_email">Email</string>
     <string name="title_attribouter_website">Website</string>
     <string name="title_attribouter_github" translatable="false">GitHub</string>
     <string name="title_attribouter_rate">Rate</string>
@@ -117,14 +117,15 @@
     <string name="title_attribouter_license_permissions">Permissions</string>
     <string name="title_attribouter_license_conditions">Conditions</string>
     <string name="title_attribouter_license_limitations">Limitations</string>
-    <string name="title_attribouter_more_info">More info</string>
+    <string name="title_attribouter_more_info">More Info</string>
     <string name="about_role_lead">Lead Developer</string>
     <string name="about_role_proofreader">Translation Proofreader</string>
-    <string name="about_role_designer">UI/UX Designer</string>
-    <string name="about_role_contributor">Contributor</string>
-    <string name="about_bio_divadsn">19 years old, turns caffeine and pizza into code. Also previously known as Codebucket.</string>
+    <string name="about_role_ui_designer">UI Designer</string>
+    <string name="about_role_icon_designer">Icon Designer</string>
+    <string name="about_role_copyright">All Rights Reserved</string>
+    <string name="about_bio_divadsn">20 years old, turns caffeine and pizza into code. Also previously known as Codebucket.</string>
     <string name="about_bio_imintie">Second half of David Sn.</string>
-    <string name="about_bio_deletescape">Android developer &amp; enthusiast, loves memes (a bit too much actually). Founder of the Lawnchair project.</string>
+    <string name="about_bio_lumiqcreative">It’s just got harder to build a bad product.</string>
 
     <!-- Strings related to crash report -->
     <string name="title_activity_crash">Report bug</string>
