@@ -21,7 +21,7 @@ import java.util.UUID;
 
 import de.codebucket.mkkm.MobileKKM;
 import de.codebucket.mkkm.R;
-import de.codebucket.mkkm.activity.SplashActivity;
+import de.codebucket.mkkm.activity.MainActivity;
 import de.codebucket.mkkm.database.model.Ticket;
 import de.codebucket.mkkm.database.model.TicketDao;
 import de.codebucket.mkkm.login.AccountUtils;
@@ -56,7 +56,7 @@ public class TicketExpiryCheckService extends JobService {
                         continue;
                     }
 
-                    Intent intent = new Intent(MobileKKM.getInstance(), SplashActivity.class);
+                    Intent intent = new Intent(MobileKKM.getInstance(), MainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
                     NotificationCompat.Builder builder = new NotificationCompat.Builder(MobileKKM.getInstance(), Const.ID.EXPIRY_NOTIFICATION_CHANNEL);
